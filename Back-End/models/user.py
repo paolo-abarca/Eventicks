@@ -10,7 +10,7 @@ class User(BaseModel):
     This class defines a user
     by various attributes
     """
-    name = ""
+    name_user = ""
     last_name = ""
     email = ""
     password = ""
@@ -18,6 +18,6 @@ class User(BaseModel):
     country = ""
     city = ""
     gender = ""
-    photo = ""
+    photo_user = ""
     document_type = ""
     number_document = 0
