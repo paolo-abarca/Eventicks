@@ -1,20 +1,18 @@
-// Register.jsx
+// Login.jsx
 import React, { useState } from "react";
 
-const Register = () => {
+const Login = ({ handleLogin }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // Aquí debería ir la lógica de registro con la base de datos
-    // ...
+    handleLogin();
   };
 
   return (
     <div>
-      <h1>Registro de Usuario</h1>
+      <h1>Iniciar Sesión</h1>
       <form onSubmit={handleSubmit}>
         <label>
           Correo Electrónico:
@@ -34,19 +32,10 @@ const Register = () => {
             required
           />
         </label>
-        <label>
-          Confirmar Contraseña:
-          <input
-            type="password"
-            value={confirmPassword}
-            onChange={(event) => setConfirmPassword(event.target.value)}
-            required
-          />
-        </label>
-        <button type="submit">Registrarse</button>
+        <button type="submit">Iniciar Sesión</button>
       </form>
     </div>
   );
 };
 
-export default Register;
+export default Login;

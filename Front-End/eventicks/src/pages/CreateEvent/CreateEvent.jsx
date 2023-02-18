@@ -1,10 +1,13 @@
-import React from "react";
-import {Background} from './someStyle'
+import React from 'react';
 
-export function CreateEvent() {
+export default function CreateEvent () {
   return (
-    <Background>
-        CreateEvent
-    </Background>
+    <div>
+      <h1>Crear Evento</h1>
+      <form>
+        {/* Aquí irían los campos para crear un nuevo evento */}
+      </form>
+    </div>
   );
-}
+};
+
