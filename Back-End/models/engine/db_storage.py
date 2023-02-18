@@ -5,6 +5,7 @@ Module that connects to the database
 import MySQLdb
 import MySQLdb.cursors
 import hashlib
+from datetime import datetime
 
 
 class DBStorage():
@@ -30,7 +31,12 @@ class DBStorage():
         of the database and returns all the data
         of the indicated table
         """
-        query = "SELECT * FROM {} ORDER BY id DESC;".format(tablename)
+        if tablename == "event":
+            query = "SELECT id, photo_event FROM {} WHERE visibility = 'yes' \
+                    ORDER BY RAND() LIMIT 5;".format(tablename)
+
+        else:
+            query = "SELECT * FROM {} ORDER BY id DESC;".format(tablename)
         self.cursor.execute(query)
         tupla = self.cursor.fetchall()
 
@@ -74,7 +80,7 @@ class DBStorage():
         lis = []
         lis.append(id)
 
-        black_list = ["id", "created_at", "updated_at"]
+        black_list = ["id", "created_at", "updated_at", "id_user", "id_event"]
 
         for ignore in black_list:
             if ignore in dic:
@@ -128,8 +134,31 @@ class DBStorage():
         """
         dic["__class__"] = cls_name
 
+        if "price" in dic:
+            dic["price"] = "{:.2f}".format(float(dic["price"]))
+
         if "password" in dic:
             del dic["password"]
+
+        if "date_start" in dic:
+            dic["date_start"] = datetime.strftime(dic["date_start"],
+                                                  '%A, %d %B %Y')
+
+        if "date_end" in dic:
+            dic["date_end"] = datetime.strftime(dic["date_end"],
+                                                '%A, %d %B %Y')
+
+        if "start_time" in dic:
+            delta = dic["start_time"]
+            hours, remainder = divmod(delta.seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            dic["start_time"] = f"{hours:02}:{minutes:02}:{seconds:02}"
+
+        if "end_time" in dic:
+            delta = dic["end_time"]
+            hours, remainder = divmod(delta.seconds, 3600)
+            minutes, seconds = divmod(remainder, 60)
+            dic["end_time"] = f"{hours:02}:{minutes:02}:{seconds:02}"
 
         return dic
 
