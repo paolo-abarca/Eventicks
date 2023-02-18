@@ -13,7 +13,7 @@ def status():
     """
     Status of API
     """
-    return jsonify({"status": "OK"})
+    return jsonify({"status": "OK"}), 200
 
 
 @app_views.route("/stats", methods=['GET'],
@@ -25,4 +25,4 @@ def number_register():
     """
     query = storage.count()
 
-    return jsonify(query)
+    return jsonify(query), 200
