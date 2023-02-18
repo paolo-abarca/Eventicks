@@ -19,9 +19,9 @@ def get_user_id(user_id=None):
     """
     user = storage.get("user", int(user_id))
     if not user:
-        abort(400, description="User not found")
+        return "User not found", 404
 
-    return jsonify(storage.to_dict("User", user))
+    return jsonify(storage.to_dict("User", user)), 200
 
 
 @app_views.route("/users/<user_id>", methods=['DELETE'],
@@ -32,11 +32,11 @@ def delete_user(user_id=None):
     """
     user = storage.get("user", int(user_id))
     if not user:
-        abort(400, description="User not found")
+        return "User not found", 404
 
     storage.delete("user", int(user_id))
 
-    return jsonify({"message": "User Deleted"}), 200
+    return "User Deleted", 204
 
 
 @app_views.route("/users", methods=['POST'],
@@ -48,28 +48,28 @@ def post_user():
     if not request.get_json():
         abort(400, description="Not a JSON")
 
-    obligatory = ["name", "last_name", "email", "password",
+    obligatory = ["name_user", "last_name", "email", "password",
                   "phone", "country", "city", "gender"]
 
     for needed in obligatory:
         if needed not in request.get_json():
-            abort(400, description="Missing {}".format(needed))
+            return "Missing {}".format(needed), 400
 
     data = request.get_json()
     email_user = data["email"]
 
     regex = r"^[A-Za-z0-9.+-_]+@[A-Za-z0-9.-]+.[a-zA-Z]*$"
     if not re.search(regex, email_user):
-        abort(400, description="Invalid Email")
+        return "Invalid Email", 400
 
     comprobation = storage.verify('user', email_user)
     if comprobation:
-        abort(400, description="Email has already been used")
+        return "Email has already been used", 400
 
     instance = User(**data)
     instance.new('sp_add_user')
 
-    return jsonify({'message': 'Registered User'}), 201
+    return "Registered User", 201
 
 
 @app_views.route('/users/<user_id>', methods=['PUT'],
@@ -80,7 +80,7 @@ def put_user(user_id=None):
     """
     user = storage.get("user", int(user_id))
     if not user:
-        abort(400, description="User not found")
+        return "User not found", 404
 
     if not request.get_json():
         abort(400, description="Not a JSON")
@@ -94,11 +94,11 @@ def put_user(user_id=None):
 
         regex = r"^[A-Za-z0-9.+-_]+@[A-Za-z0-9.-]+.[a-zA-Z]*$"
         if not re.search(regex, email_user):
-            abort(400, description="Invalid Email")
+            return "Invalid Email", 400
 
         comprobation = storage.verify('user', email_user)
         if comprobation:
-            abort(400, description="Email has already been used")
+            return "Email has already been used", 400
 
     for key, value in data.items():
         for key_2 in user.keys():
@@ -107,4 +107,4 @@ def put_user(user_id=None):
                     user[key] = value
 
     storage.update(user, user_id, "sp_update_user")
-    return jsonify({'message': 'Updated User'}), 200
+    return "Updated User", 200
