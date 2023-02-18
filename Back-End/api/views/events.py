@@ -16,13 +16,8 @@ def get_events_all():
     """
     Method that returns the list of all events
     """
-    list_events = []
     events = Event.get_all_event()
-
-    for event in events:
-        list_events.append(storage.to_dict("Event", event))
-
-    return jsonify(list_events), 200
+    return jsonify(events), 200
 
 
 @app_views.route("/events/<event_id>", methods=['GET'],
@@ -189,4 +184,30 @@ def get_banner():
     method that returns 5 random event photos for the banner
     """
     events = storage.all("event")
+    return jsonify(events), 200
+
+
+@app_views.route("/events/filters", methods=['POST'],
+                 strict_slashes=False)
+def filter_events():
+    """
+    Method that returns all the events that meet the indicated filters
+    """
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+
+    data = request.get_json()
+
+    if data.get("price_min") and data.get("price_max"):
+        events = Event.filters("price", data["price_min"], data["price_max"])
+
+    elif data.get("category_id"):
+        events = Event.filters("category", data["category_id"])
+
+    elif data.get("city_name"):
+        events = Event.filters("city", data["city_name"])
+
+    elif data.get("date_min") and data.get("date_max"):
+        events = Event.filters("date", data["date_min"], data["date_max"])
+
     return jsonify(events), 200
