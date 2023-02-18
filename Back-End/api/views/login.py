@@ -24,7 +24,7 @@ def login_user():
 
     for needed in obligatory:
         if needed not in request.get_json():
-            abort(400, description="Missing {}".format(needed))
+            return "Missing {}".format(needed), 400
 
     data = request.get_json()
     email_user = data["email"]
@@ -32,12 +32,12 @@ def login_user():
 
     user_found = storage.verify('user', email_user)
     if not user_found:
-        return "Email Not Found", 400
+        return "Email Not Found", 404
 
     encrypt_pwd = hashlib.md5(pwd_user.encode())
     pwd_user = encrypt_pwd.hexdigest()
 
     if not user_found["password"] == pwd_user:
-        return "Password Incorrect", 400
+        return "Password Incorrect", 401
 
-    return jsonify(user_found["id"]), 201
+    return jsonify(user_found["id"]), 200
