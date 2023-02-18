@@ -20,12 +20,6 @@ class BaseModel:
             for key, value in kwargs.items():
                 setattr(self, key, value)
 
-    def __str__(self):
-        """
-        String representation of a class
-        """
-        return "[{}] {}".format(type(self).__name__, self.__dict__)
-
     def new(self, procedure):
         """
         Method that sends the dictionary full of object information
@@ -44,17 +38,3 @@ class BaseModel:
 
         else:
             models.storage.create(dict_result, procedure)
-
-    def to_dict(self):
-        """
-        Method that prepares the given dictionary
-        to only display the actual data
-        """
-        dic = self.__dict__.copy()
-
-        dic["__class__"] = type(self).__name__
-
-        if "password" in dic:
-            del dic["password"]
-
-        return dic
