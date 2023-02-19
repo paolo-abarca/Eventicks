@@ -7,7 +7,9 @@ const Login = ({ handleLogin }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    handleLogin();
+    // console.log("Email:", email);
+    // console.log("Password:", password);
+    handleLogin(email, password);
   };
 
   return (
