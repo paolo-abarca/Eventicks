@@ -4,6 +4,7 @@ Module that defines the Event class
 """
 from models.base_model import BaseModel
 from models import storage
+from datetime import datetime
 
 
 class Event(BaseModel):
@@ -36,8 +37,8 @@ class Event(BaseModel):
         list_result = []
 
         query = "SELECT id, photo_event, name_event, date_start, start_time, \
-                date_end, end_time FROM event WHERE visibility = 'yes' \
-                ORDER BY id DESC;"
+                date_end, end_time, id_category, city FROM event WHERE \
+                visibility = 'yes' ORDER BY id DESC;"
 
         storage.cursor.execute(query)
         tupla = storage.cursor.fetchall()
@@ -50,7 +51,7 @@ class Event(BaseModel):
             tupla = storage.cursor.fetchall()
             event["currency"] = tupla[0]["currency"]
             event["price"] = tupla[0]["price"]
-            list_result.append(event)
+            list_result.append(storage.to_dict("Event", event))
 
         return list_result
 
@@ -113,3 +114,33 @@ class Event(BaseModel):
             list_result.append(event)
 
         return list_result
+
+    @staticmethod
+    def filters(filter_type, data1, data2=None):
+        """
+        Method that returns all the events that meet the indicated filters
+        """
+        if filter_type == "price":
+            return [event for event in Event.get_all_event()
+                    if float(event["price"]) >= float(data1)
+                    and float(event["price"]) <= float(data2)]
+
+        elif filter_type == "category":
+            return [event for event in Event.get_all_event()
+                    if event["id_category"] == data1]
+
+        elif filter_type == "city":
+            return [event for event in Event.get_all_event()
+                    if event["city"] == data1]
+
+        elif filter_type == "date":
+            data1 = datetime.strptime(data1, '%Y-%m-%d')
+            data2 = datetime.strptime(data2, '%Y-%m-%d')
+            list_result = []
+
+            for event in Event.get_all_event():
+                date_e = datetime.strptime(event["date_start"], '%A, %d %B %Y')
+                if date_e >= data1 and date_e <= data2:
+                    list_result.append(event)
+
+            return list_result
