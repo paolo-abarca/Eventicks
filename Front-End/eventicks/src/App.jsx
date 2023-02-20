@@ -9,6 +9,9 @@ import Register from './pages/Register/Register';
 import CreateEvent from "./pages/CreateEvent/CreateEvent";
 import AboutUs from "./pages/AboutUs/AboutUs";
 import MyProfile from "./pages/MyProfile/MyProfile";
+import BuyTickets from "./pages/BuyTickets/BuyTickets";
+import MyEvents from "./pages/MyEvents/MyEvents";
+import MyTickets from "./pages/MyTickets/MyTickets";
 
 const App = () => {
 
@@ -66,6 +69,8 @@ const App = () => {
           {isAuthenticated ? (
             <>
               <li><Link to="/mi-perfil">Mi Perfil</Link></li>
+              <li><Link to="/mis-eventos">Mis Eventos</Link></li>
+              <li><Link to="/mis-tickets">Mis Tickets</Link></li>
               <li><button><Link to="/crear-evento">Crear Evento</Link></button></li>
               <li><button onClick={handleLogout}>Cerrar Sesión</button></li>
             </>
@@ -80,11 +85,14 @@ const App = () => {
       </nav>
       
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home isAuthenticated={isAuthenticated}/>} />
         {isAuthenticated ? (
           <>
             <Route path="/crear-evento" element={<CreateEvent  />} />
             <Route path="/mi-perfil" element={<MyProfile user={user} />} />
+            <Route path="/mis-eventos" element={<MyEvents user={user} />} />
+            <Route path="/mis-tickets" element={<MyTickets user={user}/>} />
+            <Route path="/comprar-tickets/:eventId" element={<BuyTickets />} />
           </>
         ) : null}
         <Route path="/login" element={<Login handleLogin={handleLogin} />} />
