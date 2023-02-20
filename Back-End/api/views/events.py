@@ -202,7 +202,7 @@ def filter_events():
         events = Event.filters("price", data["price_min"], data["price_max"])
 
     elif data.get("category_id"):
-        events = Event.filters("category", data["category_id"])
+        events = Event.filters("category", int(data["category_id"]))
 
     elif data.get("city_name"):
         events = Event.filters("city", data["city_name"])
