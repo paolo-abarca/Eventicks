@@ -83,7 +83,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         {isAuthenticated ? (
           <>
-            <Route path="/crear-evento" element={<CreateEvent />} />
+            <Route path="/crear-evento" element={<CreateEvent  />} />
             <Route path="/mi-perfil" element={<MyProfile user={user} />} />
           </>
         ) : null}
