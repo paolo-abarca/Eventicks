@@ -91,8 +91,9 @@ class Event(BaseModel):
         """
         Method that returns all the events and their tickets of a user
         """
-        query = "SELECT * FROM event WHERE id_user = {} ORDER \
-                BY id DESC;".format(id_user)
+        query = "SELECT event.*, category.name_category FROM event INNER JOIN \
+                category ON event.id_category = category.id WHERE id_user = \
+                {} ORDER BY id DESC;".format(id_user)
         list_result = []
 
         storage.cursor.execute(query)
