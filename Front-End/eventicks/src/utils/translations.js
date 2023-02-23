@@ -22,4 +22,3 @@ export const monthsDict = {
   "November": "Noviembre",
   "December": "Diciembre"
 };
-
