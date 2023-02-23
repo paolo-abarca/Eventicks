@@ -88,7 +88,7 @@ const App = () => {
         <Route path="/" element={<Home isAuthenticated={isAuthenticated}/>} />
         {isAuthenticated ? (
           <>
-            <Route path="/crear-evento" element={<CreateEvent  />} />
+            <Route path="/crear-evento" element={<CreateEvent user={user} />} />
             <Route path="/mi-perfil" element={<MyProfile user={user} />} />
             <Route path="/mis-eventos" element={<MyEvents user={user} />} />
             <Route path="/mis-tickets" element={<MyTickets user={user}/>} />
