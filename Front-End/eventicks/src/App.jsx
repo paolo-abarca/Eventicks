@@ -65,22 +65,22 @@ const App = () => {
       {errorMessage && <div>{errorMessage}</div>}
       <nav>
         <ul>
-          <li><Link to="/">Home</Link></li>
+          <Link to="/">Home</Link>
           {isAuthenticated ? (
             <>
-              <li><Link to="/mi-perfil">Mi Perfil</Link></li>
-              <li><Link to="/mis-eventos">Mis Eventos</Link></li>
-              <li><Link to="/mis-tickets">Mis Tickets</Link></li>
-              <li><button><Link to="/crear-evento">Crear Evento</Link></button></li>
-              <li><button onClick={handleLogout}>Cerrar Sesión</button></li>
+              <Link to="/mi-perfil">Mi Perfil</Link>
+              <Link to="/mis-eventos">Mis Eventos</Link>
+              <Link to="/mis-tickets">Mis Tickets</Link>
+              <Link to="/crear-evento">Crear Evento</Link>
+              <button className="btn-logout" onClick={handleLogout} style={{ textAlign: "center" }}>Cerrar Sesión</button>
             </>
           ) : (
             <>
-              <li><Link to="/login">Iniciar Sesión</Link></li>
-              <li><Link to="/registrar">Registrar</Link></li>
+              <Link to="/login">Iniciar Sesión</Link>
+              <Link to="/registrar">Registrar</Link>
             </>
           )}
-          <li><Link to="/sobre-nosotros">Sobre Nosotros</Link></li>
+
         </ul>
       </nav>
       

@@ -10,6 +10,7 @@ export default function Home(props) {
   const [filterValue1, setFilterValue1] = useState("");
   const [filterValue2, setFilterValue2] = useState("");
 
+
   useEffect(() => {
     axios.get("http://localhost:5000/api/events").then((response) => {
       setEvents(response.data);
@@ -76,10 +77,49 @@ export default function Home(props) {
 
   const exceptThisSymbols = ["e", "E", "+", "-", "."];
 
+  fetch('http://localhost:5000/api/events/banner')
+  .then(response => response.json())
+  .then(data => {
+    const banner = document.getElementById('banner');
+    let currentPhotoIndex = 0; // Índice de la foto actual
+
+    // Función para mostrar la foto actual y ocultar las demás
+    const showCurrentPhoto = () => {
+      const photoUrl = data[currentPhotoIndex].photo_event;
+
+      // Eliminamos los elementos `div` que no son la foto actual
+      const otherPhotos = Array.from(banner.querySelectorAll('.banner-photo')).filter((photo, index) => index !== currentPhotoIndex);
+      otherPhotos.forEach(photo => photo.remove());
+
+      // Creamos un nuevo `div` para la foto actual si no existe ya
+      let currentPhotoDiv = banner.querySelector('.banner-photo-current');
+      if (!currentPhotoDiv) {
+        currentPhotoDiv = document.createElement('div');
+        currentPhotoDiv.classList.add('banner-photo', 'banner-photo-current');
+        banner.appendChild(currentPhotoDiv);
+      }
+
+      // Mostramos la foto actual
+      currentPhotoDiv.style.backgroundImage = `url('${photoUrl}')`;
+    };
+
+    // Mostramos la primera foto al cargar la página
+    showCurrentPhoto();
+
+    // Función para avanzar a la siguiente foto
+    const nextPhoto = () => {
+      currentPhotoIndex = (currentPhotoIndex + 1) % data.length;
+      showCurrentPhoto();
+    };
+
+    // Avanzamos a la siguiente foto cada 5 segundos
+    setInterval(nextPhoto, 5000);
+  })
+  .catch(error => console.error(error));
   return (
     <div>
-      <h1>Bienvenido a Eventicks</h1>
-      <h3>Esta es la página principal de nuestra aplicación.</h3>
+          <div id="banner">
+    </div>
       <div>
         <button value="price" onClick={handleFilterType}>Precio</button>
         <button value="category" onClick={handleFilterType}>Categoría</button>
@@ -116,11 +156,15 @@ export default function Home(props) {
           <button onClick={handleClearFilter}>Eliminar filtro</button>
         </div>
       )}
-      <h2>Eventos Disponibles</h2>
+      <div>
+      <h2>Eventos </h2>
+      </div>
       {events.length > 0 ? (
         events.map((event) => (
-          <div key={event.id}>
+          <div key={event.id} >
+          <div className="card">
             <hr></hr>
+            <div className="card-body event-card">
             <p>{event.photo_event}</p>
             <h3>{event.name_event}</h3>
             <p><b>Fecha:</b> {formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
@@ -128,14 +172,16 @@ export default function Home(props) {
             <p><b>Precio:</b> {event.currency}{event.price}</p>
             {props.isAuthenticated ? (
               <Link to={`/comprar-tickets/${event.id}`}>
-                <button>Comprar</button>
+                <button className="buy-button">Comprar</button>
               </Link>
             ) : (
               <Link to="/login">
-                <button>Comprar</button>
+                <button className="buy-button">Comprar</button>
               </Link>
             )}
         </div>
+            </div>
+            </div>
         ))
       ) : events.length === 0 ? (
         <p>Cargando eventos...</p>
