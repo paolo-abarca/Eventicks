@@ -104,9 +104,6 @@ def post_event(user_id=None):
         if needed not in data_event:
             return "Missing {}".format(needed), 400
 
-    instance = Event(**data_event)
-    event_id = instance.new('sp_add_event')
-
     obligatory_ticket = ["currency", "type", "amount_ticket", "price"]
 
     data_tickets = request.get_json()["tickets"]
@@ -116,6 +113,10 @@ def post_event(user_id=None):
             if needed not in ticket:
                 return "Missing {}".format(needed), 400
 
+    instance = Event(**data_event)
+    event_id = instance.new('sp_add_event')
+
+    for ticket in data_tickets:
         ticket["id_event"] = event_id
         instance = Ticket(**ticket)
         instance.new('sp_add_ticket')
