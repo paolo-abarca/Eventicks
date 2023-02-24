@@ -65,7 +65,7 @@ export default function BuyTickets(user) {
     const newTickets = Object.entries(ticketQuantities)
       .filter(([ticketId, amount]) => amount > 0)
       .map(([ticketId, amount]) => ({
-        id_user: user.user,
+        id_user: user.user.id,
         id_ticket: parseInt(ticketId),
         amount: amount,
       }));
