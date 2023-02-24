@@ -82,6 +82,9 @@ def put_user(user_id=None):
     if not user:
         return "User not found", 404
 
+    if "password" in user:
+        del user["password"]
+
     if not request.get_json():
         abort(400, description="Not a JSON")
 
@@ -96,7 +99,7 @@ def put_user(user_id=None):
         if not re.search(regex, email_user):
             return "Invalid Email", 400
 
-        comprobation = storage.verify('user', email_user)
+        comprobation = storage.verify('user', email_user, user_id)
         if comprobation:
             return "Email has already been used", 400
 
@@ -108,3 +111,25 @@ def put_user(user_id=None):
 
     storage.update(user, user_id, "sp_update_user")
     return "Updated User", 200
+
+
+@app_views.route('/users/<user_id>/password', methods=['PUT'],
+                 strict_slashes=False)
+def put_password(user_id=None):
+    """
+    Method that updates password by their ID
+    """
+    user = storage.get("user", int(user_id))
+    if not user:
+        return "User not found", 404
+
+    if not request.get_json():
+        abort(400, description="Not a JSON")
+
+    data = request.get_json()
+
+    if "password" not in data:
+        return "Missing password", 400
+
+    storage.update_password(data["password"], user_id)
+    return "Updated Password", 200
