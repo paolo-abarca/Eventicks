@@ -65,9 +65,8 @@ function CreateEvent({ user }) {
       body: JSON.stringify(eventData)
     };
     fetch(url, requestOptions)
-      .then(response => response.json())
+      .then(response => response.data)
       .then(data => {
-         console.log(data);
          alert("El evento ha sido creado exitosamente!");
       })
       .catch(error => {
