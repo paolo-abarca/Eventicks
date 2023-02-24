@@ -3,6 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
+import { categories } from "../../utils/categories.js";
+import { cities } from "../../utils/cities.js";
 
 export default function Home(props) {
   const [events, setEvents] = useState([]);
@@ -136,30 +138,38 @@ export default function Home(props) {
       </div>
       {filterType === "price" && (
         <div >
-          <input className="delete-button" type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={filterValue1} onChange={handleFilterValue1} />
-          <input className="delete-button" type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={filterValue2} onChange={handleFilterValue2} />
+          <input className="delete-button" type="number" min="0" placeholder="0.00" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } step="0.01" value={filterValue1} onChange={handleFilterValue1} required/>
+          <input className="delete-button" type="number" min="0" placeholder="0.00" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } step="0.01" value={filterValue2} onChange={handleFilterValue2} required/>
           <button className="delete-button" onClick={handleFilterSubmit}>Filtrar</button>
           <button className="delete-button" onClick={handleClearFilter}>Eliminar filtro</button>
         </div>
       )}
       {filterType === "category" && (
         <div>
-          <input className="delete-button" type="text" value={filterValue1} onChange={handleFilterValue1} />
+          <select className="delete-button" value={filterValue1} onChange={handleFilterValue1}>
+            {categories.map((category) => (
+              <option key={category.id} value={category.id} required>
+                {category.name_category}
+              </option>
+            ))}
+          </select>
           <button className="delete-button" onClick={handleFilterSubmit}>Filtrar</button>
           <button className="button-container" onClick={handleClearFilter}>Eliminar filtro</button>
         </div>
       )}
       {filterType === "city" && (
         <div>
-          <input className="delete-button" type="text" value={filterValue1} onChange={handleFilterValue1} />
+          <select className="delete-button" value={filterValue1} onChange={handleFilterValue1} required>
+            {cities.map(city => <option key={city} value={city}>{city}</option>)}
+          </select>
           <button className="button-container" onClick={handleFilterSubmit}>Filtrar</button>
           <button className="button-container" onClick={handleClearFilter}>Eliminar filtro</button>
         </div>
       )}
       {filterType === "date" && (
         <div>
-          <input  className="delete-button" type="date" value={filterValue1} onChange={handleFilterValue1} />
-          <input  className="delete-button" type="date" value={filterValue2} onChange={handleFilterValue2} />
+          <input  className="delete-button" type="date" value={filterValue1} onChange={handleFilterValue1} required/>
+          <input  className="delete-button" type="date" value={filterValue2} onChange={handleFilterValue2} required/>
           <button onClick={handleFilterSubmit}>Filtrar</button>
           <button onClick={handleClearFilter}>Eliminar filtro</button>
         </div>
@@ -179,7 +189,7 @@ export default function Home(props) {
             <h3>{event.name_event}</h3>
             <p><b>Fecha:</b> {formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
             <p><b>Horario:</b> {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
-            <p><b>Precio:</b> {event.currency}{event.price}</p>
+            <p><b>Precio:</b> {event.currency} {event.price}</p>
             {props.isAuthenticated ? (
               <Link to={`/comprar-tickets/${event.id}`}>
                 <button className="buy-button">Comprar</button>
@@ -195,7 +205,7 @@ export default function Home(props) {
             
         ))
       ) : events.length === 0 ? (
-        <p>Cargando eventos...</p>
+        <p>No hay eventos</p>
       ) : (
         <p>No hay eventos</p>
       )}
