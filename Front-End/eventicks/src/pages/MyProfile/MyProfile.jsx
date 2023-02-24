@@ -38,6 +38,7 @@ export default function MyProfile({ user }) {
           .then((response) => {
             setUsers(response.data);
           });
+        alert("Usuario Actualizado");
       })
       .catch((error) => console.error(error));
   };
@@ -86,7 +87,7 @@ export default function MyProfile({ user }) {
           <hr />
           {editingUser === users.id ? (
             <UserEditor
-              user={user}
+              user={users}
               onCancel={handleCancelEdit}
               onSave={(data) => handleSaveEdit(users.id, data)}
             />
