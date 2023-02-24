@@ -77,19 +77,27 @@ export default function Home(props) {
 
   const exceptThisSymbols = ["e", "E", "+", "-", "."];
 
-  fetch('http://localhost:5000/api/events/banner')
-  .then(response => response.json())
-  .then(data => {
-    const banner = document.getElementById('banner');
+  const photos = [
+    "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676999784/eventicks/NGN1qsT3skHtqKt_kfmxry.jpg",
+    "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676996528/eventicks/QvsUiqfh3SxhfTY_nzomdk.png",
+    "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676996528/eventicks/HaiMT3Qa3L5U26j_mxwjtk.jpg",
+    "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676996528/eventicks/VLreJXGN5WWAAkn_xvll3c.png",
+    "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676996528/eventicks/rE9F3vyBq8o3g4z_kky8ba.jpg",
+    "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676996528/eventicks/2BgFx4SF2oy3LYE_dvhnzl.jpg"
+  ];
+
+  const banner = document.getElementById('banner');
+
+  if (banner) {
     let currentPhotoIndex = 0; // Índice de la foto actual
 
     // Función para mostrar la foto actual y ocultar las demás
     const showCurrentPhoto = () => {
-      const photoUrl = data[currentPhotoIndex].photo_event;
+      const photoUrl = photos[currentPhotoIndex];
 
       // Eliminamos los elementos `div` que no son la foto actual
       const otherPhotos = Array.from(banner.querySelectorAll('.banner-photo')).filter((photo, index) => index !== currentPhotoIndex);
-      otherPhotos.forEach(photo => photo.remove());
+        otherPhotos.forEach(photo => photo.remove());
 
       // Creamos un nuevo `div` para la foto actual si no existe ya
       let currentPhotoDiv = banner.querySelector('.banner-photo-current');
@@ -108,14 +116,13 @@ export default function Home(props) {
 
     // Función para avanzar a la siguiente foto
     const nextPhoto = () => {
-      currentPhotoIndex = (currentPhotoIndex + 1) % data.length;
+      currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
       showCurrentPhoto();
     };
 
     // Avanzamos a la siguiente foto cada 5 segundos
     setInterval(nextPhoto, 5000);
-  })
-  .catch(error => console.error(error));
+  }
 
   return (
     <div>
