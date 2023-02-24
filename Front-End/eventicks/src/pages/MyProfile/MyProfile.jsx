@@ -1,150 +1,145 @@
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import UserEditor from "./UserEditor";
 
-const MyProfile = ({ user }) => {
-  const [editing, setEditing] = useState(false);
-  const [userValues, setUserValues] = useState({
-    name_user: user.name_user,
-    last_name: user.last_name,
-    document_type: user.document_type,
-    number_document: user.number_document,
-    country: user.country,
-    city: user.city,
-    phone: user.phone,
-    photo_user: user.photo_user,
+export default function MyProfile({ user }) {
+  const [users, setUsers] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [editingUser, setEditingUser] = useState(null);
+  const [editingPassword, setEditingPassword] = useState(false);
+  const [password, setPassword] = useState("");
 
-  });
-
-  const handleEdit = () => {
-    setEditing(true);
-  };
-
-  const handleUpdate = () => {
-    const changedValues = Object.keys(userValues).reduce((result, key) => {
-      if (userValues[key] !== user[key] && userValues[key] !== 'password') {
-        result[key] = userValues[key];
-      }
-      return result;
-    }, {});
-  
-    axios.put(`http://localhost:5000/api/users/${user.id}`, changedValues)
-      .then(() => {
-        setEditing(false);
-      })
-      .catch((error) => {
-        console.log(error);
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/users/${user.id}`)
+      .then((response) => {
+        setUsers(response.data);
+        setLoading(false);
       });
+  }, [user.id]);
+
+  const handleEdit = (userId) => {
+    setEditingUser(userId);
   };
 
-  const handleChangePassword = () => {
-    axios.put(`http://localhost:5000/api/users/${user.id}`, {
-      password: userValues.password,
-    })
-      .then(() => {
-        alert('Password changed successfully');
-        setUserValues({ ...userValues, password: '' });
-      })
-      .catch((error) => {
-        console.log(error);
-        alert('Error changing password');
-      });
+  const handleCancelEdit = () => {
+    setEditingUser(null);
   };
-  
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setUserValues({ ...userValues, [name]: value });
+
+  const handleSaveEdit = (userId, data) => {
+    axios
+      .put(`http://localhost:5000/api/users/${userId}`, data, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(() => {
+        setEditingUser(null);
+        axios
+          .get(`http://localhost:5000/api/users/${user.id}`)
+          .then((response) => {
+            setUsers(response.data);
+          });
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const handleDeleteUser = (userId) => {
+    if (window.confirm("¿Estás seguro de que quieres eliminar tu cuenta?")) {
+      axios
+        .delete(`http://localhost:5000/api/users/${userId}`)
+        .then(() => {
+          // Eliminar la sesión del usuario en el cliente
+          localStorage.removeItem("user");
+          // Redireccionar a la página de inicio de sesión
+          window.location.href = "/login";
+        })
+        .catch((error) => console.error(error));
+    }
+  };
+
+  const handlePasswordEdit = () => {
+    setEditingPassword(true);
+  };
+
+  const handlePasswordSave = (userId, password) => {
+    axios
+      .put(`http://localhost:5000/api/users/${user.id}/password`, { password }, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(() => {
+        setEditingPassword(false);
+        axios
+          .get(`http://localhost:5000/api/users/${user.id}`)
+          .then((response) => {
+            setUsers(response.data);
+          });
+      })
+      .catch((error) => console.error(error));
   };
 
   return (
     <div>
-      <button onClick={handleEdit}>Edit Profile</button>
-      {editing ? (
-        <div>
-          <label htmlFor="name_user">Name</label>
-          <input
-            type="text"
-            name="name_user"
-            id="name_user"
-            value={userValues.name_user}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="last_name">Last Name</label>
-          <input
-            type="text"
-            name="last_name"
-            id="last_name"
-            value={userValues.last_name}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="document_type">Document Type</label>
-          <input
-            type="text"
-            name="document_type"
-            id="document_type"
-            value={userValues.document_type}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="number_document">Number Document</label>
-          <input
-            type="text"
-            name="number_document"
-            id="number_document"
-            value={userValues.number_document}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="country">Country</label>
-          <input
-            type="text"
-            name="country"
-            id="country"
-            value={userValues.country}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="city">City</label>
-          <input
-            type="text"
-            name="city"
-            id="city"
-            value={userValues.city}
-            onChange={handleInputChange}
-          />
-          <label htmlFor="phone">Phone</label>
-          <input
-            type="text"
-            name="phone"
-            id="phone"
-            value={userValues.phone}
-            onChange={handleInputChange}
-          />
-          <button onClick={handleUpdate}>Save Changes</button>
+      <h1>Información de mi cuenta</h1>
+      {loading ? (
+        <p>Cargando Datos...</p>
+      ) : Object.keys(users).length > 0 ? (
+        <div key={users.id}>
+          <hr />
+          {editingUser === users.id ? (
+            <UserEditor
+              user={user}
+              onCancel={handleCancelEdit}
+              onSave={(data) => handleSaveEdit(users.id, data)}
+            />
+          ) : (
+            <div>
+              <span><b>Nombres: </b></span>
+              <p>{users.name_user}</p>
+              <span><b>Apellidos: </b></span>
+              <p>{users.last_name}</p>
+              <span><b>Imagen: </b></span>
+              <p>{users.photo_event}</p>
+              <span><b>Tipo de Documento: </b></span>
+              <p>{users.document_type}</p>
+              <span><b>Numero de Documento: </b></span>
+              <p>{users.number_document}</p>
+              <span><b>País: </b></span>
+              <p>{users.country}</p>
+              <span><b>Ciudad: </b></span>
+              <p>{users.city}</p>
+              <span><b>Correo Electrónico: </b></span>
+              <p>{users.email}</p>
+              <span><b>Teléfono: </b></span>
+              <p>{users.phone}</p>
+              <span><b>Contraseña: </b></span>
+              {editingPassword ? (
+                <div>
+                  <input
+                    type="password"
+                    placeholder="Nueva Contraseña"
+                    onChange={(e) => setPassword(e.target.value)} required
+                  />
+                  <button onClick={() => handlePasswordSave(users.id, password)}>Guardar</button>
+                  <button onClick={() => setEditingPassword(false)}>Cancelar</button>
+                </div>
+              ) : (
+                <div>
+                  <p>**********</p>
+                  <button onClick={() => handlePasswordEdit(users.id)}>Cambiar Contraseña</button>
+                </div>
+              )}
+
+              {user.id === users.id && (
+                <div>
+                  <button onClick={() => handleEdit(user.id)}>Editar</button>
+                  <button onClick={() => handleDeleteUser(user.id)}>Eliminar</button>
+                </div>
+              )}
+            </div>
+          )}
         </div>
-      ) : (
-        <div>
-          <img src="" alt="Foto de perfil" />ls
-          <div>Nombre: {userValues.name_user}</div>
-          <div>Apellido: {userValues.last_name}</div>
-          <div>Tipo de Doc: {userValues.document_type}</div>
-          <div>N° de Doc: {userValues.number_document}</div>
-          <div>País: {userValues.country}</div>
-          <div>Ciudad: {userValues.city}</div>
-          <div>Telefono: {userValues.phone}</div>
-          <div>Contreña: ****** </div>
-          <label htmlFor="password">New Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={userValues.password}
-            onChange={handleInputChange}
-          />
-
-          <button onClick={handleChangePassword}>Change Password</button>
-          
-        </div>
-      )}
-    </div>
-  );
-};
-
-export default MyProfile;
-
+      ) :(
+      <p>No tienes Datos registrados.</p>
+    )}
+  </div>
+);
+}
