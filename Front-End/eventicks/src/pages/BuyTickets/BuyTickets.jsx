@@ -5,10 +5,12 @@ import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 
 
-export default function BuyTickets() {
+export default function BuyTickets(user) {
   const { eventId } = useParams();
   const [event, setEvent] = useState(null);
   const [ticketQuantities, setTicketQuantities] = useState({});
+  const [ticketList, setTicketList] = useState([]);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
     axios.get(`http://localhost:5000/api/events/${eventId}`).then((response) => {
@@ -20,6 +22,14 @@ export default function BuyTickets() {
       setEvent(response.data);
     });
   }, [eventId]);
+
+  useEffect(() => {
+    let newTotal = 0;
+    event?.tickets.forEach((ticket) => {
+      newTotal += ticketQuantities[ticket.id] * ticket.price;
+    });
+    setTotal(newTotal);
+  }, [ticketQuantities, event]);
 
   const formatDate = (date) => {
     const day = daysDict[moment(date).locale("en").format("dddd")];
@@ -51,6 +61,34 @@ export default function BuyTickets() {
     });
   };
 
+  const handleBuyTickets = () => {
+    const newTickets = Object.entries(ticketQuantities)
+      .filter(([ticketId, amount]) => amount > 0)
+      .map(([ticketId, amount]) => ({
+        id_user: user.user,
+        id_ticket: parseInt(ticketId),
+        amount: amount,
+      }));
+
+    setTicketList([...ticketList, ...newTickets]);
+
+    axios.post('http://localhost:5000/api/buy_tickets', newTickets)
+      .then((response) => {
+        console.log('Tickets comprados con éxito');
+        axios.get(`http://localhost:5000/api/events/${eventId}`).then((response) => {
+          const tickets = response.data.tickets.reduce((acc, ticket) => {
+            acc[ticket.id] = 0;
+            return acc;
+          }, {});
+           setTicketQuantities(tickets);
+           setEvent(response.data);
+        });
+      })
+      .catch((error) => {
+        console.error('Error al comprar tickets:', error);
+      });
+  };
+
   return (
     <div>
       <h1>{event ? event.name_event : "Cargando evento..."}</h1>
@@ -65,7 +103,7 @@ export default function BuyTickets() {
               <li key={ticket.id}>
                 <hr></hr>
                 <p>{ticket.type}</p>
-                <p>{ticket.currency}{ticket.price}</p>                
+                <p>{ticket.currency}{ticket.price}</p>
                 <p>{ticket.amount_ticket}</p>
                 <div>
                   <button onClick={() => handleDecrement(ticket.id)}>-</button>
@@ -76,6 +114,8 @@ export default function BuyTickets() {
             ))}
           </ul>
           <p>Para mayores de {event.restriction}</p>
+          <p>Total: {event.currency}{total.toFixed(2)}</p>
+          <button onClick={handleBuyTickets}>Comprar</button>
           <hr></hr>
           <h3>Lugar</h3>
           <p>{event.city}, PE</p>
