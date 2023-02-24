@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `user`
  `name_user`       VARCHAR(50) NOT NULL,
  `last_name`       VARCHAR(50) NOT NULL,
  `email`           VARCHAR(50) NOT NULL,
- `password`        VARCHAR(50) NOT NULL,
+ `password`        VARCHAR(255) NOT NULL,
  `phone`	   BIGINT NOT NULL,
  `country`         VARCHAR(20) NOT NULL,
  `city`            VARCHAR(50) NOT NULL,
@@ -131,7 +131,6 @@ CREATE PROCEDURE sp_update_user(
     IN p_name_user VARCHAR(50),
     IN p_last_name VARCHAR(50),
     IN p_email VARCHAR(50),
-    IN p_password VARCHAR(50),
     IN p_phone BIGINT,
     IN p_country VARCHAR(20),
     IN p_city VARCHAR(50),
@@ -146,7 +145,6 @@ BEGIN
     name_user = p_name_user,
     last_name = p_last_name,
     email = p_email,
-    password = p_password,
     phone = p_phone,
     country = p_country,
     city = p_city,
@@ -228,6 +226,22 @@ BEGIN
     city = p_city,
     address = p_address,
     reference = p_reference
+    WHERE id = p_id;
+END $$
+DELIMITER ;
+
+-- ********************************* 'PROCEDURE UPDATE PASSWORD'
+
+DROP PROCEDURE IF EXISTS sp_update_password;
+DELIMITER $$
+CREATE PROCEDURE sp_update_password(
+    IN p_id INT,
+    IN p_password VARCHAR(255)
+)
+BEGIN
+    UPDATE user
+    SET
+    password = p_password
     WHERE id = p_id;
 END $$
 DELIMITER ;
