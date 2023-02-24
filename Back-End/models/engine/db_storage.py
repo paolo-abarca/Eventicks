@@ -96,12 +96,17 @@ class DBStorage():
         self.cursor.callproc(procedure, lis)
         self.db.commit()
 
-    def verify(self, tablename, email):
+    def verify(self, tablename, email, id=None):
         """
         Method that checks if an
         email is in the database
         """
-        query = "SELECT * FROM {} WHERE email='{}'".format(tablename, email)
+        if id is None:
+            query = "SELECT * FROM {} WHERE email='{}'".format(tablename,
+                                                               email)
+        else:
+            query = "SELECT * FROM {} WHERE email='{}'\
+                     AND id!={}".format(tablename, email, id)
 
         self.cursor.execute(query)
         tupla = self.cursor.fetchall()
@@ -179,3 +184,18 @@ class DBStorage():
             dict_result[values[0]] = values[1]
 
         return dict_result
+
+    def update_password(self, pwd, id):
+        """
+        Method that updates a password of a user in the database
+        """
+        lis = []
+        lis.append(id)
+
+        encrypt_pwd = hashlib.md5(pwd.encode())
+        pwd = encrypt_pwd.hexdigest()
+
+        lis.append(pwd)
+
+        self.cursor.callproc('sp_update_password', lis)
+        self.db.commit()
