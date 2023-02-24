@@ -50,6 +50,7 @@ export default function MyEvents({ user }) {
           .then((response) => {
             setEvents(response.data);
           });
+        alert("Evento Actualizado")
       })
       .catch((error) => console.error(error));
   };
@@ -89,6 +90,7 @@ export default function MyEvents({ user }) {
           .then((response) => {
             setEvents(response.data);
           });
+        alert("Ticket Actualizado")
       })
       .catch((error) => console.error(error));
   };
