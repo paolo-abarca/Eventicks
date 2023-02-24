@@ -71,8 +71,7 @@ nav a {
 }
 
 nav a:hover {
-  color: rgb(232, 72, 247);
-  text-decoration: underline; /* Subrayado al pasar el mouse sobre los enlaces */
+  color:  #3e8e41;
 }
 
 .btn-logout {
@@ -84,7 +83,26 @@ nav a:hover {
   margin-right: 30px;
 }
 
+.button-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
 
+.button-container button {
+  margin-left: 10px;
+  background-color: #008CBA;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.button-container button:hover {
+  background-color: #0077A3;
+}
 
 .filter-buttons {
   display: flex;
@@ -116,19 +134,119 @@ nav a:hover {
 }
 
 
+.category-btn {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-right: 10px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+
+
+
+
+.h2 {
+  font-size: 2rem;
+  text-align: center;
+  color: #000000;
+  text-shadow:
+    0 0 10px rgba(255,255,255,0.7),
+    0 0 20px rgba(255,255,255,0.7),
+    0 0 30px rgba(255,255,255,0.7),
+    0 0 40px rgb(0, 0, 0),
+    0 0 70px rgb(0, 0, 0),
+    0 0 80px rgb(0, 0, 0),
+    0 0 100px rgb(0, 0, 0),
+    0 0 150px rgb(0, 0, 0);
+
+  padding: 20px;
+  animation: flicker 1s linear infinite;
+  position: relative;
+  background-color: #f5f5f5;
+  margin: 10px; /* reducir el margen superior y lateral */
+  border-radius: 10px;
+}
+
+.h2:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+@keyframes flicker {
+  0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+    text-shadow: 0 0 5px #000000, 0 0 10px #ffffff, 0 0 15px #000000, 0 0 20px #000000, 0 0 30px #ffffff, 0 0 40px #000000, 0 0 50px #000000;
+  }
+  20%, 24%, 55% {
+    text-shadow: none;
+  }
+}
+
+.allcard {
+/*  background-color: #f5f5f5;*/
+border-radius: 10px;
+  background-color: #f5f5f5;
+  overflow-y: scroll;
+  height: 450px;
+  padding: 20px;
+  margin: 10px; /* reducir el margen superior y lateral */
+  margin-bottom: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+.allcard:hover {
+  opacity: 0.8;
+  transition: opacity 0.2s ease-in-out;
+}
 
 .card {
-  border: 1px solid #ccc;
+  background-color: #000000;
   border-radius: 10px;
-  padding: 20px;
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
+  margin: 70px;
+  
+  flex-wrap: wrap;
+  gap: 15px; /* espacio entre las columnas */
 }
 
 .event-card {
-  border: 1px solid #ccc;
-  border-radius: 5px;
+  border: 1px solid #9d1e1e;
+  border-radius: 10px;
   padding: 10px;
-  margin-bottom: 10px;
+  margin: 10px;
+  background-color: #ffffff;
+  flex-basis: 25%; /* cada fila tendrá 4 columnas en cualquier resolución */
+
+}
+
+@media (max-width: 767px) {
+  .card {
+    flex-basis: 100%; /* 1 columna en pantallas pequeñas */
+    margin: 5px;
+    gap: 10px;
+  }
+  .event-card {
+    flex-basis: calc((100% - 30px) / 2); /* 2 columnas en pantallas pequeñas */
+    margin: 5px;
+    gap: 10px;
+  }
+}
+
+
+
+
+Create event
+--------------
+#creaste-event-title {
+  margin: 20px 0;
+  font-size: 30px;
+  font-weight: bold;
 }

@@ -84,6 +84,7 @@ function CreateEvent({ user }) {
   const exceptThisSymbols = ["e", "E", "+", "-", "."];
 
   return (
+
     <form onSubmit={handleSubmit}>
       <h2>1.- Detalles del Evento</h2>
       <label>

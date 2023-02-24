@@ -116,55 +116,57 @@ export default function Home(props) {
     setInterval(nextPhoto, 5000);
   })
   .catch(error => console.error(error));
+
   return (
     <div>
           <div id="banner">
     </div>
-      <div>
-        <button value="price" onClick={handleFilterType}>Precio</button>
-        <button value="category" onClick={handleFilterType}>Categoría</button>
-        <button value="city" onClick={handleFilterType}>Ciudad</button>
-        <button value="date" onClick={handleFilterType}>Fecha</button>
+      <div  className="button-container">
+        <button className="category-btn" value="price" onClick={handleFilterType}>Precio</button>
+        <button className="category-btn" value="category" onClick={handleFilterType}>Categoría</button>
+        <button className="category-btn" value="city" onClick={handleFilterType}>Ciudad</button>
+        <button className="category-btn" value="date" onClick={handleFilterType}>Fecha</button>
       </div>
       {filterType === "price" && (
-        <div>
-          <input type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={filterValue1} onChange={handleFilterValue1} />
-          <input type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={filterValue2} onChange={handleFilterValue2} />
-          <button onClick={handleFilterSubmit}>Filtrar</button>
-          <button onClick={handleClearFilter}>Eliminar filtro</button>
+        <div >
+          <input className="delete-button" type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={filterValue1} onChange={handleFilterValue1} />
+          <input className="delete-button" type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={filterValue2} onChange={handleFilterValue2} />
+          <button className="delete-button" onClick={handleFilterSubmit}>Filtrar</button>
+          <button className="delete-button" onClick={handleClearFilter}>Eliminar filtro</button>
         </div>
       )}
       {filterType === "category" && (
         <div>
-          <input type="text" value={filterValue1} onChange={handleFilterValue1} />
-          <button onClick={handleFilterSubmit}>Filtrar</button>
-          <button onClick={handleClearFilter}>Eliminar filtro</button>
+          <input className="delete-button" type="text" value={filterValue1} onChange={handleFilterValue1} />
+          <button className="delete-button" onClick={handleFilterSubmit}>Filtrar</button>
+          <button className="button-container" onClick={handleClearFilter}>Eliminar filtro</button>
         </div>
       )}
       {filterType === "city" && (
         <div>
-          <input type="text" value={filterValue1} onChange={handleFilterValue1} />
-          <button onClick={handleFilterSubmit}>Filtrar</button>
-          <button onClick={handleClearFilter}>Eliminar filtro</button>
+          <input className="delete-button" type="text" value={filterValue1} onChange={handleFilterValue1} />
+          <button className="button-container" onClick={handleFilterSubmit}>Filtrar</button>
+          <button className="button-container" onClick={handleClearFilter}>Eliminar filtro</button>
         </div>
       )}
       {filterType === "date" && (
         <div>
-          <input type="date" value={filterValue1} onChange={handleFilterValue1} />
-          <input type="date" value={filterValue2} onChange={handleFilterValue2} />
+          <input  className="delete-button" type="date" value={filterValue1} onChange={handleFilterValue1} />
+          <input  className="delete-button" type="date" value={filterValue2} onChange={handleFilterValue2} />
           <button onClick={handleFilterSubmit}>Filtrar</button>
           <button onClick={handleClearFilter}>Eliminar filtro</button>
         </div>
       )}
-      <div>
-      <h2>Eventos </h2>
+      <div className="h2">
+      <h2>Eventos</h2>
       </div>
+      <div className="allcard">
       {events.length > 0 ? (
         events.map((event) => (
           <div key={event.id} >
           <div className="card">
-            <hr></hr>
-            <div className="card-body event-card">
+ 
+            <div className="event-card">
             <p>{event.photo_event}</p>
             <h3>{event.name_event}</h3>
             <p><b>Fecha:</b> {formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
@@ -182,6 +184,7 @@ export default function Home(props) {
         </div>
             </div>
             </div>
+            
         ))
       ) : events.length === 0 ? (
         <p>Cargando eventos...</p>
@@ -189,5 +192,8 @@ export default function Home(props) {
         <p>No hay eventos</p>
       )}
     </div>
+    </div>
+    
+
   );
 }
