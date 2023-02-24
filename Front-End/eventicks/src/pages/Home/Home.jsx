@@ -120,8 +120,8 @@ export default function Home(props) {
       showCurrentPhoto();
     };
 
-    // Avanzamos a la siguiente foto cada 5 segundos
-    setInterval(nextPhoto, 5000);
+    // Avanzamos a la siguiente foto cada 7 segundos
+    setInterval(nextPhoto, 7000);
   }
 
   return (
@@ -164,8 +164,8 @@ export default function Home(props) {
           <button onClick={handleClearFilter}>Eliminar filtro</button>
         </div>
       )}
-      <div className="h2">
-      <h2>Eventos</h2>
+      <div>
+      <h2  className="h2">Eventos</h2>
       </div>
       <div className="allcard">
       {events.length > 0 ? (
@@ -174,7 +174,8 @@ export default function Home(props) {
           <div className="card">
  
             <div className="event-card">
-            <p>{event.photo_event}</p>
+            <div className="imagenCloud" style={{ backgroundImage: `url(${event.photo_event})` }}>
+            </div>
             <h3>{event.name_event}</h3>
             <p><b>Fecha:</b> {formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
             <p><b>Horario:</b> {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>

@@ -32,6 +32,23 @@ function CreateEvent({ user }) {
     ]
   });
 
+  const handleFileInputChange = (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', 'preset-eventicks');
+    
+    axios.post('https://api.cloudinary.com/v1_1/cloud-eventicks/image/upload', formData)
+      .then(response => {
+        console.log(response.data.secure_url);
+        setEventData({ ...eventData, photo_event: response.data.secure_url });
+      })
+      .catch(error => {
+        console.error('Error al subir la foto:', error);
+      });
+  };
+
+
   useEffect(() => {
     axios
       .get("http://localhost:5000/api/category")
@@ -117,13 +134,17 @@ function CreateEvent({ user }) {
         <br />
         <textarea name="information" maxlength="65535" rows="10" placeholder="Dale a los usuarios más información: detalles del evento, panelistas, links relacionados, cronograma del evento, etc." value={eventData.information} onChange={handleInputChange} />
       </label>
+      
       <br />
+
       <label>
-        <span><strong>Imagen* (846px x 522px)</strong></span>
-        <br />
-        <input type="text" name="photo_event" value={eventData.photo_event} onChange={handleInputChange} required />
-      </label>
+  <span><strong>Imagen* (846px x 522px)</strong></span>
+  <br />
+  <input type="file" name="photo_event" onChange={handleFileInputChange} required />
+</label>
+
       <br />
+
       <label>
         <span><strong>Video</strong></span>
         <br />
