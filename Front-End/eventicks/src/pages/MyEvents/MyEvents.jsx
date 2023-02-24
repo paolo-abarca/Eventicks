@@ -3,11 +3,13 @@ import axios from "axios";
 import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 import EventEditor from "./EventEditor";
+import TicketEditor from "./TicketEditor";
 
 export default function MyEvents({ user }) {
   const [events, setEvents] = useState(null);
   const [loading, setLoading] = useState(true);
   const [editingEvent, setEditingEvent] = useState(null);
+  const [editingTicket, setEditingTicket] = useState(null);
 
   useEffect(() => {
     axios
@@ -50,6 +52,60 @@ export default function MyEvents({ user }) {
           });
       })
       .catch((error) => console.error(error));
+  };
+
+  const handleDeleteEvent = (eventId) => {
+    if (window.confirm("¿Estás seguro de que quieres eliminar este evento?")) {
+      axios
+        .delete(`http://localhost:5000/api/events/${eventId}`)
+        .then(() => {
+          axios
+            .get(`http://localhost:5000/api/users/${user.id}/my_events`)
+            .then((response) => {
+              setEvents(response.data);
+            });
+        })
+        .catch((error) => console.error(error));
+    }
+  };
+
+  const handleEditTicket = (ticketId) => {
+    setEditingTicket(ticketId);
+  };
+
+  const handleCancelEditTicket = () => {
+    setEditingTicket(null);
+  };
+
+  const handleSaveEditTicket = (ticketId, data) => {
+    axios
+      .put(`http://localhost:5000/api/tickets/${ticketId}`, data, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(() => {
+        setEditingTicket(null);
+        axios
+          .get(`http://localhost:5000/api/users/${user.id}/my_events`)
+          .then((response) => {
+            setEvents(response.data);
+          });
+      })
+      .catch((error) => console.error(error));
+  };
+
+  const handleDeleteTicket = (ticketId) => {
+    if (window.confirm("¿Estás seguro de que quieres eliminar este ticket?")) {
+      axios
+        .delete(`http://localhost:5000/api/tickets/${ticketId}`)
+        .then(() => {
+          axios
+            .get(`http://localhost:5000/api/users/${user.id}/my_events`)
+            .then((response) => {
+              setEvents(response.data);
+            });
+         })
+         .catch((error) => console.error(error));
+    }
   };
 
   return (
@@ -104,10 +160,43 @@ export default function MyEvents({ user }) {
                 <p>{event.reference}</p>
 
                 {user.id === event.id_user && (
-                  <button onClick={() => handleEdit(event.id)}>Editar</button>
+                  <div>
+                    <button onClick={() => handleEdit(event.id)}>Editar</button>
+                    <button onClick={() => handleDeleteEvent(event.id)}>Eliminar</button>
+                  </div>
                 )}
               </div>
             )}
+            <h2>3.- Tickets</h2>
+            {event.tickets.map((ticket) => (
+              <div key={ticket.id}>
+                {editingTicket === ticket.id ? (
+                  <TicketEditor
+                    ticket={ticket}
+                    onCancel={handleCancelEditTicket}
+                    onSave={(data) => handleSaveEditTicket(ticket.id, data)}
+                  />
+                ) : (
+                  <ul>
+                    <li>
+                      <span><b>Nombre del Ticket: </b></span>
+                      <p>{ticket.type}</p>
+                      <span><b>Precio: </b></span>
+                      <p>{ticket.currency} {ticket.price}</p>
+                      <span><b>Cantidad: </b></span>
+                      <p>{ticket.amount_ticket}</p>
+
+                      {event.id === ticket.id_event && (
+                        <div>
+                          <button onClick={() => handleEditTicket(ticket.id)}>Editar</button>
+                          <button onClick={() => handleDeleteTicket(ticket.id)}>Eliminar</button>
+                        </div>
+                      )}
+                    </li>
+                  </ul>
+                )}
+              </div>
+            ))}
           </div>
         ))
       ) : (
