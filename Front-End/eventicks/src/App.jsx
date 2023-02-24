@@ -92,7 +92,7 @@ const App = () => {
             <Route path="/mi-perfil" element={<MyProfile user={user} />} />
             <Route path="/mis-eventos" element={<MyEvents user={user} />} />
             <Route path="/mis-tickets" element={<MyTickets user={user}/>} />
-            <Route path="/comprar-tickets/:eventId" element={<BuyTickets user={user.id} />} />
+            <Route path="/comprar-tickets/:eventId" element={<BuyTickets user={user} />} />
           </>
         ) : null}
         <Route path="/login" element={<Login handleLogin={handleLogin} />} />
