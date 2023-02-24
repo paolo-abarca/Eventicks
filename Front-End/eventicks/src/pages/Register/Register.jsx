@@ -2,6 +2,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { cities } from "../../utils/cities.js";
 
 const Register = () => {
   const [name_user, setName] = useState("");
@@ -47,38 +48,42 @@ const Register = () => {
       });
   };
 
+  const exceptThisSymbols = ["e", "E", "+", "-", "."];
+
   return (
     <div>
       {errorMessage && <div>{errorMessage}</div>}
       <h1>Registro de Usuario</h1>
       <form onSubmit={handleSubmit}>
         <label>
-          Nombre:
-          <input type="text" value={name_user} onChange={(event) => setName(event.target.value)} required />
+          Nombres:
+          <input type="text" value={name_user} maxlength="49" placeholder="Nombres" onChange={(event) => setName(event.target.value)} required />
         </label>
         <label>
-          Apellido:
-          <input type="text" value={last_name} onChange={(event) => setLastName(event.target.value)} required />
+          Apellidos:
+          <input type="text" value={last_name} maxlength="49" placeholder="Apellidos" onChange={(event) => setLastName(event.target.value)} required />
         </label>
         <label>
           Correo Electrónico:
-          <input type="email" value={email} onChange={(event) => setEmail(event.target.value)} required />
+          <input type="email" value={email} maxlength="49" placeholder="Correo Electrónico" onChange={(event) => setEmail(event.target.value)} required />
         </label>
         <label>
           Contraseña:
-          <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} required />
+          <input type="password" value={password} placeholder="Contraseña" onChange={(event) => setPassword(event.target.value)} required />
         </label>
         <label>
           Teléfono:
-          <input type="tel" value={phone} onChange={(event) => setPhone(event.target.value)} required />
+          <input type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={phone} onChange={(event) => setPhone(event.target.value)} required />
         </label>
         <label>
           País:
-          <input type="text" value={country} onChange={(event) => setCountry(event.target.value)} required />
+          <input type="text" value={country} maxlength="19" placeholder="País" onChange={(event) => setCountry(event.target.value)} required />
         </label>
         <label>
           Ciudad:
-          <input type="text" value={city} onChange={(event) => setCity(event.target.value)} required />
+          <select value={city} onChange={(event) => setCity(event.target.value)} required >
+	    {cities.map(city => <option key={city} value={city}>{city}</option>)}
+          </select>
         </label>
         <label>
           Género:
