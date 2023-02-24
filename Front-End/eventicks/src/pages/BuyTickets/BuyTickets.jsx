@@ -83,6 +83,7 @@ export default function BuyTickets(user) {
            setTicketQuantities(tickets);
            setEvent(response.data);
         });
+        alert("Tickets comprados con éxito")
       })
       .catch((error) => {
         console.error('Error al comprar tickets:', error);
@@ -97,13 +98,13 @@ export default function BuyTickets(user) {
           <p>{event.photo_event}</p>
           <p>Fecha: {formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
           <p>Horario: {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
-          <h3>Entradas</h3>
+          <h3>Tickets</h3>
           <ul>
             {event.tickets.map((ticket) => (
               <li key={ticket.id}>
                 <hr></hr>
                 <p>{ticket.type}</p>
-                <p>{ticket.currency}{ticket.price}</p>
+                <p>{ticket.currency} {ticket.price}</p>
                 <p>{ticket.amount_ticket}</p>
                 <div>
                   <button onClick={() => handleDecrement(ticket.id)}>-</button>
