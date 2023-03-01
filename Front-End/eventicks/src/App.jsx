@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { BrowserRouter, Route, Link, Routes, useNavigate } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { BrowserRouter, Route, Link, Routes, useNavigate, useLocation } from "react-router-dom";
 import { Navbar , LeftContainer, LogoA, MainContainer, UltimateContainer, Footer} from './App.js';
 import Logo from "./img/logo.png"
 import axios from 'axios'
@@ -16,51 +16,97 @@ import MyEvents from "./pages/MyEvents/MyEvents";
 import MyTickets from "./pages/MyTickets/MyTickets";
 
 const App = () => {
-
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();  // Obtiene la función de navegación
   const [user, setUser] = useState(null);
+  const [prevLocation, setPrevLocation] = useState(null); // Almacena la ubicación anterior
+  const location = useLocation(); // Obtiene la ubicación actual
 
-  const handleLogin = async (email, password) => {
+  const handleLogin = useCallback(async (email, password) => {
     try {
-      const response = await axios.post("http://localhost:5000/api/login", {
-        email,
-        password,
-      });
+      const storedEmail = localStorage.getItem("email");
+      const storedPassword = localStorage.getItem("password");
+
+      // Si el usuario ya está autenticado con las credenciales almacenadas en el localStorage, no es necesario hacer otra solicitud al servidor
+      if (email === storedEmail && password === storedPassword) {
+        setIsAuthenticated(true);
+        navigate('/'); // Navega a la página de inicio
+        alert("¡Bienvenido! Te has autenticado correctamente.");
+        
+        setErrorMessage(null); // Restablece el mensaje de error a null
+
+        
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
+        }
+
+        // Redirige al usuario a la ubicación anterior después de la autenticación
+        navigate(prevLocation || '/');
+      } else {
+        const response = await axios.post("http://localhost:5000/api/login", {
+          email,
+          password,
+        });
 
       const userId = response.data;
       if (response.status === 200 ) {
         setIsAuthenticated(true);
         alert("¡Bienvenido! Te has autenticado correctamente.");
         navigate('/'); // Navega a la página de inicio
-        setErrorMessage(null); // Restablece el mensaje de error a null
+        setErrorMessage(null); // Restablece el mensaje de error a null acaaaaaaaa
       
-        const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`); // Hace una solicitud GET a la API con el id del usuario
-        console.log(userResponse.data); // Imprime el retorno de la API en la consola
-        setUser(userResponse.data)
-      } else {
-        setErrorMessage("Ocurrió un error en el inicio de sesión");
-      }
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        if (error.response.data === "Password Incorrect") {
-          alert("La contraseña es incorrecta");
-        } else if (error.response.data === "Email Not Found") {
-          alert("El correo electrónico no se encontra registrado");
-        } else {
-          alert("Ocurrió un error en el inicio de sesión");
+        const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
+      const user = userResponse.data;
+      setUser(user);
+
+      // Almacena las credenciales y los datos del usuario en el localStorage
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", password);
+      localStorage.setItem("user", JSON.stringify(user));
+
+      // Redirige al usuario a la ubicación anterior después de la autenticación
+      navigate(prevLocation || '/');
+    } else {
+      setErrorMessage("El correo electrónico o la contraseña son incorrectos.");
+    }
+  }
+} catch (error) {
+  console.error(error);
+  setErrorMessage("Hubo un error al iniciar sesión. Inténtelo de nuevo más tarde.");
+}
+}, [navigate, prevLocation]);
+
+const handleLogout = useCallback(() => {
+    setIsAuthenticated(false);
+    setUser(null);
+    localStorage.removeItem("email");
+    localStorage.removeItem("password");
+    localStorage.removeItem("user");
+    navigate('/login'); // Navega a la página de inicio de sesión
+    }, [navigate]);
+
+    useEffect(() => {
+      const storedEmail = localStorage.getItem("email");
+      const storedPassword = localStorage.getItem("password");
+  
+      // Si el usuario ya está autenticado con las credenciales almacenadas en el localStorage, establece el estado de autenticación en verdadero
+      if (storedEmail && storedPassword) {
+        setIsAuthenticated(true);
+        const storedUser = localStorage.getItem("user");
+        if (storedUser) {
+          setUser(JSON.parse(storedUser));
         }
       } else {
-        console.error(error);
-        setErrorMessage("Ocurrió un error en el inicio de sesión");
+        setIsAuthenticated(false);
       }
-    }
-  };
-  const handleLogout = () => {
-    setIsAuthenticated(false);
-    navigate('/'); // Navega a la página de inicio
-  };
+  
+      // Almacena la ubicación anterior al cambiar de ubicación
+      if (location.pathname !== "/login" && location.pathname !== "/register") {
+        setPrevLocation(location.pathname);
+      }
+    }, [location]);
 
   return (
     <div>
