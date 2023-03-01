@@ -5,16 +5,13 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #2A2938;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-
-
-
-
 
 
 #banner {
@@ -38,15 +35,6 @@ code {
   left: 0;
 }
 
-nav {
-  background-color: #000000; /* Color de fondo */
-  color: #fff; /* Color del texto */
-  padding: 39px; /* Espaciado interno */
-
-  width: 100%;
-}
-
-
 nav ul {
   margin: 0;
   padding: 0;
@@ -67,15 +55,15 @@ nav a {
 }
 
 nav a:hover {
-  color:  #3e8e41;
+  color:  #ff5890;
 }
 
 .btn-logout {
-  background-color: red; /* Cambia el color de fondo del botón a rojo */
+  background-color: #EE3869; /* Cambia el color de fondo del botón a rojo */
   color: white; /* Cambia el color del texto a blanco */
   border: none; /* Elimina el borde del botón */
-  padding: 8px; /* Ajusta el espaciado interno del botón a tu preferencia */
-  border-radius: 5px; /* Agrega bordes redondeados al botón */
+  padding: 10px; /* Ajusta el espaciado interno del botón a tu preferencia */
+  border-radius: 10px; /* Agrega bordes redondeados al botón */
   margin-right: 30px;
 }
 
@@ -83,21 +71,24 @@ nav a:hover {
   display: flex;
   align-items: center;
   margin-bottom: 10px;
+  justify-content: center;
 }
 
 .button-container button {
   margin-left: 10px;
-  background-color: #008CBA;
+  background-color: #EE3869;
   color: #fff;
   border: none;
-  border-radius: 5px;
+  border-radius:10px;
+  padding: 10px;
 
-  font-size: 16px;
+  font-size: 1em;
   cursor: pointer;
+  position: relative;
 }
 
 .button-container button:hover {
-  background-color: #0077A3;
+  background-color: #ff5583;
 }
 
 .filter-buttons {
@@ -108,7 +99,7 @@ nav a:hover {
 }
 
 .buy-button {
-  background-color: #4CAF50;
+  background-color: #EE3869;
   color: white;
   border: none;
   padding: 10px;
@@ -121,17 +112,17 @@ nav a:hover {
 }
 
 .buy-button:hover {
-  background-color: #3e8e41;
+  background-color: #EE3869;
 }
 
 .buy-button:active {
-  background-color: #3e8e41;
+  background-color: #ec5b82;
   transform: translateY(2px);
 }
 
 
 .category-btn {
-  background-color: #007bff;
+  background-color: #EE3869;
   color: #fff;
   border: none;
   border-radius: 4px;
@@ -169,15 +160,6 @@ nav a:hover {
   border-radius: 10px;
 }
 
-.h2:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: -1;
-}
 
 @keyframes flicker {
   0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
@@ -191,18 +173,16 @@ nav a:hover {
 .allcard {
 /*  background-color: #f5f5f5;*/
   border-radius: 10px;
-  background-color: #f5f5f5;
-  overflow-y: scroll;
   height: 450px;
   padding: 20px;
   margin: 10px; /* reducir el margen superior y lateral */
   margin-bottom: 60px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+  color: #ffffff;
 }
 
 
 .card {
-  background-color: #000000;
+  background-color: #0e0c18;
   border-radius: 10px;
   margin: 70px;
   
@@ -212,11 +192,10 @@ nav a:hover {
 
 
 .event-card {
-  border: 1px solid #9d1e1e;
   border-radius: 10px;
   padding: 10px;
   margin: 10px;
-  background-color: #ffffff;
+  background-color:#161722;
   flex-basis: 25%; /* cada fila tendrá 4 columnas en cualquier resolución */
 
 }
@@ -225,7 +204,7 @@ nav a:hover {
   .card {
     flex-basis: 100%; /* 1 columna en pantallas pequeñas */
     margin: 5px;
-    gap: 10px;
+    gap: 2%;
   }
   .event-card {
     flex-basis: calc((100% - 30px) / 2); /* 2 columnas en pantallas pequeñas */
@@ -254,3 +233,4 @@ Create event
   margin: 5px;
 
 }
+

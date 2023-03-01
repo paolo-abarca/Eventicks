@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UserEditor from "./UserEditor";
+import { Title, SubTitle, StyledButton, 
+  StyledSelect, StyledInput, StyledTextArea, 
+  StyledInput1, MainContainer, FirstContainer, 
+  SecondContainer, TitleContainer, TitleT, Number, 
+  Img, SubTitle1} from './someStyle.js';
 
 export default function MyProfile({ user }) {
   const [users, setUsers] = useState(null);
@@ -51,7 +56,7 @@ export default function MyProfile({ user }) {
           // Eliminar la sesión del usuario en el cliente
           localStorage.removeItem("user");
           // Redireccionar a la página de inicio de sesión
-          window.location.href = "/login";
+          window.location.href = "/";
         })
         .catch((error) => console.error(error));
     }
@@ -97,8 +102,10 @@ export default function MyProfile({ user }) {
               <p>{users.name_user}</p>
               <span><b>Apellidos: </b></span>
               <p>{users.last_name}</p>
+             
               <span><b>Imagen: </b></span>
-              <p>{users.photo_event}</p>
+              <p><img src={users.photo_user} alt="Imagen de perfil" /></p>
+           
               <span><b>Tipo de Documento: </b></span>
               <p>{users.document_type}</p>
               <span><b>Numero de Documento: </b></span>

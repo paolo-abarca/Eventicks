@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import axios from "axios";
 import { cities } from "../../utils/cities.js";
+import {StyledButton, 
+  StyledSelect, StyledInput, StyledTextArea, 
+  TitleContainer, TitleT, Number, 
+  SubTitle2, SubTitle1} from './someStyle.js';
 
 export default function EventEditor({ event, onCancel, onSave }) {
   const [name_event, setName_event] = useState(event.name_event);
@@ -54,22 +58,39 @@ export default function EventEditor({ event, onCancel, onSave }) {
 
   const exceptThisSymbols = ["e", "E", "+", "-", "."];
 
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "preset-eventicks");
+    axios
+      .post("https://api.cloudinary.com/v1_1/cloud-eventicks/image/upload", formData)
+      .then((response) => {
+        console.log(response.data.secure_url)
+        setPhoto_event(response.data.secure_url)
+        alert("Imagen cargada exitosamente");
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <div>
-      <h2>1.- Detalles del Evento</h2>
+      <TitleContainer>
+        <Number>1</Number><TitleT>Detalles del Evento</TitleT>
+      </TitleContainer>
       <form onSubmit={handleSubmit}>
         <label>
-          <span><b>Imagen: </b></span>
+          <span><b>Imagen  </b></span>
           <input
-            type="text"
-            value={photo_event}
-            onChange={(e) => setPhoto_event(e.target.value)} required
-          />
+            type="file"
+            accept="image/*"
+            onChange={handleImageChange} />        
+          <p><img src={photo_event} alt="Imagen de perfil" width="500px"/></p>
         </label>
         <br />
         <label>
-          <span><b>Nombre del Evento: </b></span>
-          <input
+          <SubTitle2 >Nombre del Evento  </SubTitle2 >
+          <StyledInput
             type="text" maxlength="99" placeholder="Dale un nombre corto y llamativo."
             value={name_event}
             onChange={(e) => setName_event(e.target.value)} required
@@ -77,8 +98,8 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
         <br />
         <label>
-          <span><b>Fecha de Inicio: </b></span>
-          <input
+          <SubTitle2>Fecha de Inicio  </SubTitle2>
+          <StyledInput
             type="date"
             value={date_start}
             onChange={(e) => setDate_start(e.target.value)} required
@@ -86,8 +107,8 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
         <br />
         <label>
-          <span><b>Fecha Final: </b></span>
-          <input
+          <SubTitle2>Fecha Final  </SubTitle2>
+          <StyledInput
             type="date"
             value={date_end}
             onChange={(e) => setDate_end(e.target.value)} required
@@ -95,8 +116,8 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
         <br />
         <label>
-          <span><b>Hora de Inicio: </b></span>
-          <input
+          <SubTitle2>Hora de Inicio  </SubTitle2>
+          <StyledInput
             type="time"
             value={start_time}
             onChange={(e) => setStart_time(e.target.value)} required
@@ -104,8 +125,8 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
         <br />
         <label>
-          <span><b>Hora Final: </b></span>
-          <input
+          <SubTitle2>Hora Final  </SubTitle2>
+          <StyledInput
             type="time"
             value={end_time}
             onChange={(e) => setEnd_time(e.target.value)} required
@@ -113,19 +134,19 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
         <br />
         <label>
-          <span><b>Categoría: </b></span>
-	  <select value={id_category} onChange={(e) => setId_category(e.target.value)} required>
+          <SubTitle2>Categoría  </SubTitle2>
+	  <StyledSelect value={id_category} onChange={(e) => setId_category(e.target.value)} required>
             {categories.map((category) => (
               <option key={category.id} value={category.id}>
                 {category.name_category}
               </option>
             ))}
-          </select>
+          </StyledSelect>
         </label>
         <br />
         <label>
-          <span><b>Link de Video: </b></span>
-          <input
+          <SubTitle2>Link de Video  </SubTitle2>
+          <StyledInput
             type="text" maxlength="254" placeholder="Copia el link de tu video youtube"
             value={video}
             onChange={(e) => setVideo(e.target.value)}
@@ -133,8 +154,8 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
         <br />
         <label>
-          <span><b>Restricción: </b></span>
-          <input
+          <SubTitle2>Restricción  </SubTitle2>
+          <StyledInput
             type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() }
             value={restriction}
             onChange={(e) => setRestriction(e.target.value)} required
@@ -142,18 +163,18 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
 	<br />
         <label>
-          <span><b>Visibilidad: </b></span>
+          <SubTitle2>Visibilidad  </SubTitle2>
           <input
             type="checkbox"
             checked={visibility === "yes"}
             onChange={(e) => setVisibility(e.target.checked ? "yes" : "no")}
-          /> Mostrar el evento públicamente
+          /> <SubTitle1>Mostrar el evento públicamente</SubTitle1>
         </label>
 	<br />
         <label>
-          <span><b>Descripción: </b></span>
+          <SubTitle2>Descripción  </SubTitle2>
 	  <br />
-          <textarea name="description" maxlength="65535" rows="3"
+          <StyledTextArea name="description" maxlength="65535" rows="3"
 	    placeholder="Escribe un párrafo corto pero potente que describa tu evento"
             value={description}
             onChange={(e) => setDescription(e.target.value)} required
@@ -161,9 +182,9 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
 	<br />
         <label>
-          <span><b>Información Adicional: </b></span>
+          <SubTitle2>Información Adicional  </SubTitle2>
 	  <br />
-          <textarea name="information" maxlength="65535" rows="10"
+          <StyledTextArea name="information" maxlength="65535" rows="10"
 	    placeholder="Dale a los usuarios más información: detalles del evento, panelistas, links relacionados, cronograma del evento, etc."
             value={information}
             onChange={(e) => setInformation(e.target.value)}
@@ -171,19 +192,20 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
         <br />
 
-        <h2>2.- Ubicación</h2>
+        <Number>2</Number><TitleT>Ubicación</TitleT>
+        <br />
         <label>
-          <span><b>Ciudad: </b></span>
-          <select
+          <SubTitle2>Ciudad  </SubTitle2>
+          <StyledSelect
             value={city}
             onChange={(e) => setCity(e.target.value)} required>
 	    {cities.map(city => <option key={city} value={city}>{city}</option>)}
-          </select>
+          </StyledSelect>
         </label>
 	<br />
         <label>
-          <span><b>Dirección: </b></span>
-          <input
+          <SubTitle2>Dirección  </SubTitle2>
+          <StyledInput
             type="text" maxlength="50" placeholder="Escribe la dirección donde será el evento"
             value={address}
             onChange={(e) => setAddress(e.target.value)} required
@@ -191,8 +213,8 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
 	<br />
         <label>
-          <span><b>Referencia: </b></span>
-          <input
+          <SubTitle2>Referencia: </SubTitle2>
+          <StyledInput
             type="text" maxlength="254" placeholder="Ej. A 3 cuadras de la librería pública"
             value={reference}
             onChange={(e) => setReference(e.target.value)}
@@ -200,10 +222,10 @@ export default function EventEditor({ event, onCancel, onSave }) {
         </label>
 	<br />
 	<br />
-        <button type="submit">Guardar</button>
-        <button type="button" onClick={onCancel}>
+        <StyledButton type="submit">Guardar</StyledButton>
+        <StyledButton type="button" onClick={onCancel}>
           Cancelar
-        </button>
+        </StyledButton>
       </form>
     </div>
   );

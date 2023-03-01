@@ -1,4 +1,7 @@
 import React, { useState } from "react";
+import { StyledButton, 
+  StyledSelect, StyledInput,
+  SubTitle2} from './someStyle.js';
 
 export default function TicketEditor({ ticket, onCancel, onSave }) {
   const [currency, setCurrency] = useState(ticket.currency);
@@ -31,9 +34,8 @@ export default function TicketEditor({ ticket, onCancel, onSave }) {
   return (
     <div>
       <form>
-        <span><b>Nombre del Ticket: </b></span>
         <label htmlFor="type"></label>
-        <input
+        <StyledInput
           type="text"
           id="type"
           name="type"  maxlength="20" placeholder="Ej. Gratis, VIP, Preventa"
@@ -41,9 +43,9 @@ export default function TicketEditor({ ticket, onCancel, onSave }) {
           onChange={(e) => setType(e.target.value)} required
         />
         <br/>
-	<span><b>Tipo de Moneda: </b></span>
+	<SubTitle2>Tipo de Moneda </SubTitle2>
         <label htmlFor="currency"></label>
-        <select
+        <StyledSelect
           id="currency"
           name="currency"
           value={currency}
@@ -52,11 +54,11 @@ export default function TicketEditor({ ticket, onCancel, onSave }) {
              <option value="S/">Soles</option>
              <option value="$">Dolares</option>
              <option value="€">Euros</option>
-	  </select>
+	  </StyledSelect>
         <br />
-        <span><b>Precio: </b></span>
+        <SubTitle2>Precio </SubTitle2>
         <label htmlFor="price"></label>
-        <input
+        <StyledInput
           type="number"
           id="price"
           name="price" min="0" placeholder="0.00"
@@ -65,9 +67,9 @@ export default function TicketEditor({ ticket, onCancel, onSave }) {
           onChange={(e) => setPrice(e.target.value)} required
         />
         <br />
-        <span><b>Cantidad: </b></span>
+        <SubTitle2>Cantidad </SubTitle2>
         <label htmlFor="amount_ticket"></label>
-        <input
+        <StyledInput
           type="number"
           id="amount_ticket"
           name="amount_ticket" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() }
@@ -76,8 +78,8 @@ export default function TicketEditor({ ticket, onCancel, onSave }) {
         />
       </form>
       <br />
-      <button onClick={handleSave}>Guardar</button>
-      <button onClick={onCancel}>Cancelar</button>
+      <StyledButton onClick={handleSave}>Guardar</StyledButton>
+      <StyledButton onClick={onCancel}>Cancelar</StyledButton>
     </div>
   );
 }

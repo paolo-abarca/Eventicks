@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
-
+import ReactPlayer from 'react-player';
 
 export default function BuyTickets(user) {
   const { eventId } = useParams();
@@ -95,7 +95,7 @@ export default function BuyTickets(user) {
       <h1>{event ? event.name_event : "Cargando evento..."}</h1>
       {event && (
         <>
-          <p>{event.photo_event}</p>
+          <p><img src={event.photo_event} alt="Imagen de evento" /></p>
           <p>Fecha: {formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
           <p>Horario: {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
           <h3>Tickets</h3>
@@ -125,9 +125,17 @@ export default function BuyTickets(user) {
           <h3>Organiza</h3>
           <p>{event.name_user} {event.last_name}</p>
           <hr></hr>
-          <p>{event.video}</p>
           <p>{event.description}</p>
           <p>{event.information}</p>
+          <div className='video'>
+          <ReactPlayer
+          url= {event.video}
+          controls
+          volume= '0.5'
+          loop
+         className='react-player'
+          />
+          </div>
         </>
       )}
     </div>

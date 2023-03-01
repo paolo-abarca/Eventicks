@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter, Route, Link, Routes, useNavigate } from "react-router-dom";
+import { Navbar , LeftContainer, LogoA, MainContainer, UltimateContainer, Footer} from './App.js';
+import Logo from "./img/logo.png"
 import axios from 'axios'
 
 // Páginas
@@ -63,9 +65,12 @@ const App = () => {
   return (
     <div>
       {errorMessage && <div>{errorMessage}</div>}
-      <nav>
-        <ul>
-          <Link to="/">Home</Link>
+      <Navbar>
+        <UltimateContainer>
+        <LeftContainer>
+          <Link to="/"><LogoA src={Logo} alt="logo"/></Link>
+         </LeftContainer>
+         <MainContainer>
           {isAuthenticated ? (
             <>
               <Link to="/mi-perfil">Mi Perfil</Link>
@@ -77,12 +82,11 @@ const App = () => {
           ) : (
             <>
               <Link to="/login">Iniciar Sesión</Link>
-              <Link to="/registrar">Registrar</Link>
             </>
           )}
-
-        </ul>
-      </nav>
+          </MainContainer>
+        </UltimateContainer>
+      </Navbar>
       
       <Routes>
         <Route path="/" element={<Home isAuthenticated={isAuthenticated}/>} />
@@ -99,6 +103,9 @@ const App = () => {
         <Route path="/registrar" element={<Register  />} />
         <Route path="/sobre-nosotros" element={<AboutUs />} />
       </Routes>
+      <Footer>
+
+      </Footer>
     </div>
   );
 };

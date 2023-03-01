@@ -3,6 +3,9 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
+import { Title, SubTitle, StyledButton,
+  MainContainer, TitleContainer,
+  Img, SubTitle1} from './someStyle.js';
 
 export default function MyTickets({ user }) {
   const [tickets, setTickets] = useState([]);
@@ -27,31 +30,32 @@ export default function MyTickets({ user }) {
 
   return (
     <div>
-      <h1>Mis Tickets</h1>
+      <TitleContainer>
+      <Title> Mis Tickets</Title>
+      </TitleContainer>
       {loading ? (
-        <p>Cargando Tickets...</p>
+        <SubTitle>Cargando Tickets...</SubTitle>
       ) : tickets.length > 0 ? (
         tickets.map((ticket) => (
-          <div key={ticket.nanme_event}>
-            <hr></hr>
-            <p>{ticket.photo_event}</p>
-            <h4>{ticket.name_event}</h4>
-            <p>{formatDate(ticket.date_start)} - {formatDate(ticket.date_end)}</p>
-            <p>{formatTime(ticket.start_time)} - {formatTime(ticket.end_time)}</p>
-            <p>{ticket.city}, PE</p>
-            <p>{ticket.address}</p>
-            <p>Entrada: {ticket.type}</p>
-            <p>Para {ticket.amount} personas</p>
-            <p>Mayores de {ticket.restriction}</p>
-            <p>{ticket.name_user} {ticket.last_name}</p>
-            <p>{ticket.document_type}: {ticket.number_document}</p>
+          <MainContainer key={ticket.nanme_event}>
+            <p><Img src={ticket.photo_event} alt="Imagen de evento" width="1100px"/></p>
+            <SubTitle>{ticket.name_event}</SubTitle>
+            <SubTitle1>{formatDate(ticket.date_start)} - {formatDate(ticket.date_end)}</SubTitle1>
+            <SubTitle1>{formatTime(ticket.start_time)} - {formatTime(ticket.end_time)}</SubTitle1>
+            <SubTitle1>{ticket.city}, PE</SubTitle1>
+            <SubTitle1>{ticket.address}</SubTitle1>
+            <SubTitle1>Entrada: {ticket.type}</SubTitle1>
+            <SubTitle1>Para {ticket.amount} personas</SubTitle1>
+            <SubTitle1>Mayores de {ticket.restriction}</SubTitle1>
+            <SubTitle1>{ticket.name_user} {ticket.last_name}</SubTitle1>
+            <SubTitle1>{ticket.document_type}: {ticket.number_document}</SubTitle1>
             <Link to={`/comprar-tickets/${ticket.id}`}>
-              <button>Ver evento</button>
+              <StyledButton>Ver evento</StyledButton>
             </Link>
-          </div>
+          </MainContainer>
         ))
       ) : (
-        <p>No hay tickets</p>
+        <SubTitle>No hay tickets</SubTitle>
       )}
     </div>
   );

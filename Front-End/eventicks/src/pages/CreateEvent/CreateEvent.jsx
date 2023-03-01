@@ -1,6 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from "axios";
 import { cities } from "../../utils/cities.js";
+import { Title, SubTitle, StyledButton, 
+  StyledSelect, StyledInput, StyledTextArea, 
+  StyledInput1, MainContainer, FirstContainer, 
+  SecondContainer, ThirdContainer, FourthContainer,
+  TitleContainer, BeautyContainer, Number, 
+  FinalButton, SubTitle1, SubTitle2} from './someStyle.js';
 
 function CreateEvent({ user }) {
   const [categories, setCategories] = useState([]);
@@ -102,153 +108,143 @@ function CreateEvent({ user }) {
   return (
 
     <form onSubmit={handleSubmit}>
-      <h2>1.- Detalles del Evento</h2>
+      <MainContainer>
+      <FirstContainer>
+        <TitleContainer>
+        <Number>1</Number><Title> Detalles del Evento</Title>
+        </TitleContainer>
       <label>
-        <span><strong>Nombre del Evento*</strong></span>
-        <br />
-        <input type="text" name="name_event" maxlength="99" placeholder="Dale un nombre corto y llamativo." value={eventData.name_event} onChange={handleInputChange} required />
+        <SubTitle>Nombre del Evento*</SubTitle>
+        <StyledInput type="text" name="name_event" maxlength="99" placeholder="Dale un nombre corto y llamativo." value={eventData.name_event} onChange={handleInputChange} required />
       </label>
       <br />
       <label>
-        <span><strong>Elige una Categoría*</strong></span>
-        <br />
-        <select name="id_category" value={eventData.id_category} onChange={handleInputChange} required>
+        <SubTitle>Elige una Categoría*</SubTitle>
+        <StyledSelect name="id_category" value={eventData.id_category} onChange={handleInputChange} required>
           <option value="">Elige una categoría</option>
           {categories.map((category) => (
             <option key={category.id} value={category.id}>
               {category.name_category}
             </option>
           ))}
-        </select>
+        </StyledSelect>
       </label>
       <br />
       <label>
-        <span><strong>Descripción del Evento*</strong></span>
-        <br />
-        <textarea name="description" maxlength="65535" rows="3" placeholder="Escribe un párrafo corto pero potente que describa tu evento" value={eventData.description} onChange={handleInputChange} required />
+        <SubTitle>Descripción del Evento*</SubTitle>
+        <StyledTextArea name="description" maxlength="65535" rows="3" placeholder="Escribe un párrafo corto pero potente que describa tu evento" value={eventData.description} onChange={handleInputChange} required />
       </label>
       <br />
       <label>
-        <span><strong>Información Adicional</strong></span>
-        <br />
-        <textarea name="information" maxlength="65535" rows="10" placeholder="Dale a los usuarios más información: detalles del evento, panelistas, links relacionados, cronograma del evento, etc." value={eventData.information} onChange={handleInputChange} />
+        <SubTitle>Información Adicional</SubTitle>
+        <StyledTextArea name="information" maxlength="65535" rows="10" placeholder="Dale a los usuarios más información: detalles del evento, panelistas, links relacionados, cronograma del evento, etc." value={eventData.information} onChange={handleInputChange} />
       </label>
-      
-      <br />
-
       <label>
-  <span><strong>Imagen* (846px x 522px)</strong></span>
-  <br />
-  <input type="file" name="photo_event" onChange={handleFileInputChange} required />
-</label>
-
-      <br />
-
-      <label>
-        <span><strong>Video</strong></span>
-        <br />
-        <input type="text" name="video" maxlength="254" placeholder="Copia el link de tu video youtube" value={eventData.video} onChange={handleInputChange} />
+        <SubTitle>Fecha de Inicio del evento*</SubTitle>
+        <StyledInput1 type="date" name="date_start" value={eventData.date_start} onChange={handleInputChange} required />
       </label>
-      <br />
       <label>
-        <span><strong>Fecha de Inicio del evento*</strong></span>
-        <br />
-        <input type="date" name="date_start" value={eventData.date_start} onChange={handleInputChange} required />
+        <SubTitle>Hora de Inicio*</SubTitle>
+        <StyledInput1 type="time" name="start_time" value={eventData.start_time} onChange={handleInputChange} required />
+      </label>
+      <label>
+        <SubTitle>El evento finaliza*</SubTitle>
+        <StyledInput1 type="date" name="date_end" value={eventData.date_end} onChange={handleInputChange} required />
+      </label>
+      <label>
+        <SubTitle>Hora Final*</SubTitle>
+        <StyledInput1 type="time" name="end_time" value={eventData.end_time} onChange={handleInputChange} required />
       </label>
       <br />
       <label>
-        <span><strong>Hora de Inicio*</strong></span>
-        <br />
-        <input type="time" name="start_time" value={eventData.start_time} onChange={handleInputChange} required />
-      </label>
-      <br />
-      <label>
-        <span><strong>El evento finaliza*</strong></span>
-        <br />
-        <input type="date" name="date_end" value={eventData.date_end} onChange={handleInputChange} required />
-      </label>
-      <br />
-      <label>
-        <span><strong>Hora Final*</strong></span>
-        <br />
-        <input type="time" name="end_time" value={eventData.end_time} onChange={handleInputChange} required />
-      </label>
-      <br />
-      <label>
-        <span><strong>Visibilidad*</strong></span>
-        <br />
+        <SubTitle>Visibilidad*</SubTitle>
         <input type="checkbox" name="visibility" checked={eventData.visibility === 'yes'} onChange={(e) => setEventData({...eventData, visibility: e.target.checked ? 'yes' : 'no' })} />
-        Mostrar el evento públicamente
+        <SubTitle1>Mostrar el evento públicamente</SubTitle1>
       </label>
       <br />
       <label>
-        <span><strong>Restricción*</strong></span>
-        <br />
-        <input type="number" name="restriction" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={eventData.restriction} onChange={handleInputChange} required />
-        Es la edad minima para ingresar
+        <SubTitle>Restricción*</SubTitle>
+        <StyledInput1 type="number" name="restriction" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={eventData.restriction} onChange={handleInputChange} required />
+        <SubTitle1>Es la edad minima para ingresar</SubTitle1>
       </label>
-      <br />
-      <h2>2.- Ubicación</h2>
+      </FirstContainer>
+      <SecondContainer>
       <label>
-        <span><strong>Ciudad*</strong></span>
-        <br />
-        <select name="city" value={eventData.city} onChange={handleInputChange} required>
+  <SubTitle>Imagen* (846px x 522px)</SubTitle>
+  <input type="file" name="photo_event" onChange={handleFileInputChange} required />
+  {eventData["photo_event"] !== "" ?
+  <p><img src={eventData["photo_event"]} alt="Imagen de Evento" width="500px" /></p> :
+  <SubTitle2>Selecciona una foto</SubTitle2>}
+    </label>
+      <label>
+        <SubTitle>Video</SubTitle>
+        <StyledInput type="text" name="video" maxlength="254" placeholder="Copia el link de tu video youtube" value={eventData.video} onChange={handleInputChange} />
+      </label>
+      </SecondContainer>
+      <br />
+        <ThirdContainer>
+      <TitleContainer>
+      <Number>2</Number><Title>Ubicación</Title>
+      </TitleContainer>
+      <label>
+        <SubTitle>Ciudad*</SubTitle>
+        <StyledSelect name="city" value={eventData.city} onChange={handleInputChange} required>
           <option value="">Seleccionar ciudad</option>
           {cities.map(city => <option key={city} value={city}>{city}</option>)}
-        </select>
+        </StyledSelect>
       </label>
       <br />
       <label>
-        <span><strong>Dirección*</strong></span>
-        <br />
-        <input type="text" name="address" maxlength="50" placeholder="Escribe la dirección donde será el evento" value={eventData.address} onChange={handleInputChange} required />
+        <SubTitle>Dirección*</SubTitle>
+        <StyledInput type="text" name="address" maxlength="50" placeholder="Escribe la dirección donde será el evento" value={eventData.address} onChange={handleInputChange} required />
       </label>
       <br />
       <label>
-        <span><strong>Referencia</strong></span>
-        <br />
-        <input type="text" name="reference" maxlength="254" placeholder="Ej. A 3 cuadras de la librería pública" value={eventData.reference} onChange={handleInputChange} />
+        <SubTitle>Referencia</SubTitle>
+        <StyledInput type="text" name="reference" maxlength="254" placeholder="Ej. A 3 cuadras de la librería pública" value={eventData.reference} onChange={handleInputChange} />
       </label>
+        </ThirdContainer>
       <br />
-      <h2>3.- Crear Tickets</h2>
-     {eventData.tickets.map((ticket, index) => (
+          <FourthContainer>
+          <TitleContainer>
+          <Number>3</Number><Title>Crear Tickets</Title>
+          </TitleContainer>
+          {eventData.tickets.map((ticket, index) => (
        <div key={index}>
-         <label>
-           <span><strong>Tipo de moneda*</strong></span>
+          <label>
+           <SubTitle>Tipo de moneda*</SubTitle>
            <br />
-           <select name="currency" value={ticket.currency} onChange={(event) => handleTicketChange(index, event)} required >
+           <StyledSelect name="currency" value={ticket.currency} onChange={(event) => handleTicketChange(index, event)} required >
              <option value="">Selecciona el tipo de Moneda</option>
              <option value="S/">Soles</option>
              <option value="$">Dolares</option>
              <option value="€">Euros</option>
-           </select>
+           </StyledSelect>
          </label>
          <br />
          <label>
-           <span><strong>Nombre del Ticket*</strong></span>
-           <br />
-           <input type="text" name="type" maxlength="20" placeholder="Ej. Gratis, VIP, Preventa"value={ticket.type} onChange={(event) => handleTicketChange(index, event)} required />
+           <SubTitle>Nombre del Ticket*</SubTitle>
+           <StyledInput type="text" name="type" maxlength="20" placeholder="Ej. Gratis, VIP, Preventa"value={ticket.type} onChange={(event) => handleTicketChange(index, event)} required />
          </label>
          <br />
          <label>
-           <span><strong>Cantidad Disponible*</strong></span>
-           <br />
-           <input type="number" min="0" placeholder="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } name="amount_ticket" value={ticket.amount_ticket} onChange={(event) => handleTicketChange(index, event)} required />
+           <SubTitle>Cantidad Disponible*</SubTitle>
+           <StyledInput1 type="number" min="0" placeholder="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } name="amount_ticket" value={ticket.amount_ticket} onChange={(event) => handleTicketChange(index, event)} required />
          </label>
-         <br />
          <label>
-           <span><strong>Precio*</strong></span>
-           <br />
-           <input type="number" min="0" placeholder="0.00" onKeyDown={e => exceptThisSymbols2.includes(e.key) && e.preventDefault() } step="0.01" name="price" value={ticket.price} onChange={(event) => handleTicketChange(index, event)} required />
+           <SubTitle>Precio*</SubTitle>
+           <StyledInput1 type="number" min="0" placeholder="0.00" onKeyDown={e => exceptThisSymbols2.includes(e.key) && e.preventDefault() } step="0.01" name="price" value={ticket.price} onChange={(event) => handleTicketChange(index, event)} required />
          </label>
          <br />
-         <button type="button" onClick={() => handleRemoveTicket(index)}>Eliminar Ticket</button>
+         <StyledButton type="button" onClick={() => handleRemoveTicket(index)}>Eliminar Ticket</StyledButton>
+         <StyledButton type="button" onClick={handleAddTicket}>+ Agregar Ticket</StyledButton>
        </div>
      ))}
-     <button type="button" onClick={handleAddTicket}>+ Agregar Ticket</button>
-     <br />
-     <br />
-     <button type="submit">Publicar Evento</button>
+          </FourthContainer>
+        </MainContainer>
+        <BeautyContainer>
+        <FinalButton type="submit">Publicar Evento</FinalButton>
+        </BeautyContainer>
     </form>
   );
 }

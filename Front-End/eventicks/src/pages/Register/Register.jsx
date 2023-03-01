@@ -3,6 +3,9 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { cities } from "../../utils/cities.js";
+import { LoginContainer, Title, 
+  BeautyContainer, StyledButton, 
+  Input, Select} from "./someStyle";
 
 const Register = () => {
   const [name_user, setName] = useState("");
@@ -51,52 +54,49 @@ const Register = () => {
   const exceptThisSymbols = ["e", "E", "+", "-", "."];
 
   return (
-    <div>
+    <LoginContainer>
       {errorMessage && <div>{errorMessage}</div>}
-      <h1>Registro de Usuario</h1>
+      <Title>Register</Title>
       <form onSubmit={handleSubmit}>
         <label>
-          Nombres:
-          <input type="text" value={name_user} maxlength="49" placeholder="Nombres" onChange={(event) => setName(event.target.value)} required />
+          <Input type="text" value={name_user} maxlength="49" placeholder="Nombres" onChange={(event) => setName(event.target.value)} required />
         </label>
         <label>
-          Apellidos:
-          <input type="text" value={last_name} maxlength="49" placeholder="Apellidos" onChange={(event) => setLastName(event.target.value)} required />
+          <Input type="text" value={last_name} maxlength="49" placeholder="Apellidos" onChange={(event) => setLastName(event.target.value)} required />
+        </label>
+        <BeautyContainer></BeautyContainer>
+        <label>
+          <Input type="email" value={email} maxlength="49" placeholder="Correo Electrónico" onChange={(event) => setEmail(event.target.value)} required />
         </label>
         <label>
-          Correo Electrónico:
-          <input type="email" value={email} maxlength="49" placeholder="Correo Electrónico" onChange={(event) => setEmail(event.target.value)} required />
+          <Input type="password" value={password} placeholder="Contraseña" onChange={(event) => setPassword(event.target.value)} required />
+        </label>
+        <BeautyContainer></BeautyContainer>
+        <label>
+          <Input type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={phone} onChange={(event) => setPhone(event.target.value)} required />
         </label>
         <label>
-          Contraseña:
-          <input type="password" value={password} placeholder="Contraseña" onChange={(event) => setPassword(event.target.value)} required />
+          <Input type="text" value={country} maxlength="19" placeholder="País" onChange={(event) => setCountry(event.target.value)} required />
         </label>
+        <BeautyContainer></BeautyContainer>
         <label>
-          Teléfono:
-          <input type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={phone} onChange={(event) => setPhone(event.target.value)} required />
-        </label>
-        <label>
-          País:
-          <input type="text" value={country} maxlength="19" placeholder="País" onChange={(event) => setCountry(event.target.value)} required />
-        </label>
-        <label>
-          Ciudad:
-          <select value={city} onChange={(event) => setCity(event.target.value)} required >
+          <Select value={city} onChange={(event) => setCity(event.target.value)} required >
 	    {cities.map(city => <option key={city} value={city}>{city}</option>)}
-          </select>
+          </Select>
         </label>
         <label>
-          Género:
-          <select value={gender} onChange={(event) => setGender(event.target.value)} required>
+          <Select value={gender} onChange={(event) => setGender(event.target.value)} required>
             <option value="">Selecciona una opción</option>
             <option value="masculino">Masculino</option>
             <option value="femenino">Femenino</option>
             <option value="otro">Otro</option>
-          </select>
+          </Select>
         </label>
-        <button type="submit">Registrarse</button>
+        <BeautyContainer></BeautyContainer>
+        <BeautyContainer></BeautyContainer>
+        <StyledButton type="submit">Registrarse</StyledButton>
       </form>
-    </div>
+    </LoginContainer>
   );
 };
 

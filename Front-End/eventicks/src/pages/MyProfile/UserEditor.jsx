@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { cities } from "../../utils/cities.js";
+import axios from "axios";
 
 export default function UserEditor({ user, onCancel, onSave }) {
   const [name_user, setName_user] = useState(user.name_user);
@@ -32,6 +33,26 @@ export default function UserEditor({ user, onCancel, onSave }) {
 
   const exceptThisSymbols = ["e", "E", "+", "-", "."];
 
+  
+  const handleImageChange = (event) => {
+    const file = event.target.files[0];
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", "preset-eventicks");
+    axios
+      .post("https://api.cloudinary.com/v1_1/cloud-eventicks/image/upload", formData)
+      .then((response) => {
+        console.log(response.data.secure_url)
+        const imageUrl = response.data.secure_url;
+    
+        setPhoto_user(`${imageUrl.replace("/image/upload/", `/image/upload/w_250,h_250,c_fill,r_max/w_250,h_250,c_crop,g_face,r_max/`)}`);
+      
+        
+        alert("Imagen cargada exitosamente");
+      })
+      .catch((error) => console.error(error));
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit}>
@@ -54,12 +75,12 @@ export default function UserEditor({ user, onCancel, onSave }) {
         </label>
         <br />
         <label>
-          <span><b>Imagen: </b></span>
-          <input
-            type="text"
-            value={photo_user}
-            onChange={(e) => setPhoto_user(e.target.value)}
-          />
+        <span><b>Imagen: </b></span>
+        <input 
+            type="file" 
+            accept="image/*" 
+            onChange={handleImageChange} />        
+        <p><img src={photo_user} alt="Imagen de perfil" /></p>
         </label>
         <br />
         <label>

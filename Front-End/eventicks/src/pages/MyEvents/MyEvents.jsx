@@ -4,6 +4,10 @@ import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 import EventEditor from "./EventEditor";
 import TicketEditor from "./TicketEditor";
+import ReactPlayer from 'react-player';
+import { Title, SubTitle, StyledButton, 
+  MainContainer, TitleContainer, TitleT, Number, 
+  Img, SubTitle1} from './someStyle.js';
 
 export default function MyEvents({ user }) {
   const [events, setEvents] = useState(null);
@@ -112,13 +116,15 @@ export default function MyEvents({ user }) {
 
   return (
     <div>
-      <h1>Mis Eventos</h1>
+      <TitleContainer>
+      <Title> Mis eventos</Title>
+      </TitleContainer>
+      <MainContainer>
       {loading ? (
-        <p>Cargando Eventos...</p>
+        <SubTitle>Cargando Eventos...</SubTitle>
       ) : events.length > 0 ? (
         events.map((event) => (
           <div key={event.id}>
-            <hr />
             {editingEvent === event.id ? (
               <EventEditor
                 event={event}
@@ -127,49 +133,62 @@ export default function MyEvents({ user }) {
               />
             ) : (
               <div>
-                <h2>1.- Detalles del Evento</h2>
-                <span><b>Imagen: </b></span>
-                <p>{event.photo_event}</p>
-                <span><b>Nombre del Evento: </b></span>
-                <p>{event.name_event}</p>
-                <span><b>Fecha de Inicio: </b></span>
-                <p>{formatDate(event.date_start)} </p>
-                <span><b>Fecha Final: </b></span>
-                <p>{formatDate(event.date_end)}</p>
-                <span><b>Hora de Inicio: </b></span>
-                <p>{formatTime(event.start_time)}</p>
-                <span><b>Hora Final: </b></span>
-                <p>{formatTime(event.end_time)}</p>
-                <span><b>Categoría: </b></span>
-                <p>{event.name_category}</p>
-                <span><b>Link de Video: </b></span>
-                <p>{event.video}</p>
-                <span><b>Restricción: </b></span>
-                <p>{event.restriction}</p>
-                <span><b>Visibilidad: </b></span>
-                <p>{event.visibility}</p>
-                <span><b>Descripción: </b></span>
-                <p>{event.description}</p>
-                <span><b>Información Adicional: </b></span>
-                <p>{event.information}</p>
+                <TitleContainer>
+                <Number>1</Number><TitleT>Detalles del Evento</TitleT>
+                </TitleContainer>
+                <p><Img src={event.photo_event} alt="Imagen de evento" width="1100px"/></p>
+                <SubTitle>Nombre del Evento: </SubTitle>
+                <SubTitle1>{event.name_event}</SubTitle1>
+                <SubTitle>Fecha de Inicio: </SubTitle>
+                <SubTitle1>{formatDate(event.date_start)} </SubTitle1>
+                <SubTitle>Fecha Final: </SubTitle>
+                <SubTitle1>{formatDate(event.date_end)}</SubTitle1>
+                <SubTitle>Hora de Inicio: </SubTitle>
+                <SubTitle1>{formatTime(event.start_time)}</SubTitle1>
+                <SubTitle>Hora Final: </SubTitle>
+                <SubTitle1>{formatTime(event.end_time)}</SubTitle1>
+                <SubTitle>Categoría: </SubTitle>
+                <SubTitle1>{event.name_category}</SubTitle1>
+                <SubTitle>Link de Video: </SubTitle>
+                <div className='video'>
+                <ReactPlayer
+                url= {event.video}
+                controls
+                volume= '0.5'
+                loop
+                className='react-player'
+                  />
+                </div>
+                <SubTitle>Restricción: </SubTitle>
+                <SubTitle1>{event.restriction}</SubTitle1>
+                <SubTitle>Visibilidad: </SubTitle>
+                <SubTitle1>{event.visibility}</SubTitle1>
+                <SubTitle>Descripción: </SubTitle>
+                <SubTitle1>{event.description}</SubTitle1>
+                <SubTitle>Información Adicional: </SubTitle>
+                <SubTitle1>{event.information}</SubTitle1>
 
-                <h2>2.- Ubicación</h2>
-                <span><b>Ciudad: </b></span>
-                <p>{event.city}</p>
-                <span><b>Dirección: </b></span>
-                <p>{event.address}</p>
-                <span><b>Referencia: </b></span>
-                <p>{event.reference}</p>
+                <TitleContainer>
+                <Number>2</Number><TitleT>Ubicación</TitleT>
+                </TitleContainer>
+                <SubTitle>Ciudad: </SubTitle>
+                <SubTitle1>{event.city}</SubTitle1>
+                <SubTitle>Dirección: </SubTitle>
+                <SubTitle1>{event.address}</SubTitle1>
+                <SubTitle>Referencia: </SubTitle>
+                <SubTitle1>{event.reference}</SubTitle1>
 
                 {user.id === event.id_user && (
                   <div>
-                    <button onClick={() => handleEdit(event.id)}>Editar</button>
-                    <button onClick={() => handleDeleteEvent(event.id)}>Eliminar</button>
+                    <StyledButton onClick={() => handleEdit(event.id)}>Editar</StyledButton>
+                    <StyledButton onClick={() => handleDeleteEvent(event.id)}>Eliminar</StyledButton>
                   </div>
                 )}
               </div>
             )}
-            <h2>3.- Tickets</h2>
+            <TitleContainer>
+            <Number>3</Number><TitleT>Tickets</TitleT>
+            </TitleContainer>
             {event.tickets.map((ticket) => (
               <div key={ticket.id}>
                 {editingTicket === ticket.id ? (
@@ -179,23 +198,21 @@ export default function MyEvents({ user }) {
                     onSave={(data) => handleSaveEditTicket(ticket.id, data)}
                   />
                 ) : (
-                  <ul>
-                    <li>
-                      <span><b>Nombre del Ticket: </b></span>
-                      <p>{ticket.type}</p>
-                      <span><b>Precio: </b></span>
-                      <p>{ticket.currency} {ticket.price}</p>
-                      <span><b>Cantidad: </b></span>
-                      <p>{ticket.amount_ticket}</p>
+                  <div>
+                      <SubTitle>Nombre del Ticket: </SubTitle>
+                      <SubTitle1>{ticket.type}</SubTitle1>
+                      <SubTitle>Precio: </SubTitle>
+                      <SubTitle1>{ticket.currency} {ticket.price}</SubTitle1>
+                      <SubTitle>Cantidad: </SubTitle>
+                      <SubTitle1>{ticket.amount_ticket}</SubTitle1>
 
                       {event.id === ticket.id_event && (
                         <div>
-                          <button onClick={() => handleEditTicket(ticket.id)}>Editar</button>
-                          <button onClick={() => handleDeleteTicket(ticket.id)}>Eliminar</button>
+                          <StyledButton onClick={() => handleEditTicket(ticket.id)}>Editar</StyledButton>
+                          <StyledButton onClick={() => handleDeleteTicket(ticket.id)}>Eliminar</StyledButton>
                         </div>
                       )}
-                    </li>
-                  </ul>
+                  </div>
                 )}
               </div>
             ))}
@@ -204,6 +221,7 @@ export default function MyEvents({ user }) {
       ) : (
         <p>No tienes eventos registrados.</p>
       )}
-    </div>
+          </MainContainer>
+      </div>
   );
 }

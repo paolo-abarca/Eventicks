@@ -5,17 +5,20 @@ import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 import { categories } from "../../utils/categories.js";
 import { cities } from "../../utils/cities.js";
+import { Title, StyledButton, StyledSelect, FilterContainer, StyledInput} from './someStyle.js';
 
 export default function Home(props) {
   const [events, setEvents] = useState([]);
   const [filterType, setFilterType] = useState("");
   const [filterValue1, setFilterValue1] = useState("");
   const [filterValue2, setFilterValue2] = useState("");
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
     axios.get("http://localhost:5000/api/events").then((response) => {
       setEvents(response.data);
+      setLoading(false);
     });
   }, []);
 
@@ -137,81 +140,77 @@ export default function Home(props) {
         <button className="category-btn" value="date" onClick={handleFilterType}>Fecha</button>
       </div>
       {filterType === "price" && (
-        <div >
-          <input className="delete-button" type="number" min="0" placeholder="0.00" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } step="0.01" value={filterValue1} onChange={handleFilterValue1} required/>
-          <input className="delete-button" type="number" min="0" placeholder="0.00" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } step="0.01" value={filterValue2} onChange={handleFilterValue2} required/>
-          <button className="delete-button" onClick={handleFilterSubmit}>Filtrar</button>
-          <button className="delete-button" onClick={handleClearFilter}>Eliminar filtro</button>
-        </div>
+        <FilterContainer>
+          <StyledInput className="delete-button" type="number" min="0" placeholder="0.00" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } step="0.01" value={filterValue1} onChange={handleFilterValue1} required/>
+          <StyledInput className="delete-button" type="number" min="0" placeholder="0.00" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } step="0.01" value={filterValue2} onChange={handleFilterValue2} required/>
+          <StyledButton className="delete-button" onClick={handleFilterSubmit}>Filtrar</StyledButton>
+          <StyledButton className="delete-button" onClick={handleClearFilter}>Eliminar filtro</StyledButton>
+        </FilterContainer>
       )}
       {filterType === "category" && (
-        <div>
-          <select className="delete-button" value={filterValue1} onChange={handleFilterValue1}>
+        <FilterContainer>
+          <StyledSelect className="delete-button" value={filterValue1} onChange={handleFilterValue1}>
             {categories.map((category) => (
               <option key={category.id} value={category.id} required>
                 {category.name_category}
               </option>
             ))}
-          </select>
-          <button className="delete-button" onClick={handleFilterSubmit}>Filtrar</button>
-          <button className="button-container" onClick={handleClearFilter}>Eliminar filtro</button>
-        </div>
+          </StyledSelect>
+          <StyledButton className="delete-button" onClick={handleFilterSubmit}>Filtrar</StyledButton>
+          <StyledButton className="button-container" onClick={handleClearFilter}>Eliminar filtro</StyledButton>
+        </FilterContainer>
       )}
       {filterType === "city" && (
-        <div>
-          <select className="delete-button" value={filterValue1} onChange={handleFilterValue1} required>
+        <FilterContainer>
+          <StyledSelect className="delete-button" value={filterValue1} onChange={handleFilterValue1} required>
             {cities.map(city => <option key={city} value={city}>{city}</option>)}
-          </select>
-          <button className="button-container" onClick={handleFilterSubmit}>Filtrar</button>
-          <button className="button-container" onClick={handleClearFilter}>Eliminar filtro</button>
-        </div>
+          </StyledSelect>
+          <StyledButton className="button-container" onClick={handleFilterSubmit}>Filtrar</StyledButton>
+          <StyledButton className="button-container" onClick={handleClearFilter}>Eliminar filtro</StyledButton>
+        </FilterContainer>
       )}
       {filterType === "date" && (
-        <div>
-          <input  className="delete-button" type="date" value={filterValue1} onChange={handleFilterValue1} required/>
-          <input  className="delete-button" type="date" value={filterValue2} onChange={handleFilterValue2} required/>
-          <button onClick={handleFilterSubmit}>Filtrar</button>
-          <button onClick={handleClearFilter}>Eliminar filtro</button>
-        </div>
+        <FilterContainer>
+          <StyledInput className="delete-button" type="date" value={filterValue1} onChange={handleFilterValue1} required/>
+          <StyledInput  className="delete-button" type="date" value={filterValue2} onChange={handleFilterValue2} required/>
+          <StyledButton onClick={handleFilterSubmit}>Filtrar</StyledButton>
+          <StyledButton onClick={handleClearFilter}>Eliminar filtro</StyledButton>
+        </FilterContainer>
       )}
       <div>
-      <h2  className="h2">Eventos</h2>
+      <Title>Eventos</Title>
       </div>
       <div className="allcard">
-      {events.length > 0 ? (
-        events.map((event) => (
-          <div key={event.id} >
-          <div className="card">
- 
-            <div className="event-card">
-            <div className="imagenCloud" style={{ backgroundImage: `url(${event.photo_event})` }}>
+        {loading ? (
+            <p>Cargando Eventos...</p>
+        ) : events.length > 0 ? (
+          events.map((event) => (
+            <div key={event.id} >
+              <div className="card">
+                <div className="event-card">
+                  <div className="imagenCloud" style={{ backgroundImage: `url(${event.photo_event})` }}>
+                </div>
+                <h3>{event.name_event}</h3>
+                <p><b>Fecha:</b> {formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
+                <p><b>Horario:</b> {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
+                <p><b>Precio:</b> {event.currency} {event.price}</p>
+                {props.isAuthenticated ? (
+                    <Link to={`/comprar-tickets/${event.id}`}>
+                      <button className="buy-button">Comprar</button>
+                    </Link>
+                ) : (
+                    <Link to="/login">
+                      <button className="buy-button">Comprar</button>
+                    </Link>
+                )}
             </div>
-            <h3>{event.name_event}</h3>
-            <p><b>Fecha:</b> {formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
-            <p><b>Horario:</b> {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
-            <p><b>Precio:</b> {event.currency} {event.price}</p>
-            {props.isAuthenticated ? (
-              <Link to={`/comprar-tickets/${event.id}`}>
-                <button className="buy-button">Comprar</button>
-              </Link>
-            ) : (
-              <Link to="/login">
-                <button className="buy-button">Comprar</button>
-              </Link>
-            )}
         </div>
-            </div>
-            </div>
-            
-        ))
-      ) : events.length === 0 ? (
-        <p>No hay eventos</p>
-      ) : (
-        <p>No hay eventos</p>
-      )}
-    </div>
-    </div>
-    
-
+      </div>        
+    ))
+  ) : (
+    <p>No hay eventos</p>
+  )}
+</div>
+</div>
   );
 }
