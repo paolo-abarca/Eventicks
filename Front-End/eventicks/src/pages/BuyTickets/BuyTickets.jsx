@@ -4,6 +4,8 @@ import axios from "axios";
 import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 import ReactPlayer from 'react-player';
+import {StyledButton, VideoDiv, Title, SubTitle1,SubTitle3,
+  SubTitle2, SubTitle, Img, DivImage, MainContainer} from './someStyle.js';
 
 export default function BuyTickets(user) {
   const { eventId } = useParams();
@@ -92,42 +94,39 @@ export default function BuyTickets(user) {
 
   return (
     <div>
-      <h1>{event ? event.name_event : "Cargando evento..."}</h1>
+      <Title>{event ? event.name_event : "Cargando evento..."}</Title>
       {event && (
         <>
-          <p><img src={event.photo_event} alt="Imagen de evento" /></p>
-          <p>Fecha: {formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
-          <p>Horario: {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
-          <h3>Tickets</h3>
-          <ul>
+          <DivImage><Img src={event.photo_event} alt="Imagen de evento" /></DivImage>
+          <SubTitle2>Fecha: {formatDate(event.date_start)} - {formatDate(event.date_end)}</SubTitle2>
+          <SubTitle2>Horario: {formatTime(event.start_time)} - {formatTime(event.end_time)}</SubTitle2>
+          <MainContainer>
+          <SubTitle >Tickets</SubTitle >
             {event.tickets.map((ticket) => (
-              <li key={ticket.id}>
-                <hr></hr>
-                <p>{ticket.type}</p>
-                <p>{ticket.currency} {ticket.price}</p>
-                <p>{ticket.amount_ticket}</p>
+              <div key={ticket.id}>
+                <SubTitle1>{ticket.type}</SubTitle1>
+                <SubTitle1>{ticket.currency} {ticket.price}</SubTitle1>
+                <SubTitle1>{ticket.amount_ticket}</SubTitle1>
                 <div>
-                  <button onClick={() => handleDecrement(ticket.id)}>-</button>
-                  <span>{ticketQuantities[ticket.id]}</span>
-                  <button onClick={() => handleIncrement(ticket.id)}>+</button>
+                  <StyledButton onClick={() => handleDecrement(ticket.id)}>-</StyledButton>
+                  <SubTitle3>{ticketQuantities[ticket.id]}</SubTitle3>
+                  <StyledButton onClick={() => handleIncrement(ticket.id)}>+</StyledButton>
                 </div>
-              </li>
+              </div>
             ))}
-          </ul>
-          <p>Para mayores de {event.restriction}</p>
-          <p>Total: {event.currency}{total.toFixed(2)}</p>
-          <button onClick={handleBuyTickets}>Comprar</button>
-          <hr></hr>
-          <h3>Lugar</h3>
-          <p>{event.city}, PE</p>
-          <p>{event.address}</p>
-          <p>{event.reference}</p>
-          <h3>Organiza</h3>
-          <p>{event.name_user} {event.last_name}</p>
-          <hr></hr>
-          <p>{event.description}</p>
-          <p>{event.information}</p>
-          <div className='video'>
+          <SubTitle1 >Para mayores de {event.restriction}</SubTitle1>
+          <SubTitle1 >Total: {event.currency}{total.toFixed(2)}</SubTitle1 >
+          <StyledButton onClick={handleBuyTickets}>Comprar</StyledButton>
+          <SubTitle >Lugar</SubTitle >
+          <SubTitle1 >{event.city}, PE</SubTitle1 >
+          <SubTitle1 >{event.address}</SubTitle1 >
+          <SubTitle1 >{event.reference}</SubTitle1 >
+          <SubTitle >Organiza</SubTitle >
+          <SubTitle1 >{event.name_user} {event.last_name}</SubTitle1>
+          <SubTitle1 >{event.description}</SubTitle1 >
+          <SubTitle1 >{event.information}</SubTitle1>
+          </MainContainer>
+          <VideoDiv className='video'>
           <ReactPlayer
           url= {event.video}
           controls
@@ -135,7 +134,7 @@ export default function BuyTickets(user) {
           loop
          className='react-player'
           />
-          </div>
+          </VideoDiv>
         </>
       )}
     </div>
