@@ -150,6 +150,7 @@ export default function MyEvents({ user }) {
                 <SubTitle>Categoría: </SubTitle>
                 <SubTitle1>{event.name_category}</SubTitle1>
                 <SubTitle>Link de Video: </SubTitle>
+                {event["video"] !== "" ?
                 <div className='video'>
                 <ReactPlayer
                 url= {event.video}
@@ -158,7 +159,8 @@ export default function MyEvents({ user }) {
                 loop
                 className='react-player'
                   />
-                </div>
+                </div> :
+                <SubTitle1>No hay Video</SubTitle1>}
                 <SubTitle>Restricción: </SubTitle>
                 <SubTitle1>{event.restriction}</SubTitle1>
                 <SubTitle>Visibilidad: </SubTitle>
@@ -166,7 +168,9 @@ export default function MyEvents({ user }) {
                 <SubTitle>Descripción: </SubTitle>
                 <SubTitle1>{event.description}</SubTitle1>
                 <SubTitle>Información Adicional: </SubTitle>
-                <SubTitle1>{event.information}</SubTitle1>
+                {event["information"] !== "" ?
+                <SubTitle1>{event.information}</SubTitle1> :
+                <SubTitle1>No hay Información Adicional</SubTitle1>}
 
                 <TitleContainer>
                 <Number>2</Number><TitleT>Ubicación</TitleT>
@@ -176,7 +180,9 @@ export default function MyEvents({ user }) {
                 <SubTitle>Dirección: </SubTitle>
                 <SubTitle1>{event.address}</SubTitle1>
                 <SubTitle>Referencia: </SubTitle>
-                <SubTitle1>{event.reference}</SubTitle1>
+                {event["reference"] !== "" ?
+                <SubTitle1>{event.reference}</SubTitle1> :
+                <SubTitle1>No hay Referencia</SubTitle1>}
 
                 {user.id === event.id_user && (
                   <div>
