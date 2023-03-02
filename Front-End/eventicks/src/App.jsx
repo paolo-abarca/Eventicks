@@ -27,56 +27,68 @@ const App = () => {
     try {
       const storedEmail = localStorage.getItem("email");
       const storedPassword = localStorage.getItem("password");
-
+  
       // Si el usuario ya está autenticado con las credenciales almacenadas en el localStorage, no es necesario hacer otra solicitud al servidor
       if (email === storedEmail && password === storedPassword) {
         setIsAuthenticated(true);
-        navigate('/'); // Navega a la página de inicio
         alert("¡Bienvenido! Te has autenticado correctamente.");
-        
-        setErrorMessage(null); // Restablece el mensaje de error a null
-
-        
+  
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
           setUser(JSON.parse(storedUser));
         }
-
+  
         // Redirige al usuario a la ubicación anterior después de la autenticación
         navigate(prevLocation || '/');
+  
+        // Navega a la página de inicio después de la autenticación
+        navigate('/');
+  
+        setErrorMessage(null); // Restablece el mensaje de error a null
+  
       } else {
         const response = await axios.post("http://localhost:5000/api/login", {
           email,
           password,
         });
-
-      const userId = response.data;
-      if (response.status === 200 ) {
-        setIsAuthenticated(true);
-        alert("¡Bienvenido! Te has autenticado correctamente.");
-        navigate('/'); // Navega a la página de inicio
-        setErrorMessage(null); // Restablece el mensaje de error a null acaaaaaaaa
-      
-        const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
-      const user = userResponse.data;
-      setUser(user);
-
-      // Almacena las credenciales y los datos del usuario en el localStorage
-      localStorage.setItem("email", email);
-      localStorage.setItem("password", password);
-      localStorage.setItem("user", JSON.stringify(user));
-
-      // Redirige al usuario a la ubicación anterior después de la autenticación
-      navigate(prevLocation || '/');
-    } else {
-      setErrorMessage("El correo electrónico o la contraseña son incorrectos.");
+  
+        const userId = response.data;
+        if (response.status === 200 ) {
+          setIsAuthenticated(true);
+          alert("¡Bienvenido! Te has autenticado correctamente.");
+  
+          const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
+          const user = userResponse.data;
+          setUser(user);
+  
+          // Almacena las credenciales y los datos del usuario en el localStorage
+          localStorage.setItem("email", email);
+          localStorage.setItem("password", password);
+          localStorage.setItem("user", JSON.stringify(user));
+  
+          // Redirige al usuario a la ubicación anterior después de la autenticación
+          navigate(prevLocation || '/');
+  
+          // Navega a la página de inicio después de la autenticación
+          navigate('/');
+  
+          setErrorMessage(null); // Restablece el mensaje de error a null
+  
+        } else {
+          setErrorMessage("El correo electrónico o la contraseña son incorrectos.");
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      if (error.response && error.response.status === 401) {
+        alert("Password Incorrecto");
+      } else if (error.response && error.response.status === 404) {
+        alert("Email no valido");
+      } else {
+        alert("Hubo un error al iniciar sesión. Inténtelo de nuevo más tarde.");
+      }
     }
-  }
-} catch (error) {
-  console.error(error);
-  setErrorMessage("Hubo un error al iniciar sesión. Inténtelo de nuevo más tarde.");
-}
-}, [navigate, prevLocation]);
+  }, [navigate, prevLocation]);
 
 const handleLogout = useCallback(() => {
     setIsAuthenticated(false);
