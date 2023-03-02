@@ -48,7 +48,9 @@ export default function MyTickets({ user }) {
             <SubTitle1>Para {ticket.amount} personas</SubTitle1>
             <SubTitle1>Mayores de {ticket.restriction}</SubTitle1>
             <SubTitle1>{ticket.name_user} {ticket.last_name}</SubTitle1>
-            <SubTitle1>{ticket.document_type}: {ticket.number_document}</SubTitle1>
+            {ticket.document_type ?
+            <SubTitle1>{ticket.document_type} - {ticket.number_document}</SubTitle1>  :
+            <SubTitle1>Sin Documentos</SubTitle1>}
             <Link to={`/comprar-tickets/${ticket.id}`}>
               <StyledButton>Ver evento</StyledButton>
             </Link>
