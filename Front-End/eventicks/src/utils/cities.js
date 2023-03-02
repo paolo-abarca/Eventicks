@@ -1,4 +1,5 @@
 export const cities = [
+  'Seleciona una Ciudad',
   'Lima',
   'Arequipa',
   'Moquegua',
