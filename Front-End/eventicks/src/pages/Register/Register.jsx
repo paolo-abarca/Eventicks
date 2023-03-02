@@ -73,7 +73,7 @@ const Register = () => {
         </label>
         <BeautyContainer></BeautyContainer>
         <label>
-          <Input type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={phone} onChange={(event) => setPhone(event.target.value)} required />
+          <Input type="number" min="0" placeholder="Teléfono" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } value={phone} onChange={(event) => setPhone(event.target.value)} required />
         </label>
         <label>
           <Input type="text" value={country} maxlength="19" placeholder="País" onChange={(event) => setCountry(event.target.value)} required />
