@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { cities } from "../../utils/cities.js";
 import axios from "axios";
+import { SubTitle, StyledButton, 
+  StyledSelect, StyledInput, MainContainer1, FirstContainer, 
+  SecondContainer, Img, SubTitle1} from './someStyle.js';
 
 export default function UserEditor({ user, onCancel, onSave }) {
   const [name_user, setName_user] = useState(user.name_user);
@@ -55,10 +58,12 @@ export default function UserEditor({ user, onCancel, onSave }) {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <label>
-          <span><b>Nombres: </b></span>
-          <input
+    <MainContainer1>
+    <form onSubmit={handleSubmit}>
+      <FirstContainer>
+      <label>
+          <SubTitle>Nombres </SubTitle>
+          <StyledInput
             type="text" maxlength="49" placeholder="Nombres"
             value={name_user}
             onChange={(e) => setName_user(e.target.value)} required
@@ -66,26 +71,16 @@ export default function UserEditor({ user, onCancel, onSave }) {
         </label>
         <br />
         <label>
-          <span><b>Apellidos: </b></span>
-          <input
+          <SubTitle>Apellidos </SubTitle>
+          <StyledInput
             type="text" maxlength="49" placeholder="Apellidos"
             value={last_name}
             onChange={(e) => setLast_name(e.target.value)} required
           />
         </label>
-        <br />
         <label>
-        <span><b>Imagen: </b></span>
-        <input 
-            type="file" 
-            accept="image/*" 
-            onChange={handleImageChange} />        
-        <p><img src={photo_user} alt="Imagen de perfil" /></p>
-        </label>
-        <br />
-        <label>
-          <span><b>Tipo de Documento: </b></span>
-          <select
+          <SubTitle>Tipo de Documento </SubTitle>
+          <StyledSelect
             value={document_type}
             onChange={(e) => setDocument_type(e.target.value)} required>
 	    <option value="">Selecciona el tipo de Documento</option>
@@ -94,21 +89,21 @@ export default function UserEditor({ user, onCancel, onSave }) {
              <option value="Carné de extranjeria">Carné de extranjeria</option>
 	     <option value="RUC">RUC</option>
 	     <option value="Otro">Otro</option>
-          </select>
+          </StyledSelect>
         </label>
         <br />
         <label>
-          <span><b>Número de Documento: </b></span>
-          <input
+          <SubTitle>Número de Documento </SubTitle>
+          <StyledInput
             type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } placeholder="Número de Documento"
             value={number_document}
-            onChange={(e) => setNumber_document(e.target.value)}
+            onChange={(e) => setNumber_document(e.target.value)} required
           />
         </label>
         <br />
         <label>
-          <span><b>País: </b></span>
-          <input
+          <SubTitle>País </SubTitle>
+          <StyledInput
             type="text" maxlength="19" placeholder="País"
             value={country}
             onChange={(e) => setCountry(e.target.value)} required
@@ -116,17 +111,17 @@ export default function UserEditor({ user, onCancel, onSave }) {
         </label>
         <br />
         <label>
-          <span><b>Ciudad: </b></span>
-          <select
+          <SubTitle>Ciudad </SubTitle>
+          <StyledSelect
             value={city}
             onChange={(e) => setCity(e.target.value)} required>
 	    {cities.map(city => <option key={city} value={city}>{city}</option>)}
-          </select>
+          </StyledSelect>
         </label>
         <br />
         <label>
-          <span><b>Correo Electrónico: </b></span>
-          <input
+          <SubTitle>Correo Electrónico </SubTitle>
+          <StyledInput
             type="text"
             value={email} maxlength="49" placeholder="Correo Electrónico"
             onChange={(e) => setEmail(e.target.value)} required
@@ -134,8 +129,8 @@ export default function UserEditor({ user, onCancel, onSave }) {
         </label>
         <br />
         <label>
-          <span><b>Teléfono: </b></span>
-          <input
+          <SubTitle>Teléfono </SubTitle>
+          <StyledInput
             type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } 
             value={phone} placeholder="Teléfono"
             onChange={(e) => setPhone(e.target.value)} required
@@ -143,14 +138,28 @@ export default function UserEditor({ user, onCancel, onSave }) {
         </label>
 	<br />
         <label>
-          <span><b>Contraseña: </b></span>
-	  <p>**********</p>
+          <SubTitle>Contraseña </SubTitle>
+	  <SubTitle1>**********</SubTitle1>
         </label>
-        <button type="submit">Actualizar datos</button>
-        <button type="button" onClick={onCancel}>
+      </FirstContainer>
+      <SecondContainer>
+      <label>
+        <SubTitle>Imagen </SubTitle>
+        <input 
+            type="file" 
+            accept="image/*" 
+            onChange={handleImageChange} />
+        {photo_user ?
+        <p><Img src={photo_user} alt="Imagen de perfil" /></p> :
+        <p>Seleccione una foto</p>}
+        </label>
+        <StyledButton type="submit">Actualizar datos</StyledButton>
+        <StyledButton type="button" onClick={onCancel}>
           Cancelar
-        </button>
+        </StyledButton>
+      </SecondContainer>
       </form>
+    </MainContainer1>
     </div>
   );
 }
