@@ -2,7 +2,8 @@ import styled from "styled-components";
 
 export const Title = styled.p`
     color: #EE3869;
-    margin-bottom: 3%;
+    margin-top: 0%;
+    margin-bottom: -3%;
     font-size: 3em;
     text-align: center;
     text-shadow:
