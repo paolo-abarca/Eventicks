@@ -173,16 +173,27 @@ export const MainContainer = styled.p`
         padding: 3%;
         margin: 5%;
         border-radius: 30px;
+        padding-bottom: 35%;
 `;
 
-export const FirstContainer = styled.p`
-    width: 50%;
+export const MainContainer1 = styled.p`
+        background-color: #3B3C4E;
+        padding: 3%;
+        margin: 5%;
+        border-radius: 30px;
+        padding-bottom: 65%;
+`;
+
+
+export const FirstContainer = styled.div`
+    width: 60%;
     float: left;
+    
 
 `;
 
-export const SecondContainer = styled.p`
-    width: 50%;
+export const SecondContainer = styled.div`
+    width: 40%;
     float: right;
 `;
 
@@ -191,6 +202,5 @@ export const TitleContainer = styled.p`
 `;
 
 export const Img = styled.img`
-border-radius: 30px;
-align-items: center;
+border-radius: 100%;
 `;
