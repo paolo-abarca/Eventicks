@@ -1,11 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UserEditor from "./UserEditor";
-import { Title, SubTitle, StyledButton, 
-  StyledSelect, StyledInput, StyledTextArea, 
-  StyledInput1, MainContainer, FirstContainer, 
-  SecondContainer, TitleContainer, TitleT, Number, 
-  Img, SubTitle1} from './someStyle.js';
+import { Title, SubTitle, StyledButton, MainContainer, FirstContainer, 
+  SecondContainer, Img, SubTitle1, SubTitle2} from './someStyle.js';
 
 export default function MyProfile({ user }) {
   const [users, setUsers] = useState(null);
@@ -56,6 +53,7 @@ export default function MyProfile({ user }) {
           // Eliminar la sesión del usuario en el cliente
           localStorage.removeItem("user");
           // Redireccionar a la página de inicio de sesión
+          localStorage.clear();
           window.location.href = "/";
         })
         .catch((error) => console.error(error));
@@ -84,12 +82,11 @@ export default function MyProfile({ user }) {
 
   return (
     <div>
-      <h1>Información de mi cuenta</h1>
+      <Title>Información de mi cuenta</Title>
       {loading ? (
-        <p>Cargando Datos...</p>
+        <SubTitle2>Cargando Datos...</SubTitle2>
       ) : Object.keys(users).length > 0 ? (
         <div key={users.id}>
-          <hr />
           {editingUser === users.id ? (
             <UserEditor
               user={users}
@@ -97,28 +94,29 @@ export default function MyProfile({ user }) {
               onSave={(data) => handleSaveEdit(users.id, data)}
             />
           ) : (
-            <div>
-              <span><b>Nombres: </b></span>
-              <p>{users.name_user}</p>
-              <span><b>Apellidos: </b></span>
-              <p>{users.last_name}</p>
-             
-              <span><b>Imagen: </b></span>
-              <p><img src={users.photo_user} alt="Imagen de perfil" /></p>
-           
-              <span><b>Tipo de Documento: </b></span>
-              <p>{users.document_type}</p>
-              <span><b>Numero de Documento: </b></span>
-              <p>{users.number_document}</p>
-              <span><b>País: </b></span>
-              <p>{users.country}</p>
-              <span><b>Ciudad: </b></span>
-              <p>{users.city}</p>
-              <span><b>Correo Electrónico: </b></span>
-              <p>{users.email}</p>
-              <span><b>Teléfono: </b></span>
-              <p>{users.phone}</p>
-              <span><b>Contraseña: </b></span>
+            <MainContainer>
+              <FirstContainer>
+              <SubTitle>Nombres </SubTitle>
+              <SubTitle1>{users.name_user}</SubTitle1>
+              <SubTitle>Apellidos </SubTitle>
+              <SubTitle1>{users.last_name}</SubTitle1>    
+              <SubTitle>Tipo de Documento </SubTitle>
+              {users.document_type ?
+              <SubTitle1>{users.document_type}</SubTitle1> :
+              <SubTitle1>Selecciona un tipo de documento</SubTitle1>}
+              <SubTitle>Numero de Documento </SubTitle>
+              {users.number_document ?
+              <SubTitle1>{users.number_document}</SubTitle1> :
+              <SubTitle1>Ingresa tu numero de Documento</SubTitle1>}
+              <SubTitle>País </SubTitle>
+              <SubTitle1>{users.country}</SubTitle1>
+              <SubTitle>Ciudad </SubTitle>
+              <SubTitle1>{users.city}</SubTitle1>
+              <SubTitle>Correo Electrónico </SubTitle>
+              <SubTitle1>{users.email}</SubTitle1>
+              <SubTitle>Teléfono </SubTitle>
+              <SubTitle1>{users.phone}</SubTitle1>
+              <SubTitle>Contraseña </SubTitle>
               {editingPassword ? (
                 <div>
                   <input
@@ -126,23 +124,31 @@ export default function MyProfile({ user }) {
                     placeholder="Nueva Contraseña"
                     onChange={(e) => setPassword(e.target.value)} required
                   />
-                  <button onClick={() => handlePasswordSave(users.id, password)}>Guardar</button>
-                  <button onClick={() => setEditingPassword(false)}>Cancelar</button>
+                  <StyledButton onClick={() => handlePasswordSave(users.id, password)}>Guardar</StyledButton>
+                  <StyledButton onClick={() => setEditingPassword(false)}>Cancelar</StyledButton>
                 </div>
               ) : (
                 <div>
-                  <p>**********</p>
-                  <button onClick={() => handlePasswordEdit(users.id)}>Cambiar Contraseña</button>
+                  <SubTitle1>**********</SubTitle1>
+                  <br />
+                  <StyledButton onClick={() => handlePasswordEdit(users.id)}>Cambiar Contraseña</StyledButton>
                 </div>
               )}
-
+              </FirstContainer>
+              <SecondContainer>
+              <SubTitle>Imagen: </SubTitle>
+              {users.photo_user ?
+              <p><Img src={users.photo_user} alt="Imagen de perfil" /></p> :
+              <SubTitle1>Selecciona una foto</SubTitle1>}
+              </SecondContainer>
               {user.id === users.id && (
                 <div>
-                  <button onClick={() => handleEdit(user.id)}>Editar</button>
-                  <button onClick={() => handleDeleteUser(user.id)}>Eliminar</button>
+                  <StyledButton onClick={() => handleEdit(user.id)}>Editar</StyledButton>
+                  <StyledButton onClick={() => handleDeleteUser(user.id)}>Eliminar</StyledButton>
                 </div>
+                
               )}
-            </div>
+            </MainContainer>
           )}
         </div>
       ) :(
