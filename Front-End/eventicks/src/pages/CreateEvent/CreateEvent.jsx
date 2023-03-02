@@ -97,6 +97,9 @@ function CreateEvent({ user }) {
   };
 
   const handleRemoveTicket = (index) => {
+    if (eventData.tickets.length === 1) {
+      return; // no hagas nada si solo hay un formulario
+    }
     const tickets = [...eventData.tickets];
     tickets.splice(index, 1);
     setEventData({ ...eventData, tickets });
