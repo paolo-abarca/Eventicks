@@ -14,14 +14,28 @@ export default function Home(props) {
   const [filterValue1, setFilterValue1] = useState("");
   const [filterValue2, setFilterValue2] = useState("");
   const [loading, setLoading] = useState(true);
-
+  const [nothing, setNothing] = useState(null);
 
   useEffect(() => {
-    axios.get("http://localhost:5000/api/events").then((response) => {
-      setEvents(response.data);
-      setLoading(false);
-    });
-  }, []);
+    if (true) {
+      setNothing(true);
+    }
+  }, [nothing]);
+
+  useEffect(() => {
+    if (nothing) {
+      const fetchEvents = async () => {
+        try {
+          const res = await axios.get("http://localhost:5000/api/events");
+          setEvents(res.data);
+          setLoading(false);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      fetchEvents();
+    }
+  }, [nothing]);
 
   const formatDate = (date) => {
     const day = daysDict[moment(date).locale("en").format("dddd")];
