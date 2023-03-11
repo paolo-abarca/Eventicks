@@ -12,6 +12,7 @@ function CreateEvent({ user }) {
   const [categories, setCategories] = useState([]);
   // eslint-disable-next-line
   const [errorMessage, setErrorMessage] = useState("");
+  const [userId, setUserId] = useState(null);
   const [eventData, setEventData] = useState({
     name_event: '',
     id_category: '',
@@ -37,6 +38,36 @@ function CreateEvent({ user }) {
       }
     ]
   });
+
+  useEffect(() => {
+    if (user) {
+      setUserId(user.id);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (userId) {
+      const fetchUser = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          // eslint-disable-next-line
+          const res = await axios.get(`http://localhost:5000/api/users/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          console.log("OK")
+        } catch (err) {
+          console.error(err);
+          if (err.response && err.response.status === 401) {
+            alert('Debe volver a iniciar sesión');
+            localStorage.removeItem('token');
+            localStorage.removeItem("user");
+            window.location.href = '/login';
+          }
+        }
+      };
+      fetchUser();
+    }
+  }, [userId]);
 
   const handleFileInputChange = (event) => {
     const file = event.target.files[0];
@@ -64,19 +95,35 @@ function CreateEvent({ user }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token');
     const url = `http://localhost:5000/api/users/${user.id}/events`;
     const requestOptions = {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
       body: JSON.stringify(eventData)
     };
     fetch(url, requestOptions)
-      .then(response => response.data)
-      .then(data => {
-         alert("El evento ha sido creado exitosamente!");
+      .then(response => {
+        if (!response.ok) {
+          if (response.status === 401) {
+            alert('Debe volver a iniciar sesión');
+            localStorage.removeItem('token');
+            localStorage.removeItem("user");
+            window.location.href = '/login';
+          } else {
+            throw Error('Error en la solicitud');
+          }
+        } else {
+          alert("El evento ha sido creado exitosamente!");
+          window.location.href = '/mis-eventos';
+          return response.data;
+	}
       })
       .catch(error => {
-         console.error('Error al crear el evento:', error);
+        console.error('Error al crear el evento:', error);
       });
   };
 
