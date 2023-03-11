@@ -8,6 +8,7 @@ from flask import jsonify, abort, request
 from models import storage
 from models.user import User
 import re
+from .utils import verify_user_id
 
 
 @app_views.route("/users/<user_id>", methods=['GET'],
@@ -17,6 +18,10 @@ def get_user_id(user_id=None):
     Method that returns the values of
     a user by means of their ID
     """
+    auth_error = comprobation_token_user(user_id)
+    if auth_error:
+        return auth_error
+
     user = storage.get("user", int(user_id))
     if not user:
         return "User not found", 404
@@ -30,6 +35,10 @@ def delete_user(user_id=None):
     """
     Method that deletes a user by their ID
     """
+    auth_error = comprobation_token_user(user_id)
+    if auth_error:
+        return auth_error
+
     user = storage.get("user", int(user_id))
     if not user:
         return "User not found", 404
@@ -78,6 +87,10 @@ def put_user(user_id=None):
     """
     Method that updates a user by their ID
     """
+    auth_error = comprobation_token_user(user_id)
+    if auth_error:
+        return auth_error
+
     user = storage.get("user", int(user_id))
     if not user:
         return "User not found", 404
@@ -119,6 +132,10 @@ def put_password(user_id=None):
     """
     Method that updates password by their ID
     """
+    auth_error = comprobation_token_user(user_id)
+    if auth_error:
+        return auth_error
+
     user = storage.get("user", int(user_id))
     if not user:
         return "User not found", 404
@@ -133,3 +150,25 @@ def put_password(user_id=None):
 
     storage.update_password(data["password"], user_id)
     return "Updated Password", 200
+
+
+def comprobation_token_user(user_id):
+    """
+    Method that checks if the token is inside the request,
+    if it is authorized or if the token has expired for users
+    """
+    auth_header = request.headers.get('Authorization')
+
+    if auth_header:
+        token = auth_header.split(" ")[1]
+        current_user_id = verify_user_id(token)
+    else:
+        return 'Token is missing!', 401
+
+    if current_user_id:
+        if current_user_id != int(user_id):
+            return 'Unauthorized access', 401
+    else:
+        return 'Expired Token', 401
+
+    return None
