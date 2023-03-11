@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 
 export const Navbar = styled.nav`
   width: 100%;
-  height: 10%;
+  height: 11%;
   background-color: #1D1E2C;
   display: flex;
   flex-direction: column;
+  position: fixed;
+  top: 0em;
+  z-index: 1;
+  transition: top 0.3s;
 `;
 
 
