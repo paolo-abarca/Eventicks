@@ -14,15 +14,39 @@ export default function MyEvents({ user }) {
   const [loading, setLoading] = useState(true);
   const [editingEvent, setEditingEvent] = useState(null);
   const [editingTicket, setEditingTicket] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/users/${user.id}/my_events`)
-      .then((response) => {
-        setEvents(response.data);
-        setLoading(false);
-      });
-  }, [user.id]);
+    if (user) {
+      setUserId(user.id);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (userId) {
+      const fetchUser = async () => {
+        setLoading(true);
+        try {
+          const token = localStorage.getItem('token');
+          const res = await axios.get(`http://localhost:5000/api/users/${userId}/my_events`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setEvents(res.data);
+          setLoading(false);
+        } catch (err) {
+          console.error(err);
+          if (err.response && err.response.status === 401) {
+            alert('Debe volver a iniciar sesión');
+            localStorage.removeItem('token');
+            localStorage.removeItem("user");
+            window.location.href = '/login';
+          }
+        }
+      };
+
+      fetchUser();
+    }
+  }, [userId]);
 
   const formatDate = (date) => {
     const day = daysDict[moment(date).locale("en").format("dddd")];
@@ -43,34 +67,81 @@ export default function MyEvents({ user }) {
   };
 
   const handleSaveEdit = (eventId, data) => {
+    const token = localStorage.getItem('token');
     axios
       .put(`http://localhost:5000/api/events/${eventId}`, data, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`
+	},
       })
       .then(() => {
         setEditingEvent(null);
         axios
-          .get(`http://localhost:5000/api/users/${user.id}/my_events`)
+          .get(`http://localhost:5000/api/users/${user.id}/my_events`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+	  })
           .then((response) => {
             setEvents(response.data);
+          }).catch((error) => {
+            if (error.response && error.response.status === 401) {
+              alert('Debe volver a iniciar sesión');
+              localStorage.removeItem('token');
+              localStorage.removeItem("user");
+              window.location.href = '/login';
+            }
           });
         alert("Evento Actualizado")
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          alert('Debe volver a iniciar sesión');
+          localStorage.removeItem('token');
+          localStorage.removeItem("user");
+          window.location.href = '/login';
+        }
+        console.error(error)
+      });
   };
 
   const handleDeleteEvent = (eventId) => {
     if (window.confirm("¿Estás seguro de que quieres eliminar este evento?")) {
+      const token = localStorage.getItem('token');
       axios
-        .delete(`http://localhost:5000/api/events/${eventId}`)
+        .delete(`http://localhost:5000/api/events/${eventId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+	})
         .then(() => {
           axios
-            .get(`http://localhost:5000/api/users/${user.id}/my_events`)
+            .get(`http://localhost:5000/api/users/${user.id}/my_events`, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+	    })
             .then((response) => {
               setEvents(response.data);
+            }).catch((error) => {
+              if (error.response && error.response.status === 401) {
+                alert('Debe volver a iniciar sesión');
+                localStorage.removeItem('token');
+                localStorage.removeItem("user");
+                window.location.href = '/login';
+              }
             });
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            alert('Debe volver a iniciar sesión');
+            localStorage.removeItem('token');
+            localStorage.removeItem("user");
+            window.location.href = '/login';
+          }
+	  console.error(error)
+	});
     }
   };
 
@@ -83,34 +154,81 @@ export default function MyEvents({ user }) {
   };
 
   const handleSaveEditTicket = (ticketId, data) => {
+    const token = localStorage.getItem('token');
     axios
       .put(`http://localhost:5000/api/tickets/${ticketId}`, data, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`
+	},
       })
       .then(() => {
         setEditingTicket(null);
         axios
-          .get(`http://localhost:5000/api/users/${user.id}/my_events`)
+          .get(`http://localhost:5000/api/users/${user.id}/my_events`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+	  })
           .then((response) => {
             setEvents(response.data);
+          }).catch((error) => {
+            if (error.response && error.response.status === 401) {
+              alert('Debe volver a iniciar sesión');
+              localStorage.removeItem('token');
+              localStorage.removeItem("user");
+              window.location.href = '/login';
+            }
           });
         alert("Ticket Actualizado")
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          alert('Debe volver a iniciar sesión');
+          localStorage.removeItem('token');
+          localStorage.removeItem("user");
+          window.location.href = '/login';
+        }
+        console.error(error)
+      });
   };
 
   const handleDeleteTicket = (ticketId) => {
     if (window.confirm("¿Estás seguro de que quieres eliminar este ticket?")) {
+      const token = localStorage.getItem('token');
       axios
-        .delete(`http://localhost:5000/api/tickets/${ticketId}`)
+        .delete(`http://localhost:5000/api/tickets/${ticketId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+	})
         .then(() => {
           axios
-            .get(`http://localhost:5000/api/users/${user.id}/my_events`)
+            .get(`http://localhost:5000/api/users/${user.id}/my_events`, {
+              headers: {
+                'Authorization': `Bearer ${token}`
+              }
+	    })
             .then((response) => {
               setEvents(response.data);
+            }).catch((error) => {
+              if (error.response && error.response.status === 401) {
+                alert('Debe volver a iniciar sesión');
+                localStorage.removeItem('token');
+                localStorage.removeItem("user");
+                window.location.href = '/login';
+              }
             });
          })
-         .catch((error) => console.error(error));
+         .catch((error) => {
+           if (error.response && error.response.status === 401) {
+             alert('Debe volver a iniciar sesión');
+             localStorage.removeItem('token');
+             localStorage.removeItem("user");
+             window.location.href = '/login';
+           }
+	   console.error(error)
+	 });
     }
   };
 
