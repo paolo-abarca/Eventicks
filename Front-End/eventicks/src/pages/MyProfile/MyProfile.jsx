@@ -10,15 +10,39 @@ export default function MyProfile({ user }) {
   const [editingUser, setEditingUser] = useState(null);
   const [editingPassword, setEditingPassword] = useState(false);
   const [password, setPassword] = useState("");
+  const [userId, setUserId] = useState(null); // Establecemos el valor inicial de userId como null
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5000/api/users/${user.id}`)
-      .then((response) => {
-        setUsers(response.data);
-        setLoading(false);
-      });
-  }, [user.id]);
+    if (user) {
+      setUserId(user.id);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (userId) {
+      const fetchUser = async () => {
+        setLoading(true);
+        try {
+          const token = localStorage.getItem('token');
+          const res = await axios.get(`http://localhost:5000/api/users/${userId}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          setUsers(res.data);
+          setLoading(false);
+        } catch (err) {
+          console.error(err);
+          if (err.response && err.response.status === 401) {
+            alert('Debe volver a iniciar sesión');
+            localStorage.removeItem('token');
+            localStorage.removeItem("user");
+            window.location.href = '/login';
+          }
+        }
+      };
+
+      fetchUser();
+    }
+  }, [userId]);
 
   const handleEdit = (userId) => {
     setEditingUser(userId);
@@ -29,34 +53,71 @@ export default function MyProfile({ user }) {
   };
 
   const handleSaveEdit = (userId, data) => {
+    const token = localStorage.getItem('token');
     axios
       .put(`http://localhost:5000/api/users/${userId}`, data, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`
+	},
       })
       .then(() => {
         setEditingUser(null);
         axios
-          .get(`http://localhost:5000/api/users/${user.id}`)
+          .get(`http://localhost:5000/api/users/${user.id}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+	  })
           .then((response) => {
             setUsers(response.data);
+          }).catch((error) => {
+            if (error.response && error.response.status === 401) {
+              alert('Debe volver a iniciar sesión');
+              localStorage.removeItem('token');
+              localStorage.removeItem("user");
+              window.location.href = '/login';
+            }
           });
         alert("Usuario Actualizado");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          alert('Debe volver a iniciar sesión');
+          localStorage.removeItem('token');
+          localStorage.removeItem("user");
+          window.location.href = '/login';
+        }
+        console.error(error)
+      });
   };
 
   const handleDeleteUser = (userId) => {
     if (window.confirm("¿Estás seguro de que quieres eliminar tu cuenta?")) {
+      const token = localStorage.getItem('token');
       axios
-        .delete(`http://localhost:5000/api/users/${userId}`)
+        .delete(`http://localhost:5000/api/users/${userId}`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+	})
         .then(() => {
           // Eliminar la sesión del usuario en el cliente
           localStorage.removeItem("user");
+          localStorage.removeItem('token');
           // Redireccionar a la página de inicio de sesión
           localStorage.clear();
           window.location.href = "/";
         })
-        .catch((error) => console.error(error));
+        .catch((error) => {
+          if (error.response && error.response.status === 401) {
+            alert('Debe volver a iniciar sesión');
+            localStorage.removeItem('token');
+            localStorage.removeItem("user");
+            window.location.href = '/login';
+          }
+	  console.error(error)
+	});
     }
   };
 
@@ -65,19 +126,43 @@ export default function MyProfile({ user }) {
   };
 
   const handlePasswordSave = (userId, password) => {
+    const token = localStorage.getItem('token');
     axios
       .put(`http://localhost:5000/api/users/${user.id}/password`, { password }, {
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`
+	},
       })
       .then(() => {
         setEditingPassword(false);
         axios
-          .get(`http://localhost:5000/api/users/${user.id}`)
+          .get(`http://localhost:5000/api/users/${user.id}`, {
+            headers: {
+              'Authorization': `Bearer ${token}`
+            }
+	  })
           .then((response) => {
             setUsers(response.data);
+          }).catch((error) => {
+            if (error.response && error.response.status === 401) {
+              alert('Debe volver a iniciar sesión');
+              localStorage.removeItem('token');
+              localStorage.removeItem("user");
+              window.location.href = '/login';
+            }
           });
+        alert("Contraseña Actualizada");
       })
-      .catch((error) => console.error(error));
+      .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          alert('Debe volver a iniciar sesión');
+          localStorage.removeItem('token');
+          localStorage.removeItem("user");
+          window.location.href = '/login';
+        }
+        console.error(error)
+      });
   };
 
   return (
