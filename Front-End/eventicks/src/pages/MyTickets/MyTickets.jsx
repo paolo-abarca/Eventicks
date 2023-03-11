@@ -10,13 +10,39 @@ import { Title, SubTitle, StyledButton,
 export default function MyTickets({ user }) {
   const [tickets, setTickets] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userId, setUserId] = useState(null); // Establecemos el valor inicial de userId como null
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/users/${user.id}/my_tickets`).then((response) => {
-      setTickets(response.data);
-      setLoading(false);
-    });
-  }, [user.id]);
+    if (user) { // Comprobamos que user tenga un valor
+      setUserId(user.id);
+    }
+  }, [user]); // Actualizamos el valor de userId cuando user cambie
+
+  useEffect(() => {
+    if (userId) { // Comprobamos que userId tenga un valor
+      const fetchTickets = async () => {
+        setLoading(true);
+        try {
+          const token = localStorage.getItem("token");
+          const res = await axios.get(`http://localhost:5000/api/users/${userId}/my_tickets`, {
+            headers: { Authorization: `Bearer ${token}` },
+	  });
+          setTickets(res.data);
+          setLoading(false);
+        } catch (err) {
+          console.error(err);
+          if (err.response && err.response.status === 401) {
+            alert('Debe volver a iniciar sesión');
+            localStorage.removeItem('token');
+            localStorage.removeItem("user");
+            window.location.href = '/login';
+          }
+        }
+      };
+
+      fetchTickets();
+    }
+  }, [userId]); // Aquí agregamos userId como dependencia
 
   const formatDate = (date) => {
     const day = daysDict[moment(date).locale("en").format("dddd")];
