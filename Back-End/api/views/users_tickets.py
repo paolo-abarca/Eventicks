@@ -7,6 +7,7 @@ from api.views import app_views
 from flask import jsonify, abort, request
 from models.user_ticket import User_Ticket
 from models import storage
+from .utils import verify_user_id
 
 
 @app_views.route("/users/<user_id>/my_tickets", methods=['GET'],
@@ -15,6 +16,10 @@ def get_my_tickets(user_id=None):
     """
     Method that returns all tickets purchased by a user
     """
+    auth_error = comprobation_token_user(user_id)
+    if auth_error:
+        return auth_error
+
     user = storage.get("user", int(user_id))
     if not user:
         return "User not found", 404
@@ -38,6 +43,10 @@ def post_buy_tickets():
         for needed in obligatory:
             if needed not in data:
                 return "Missing {}".format(needed), 400
+
+        auth_error = comprobation_token_user(data["id_user"])
+        if auth_error:
+            return auth_error
 
         user = storage.get("user", int(data["id_user"]))
         if not user:
@@ -66,3 +75,25 @@ def get_all_categorys():
         list_categorys.append(storage.to_dict("Category", category))
 
     return jsonify(list_categorys), 200
+
+
+def comprobation_token_user(user_id):
+    """
+    Method that checks if the token is inside the request,
+    if it is authorized or if the token has expired for users
+    """
+    auth_header = request.headers.get('Authorization')
+
+    if auth_header:
+        token = auth_header.split(" ")[1]
+        current_user_id = verify_user_id(token)
+    else:
+        return 'Token is missing!', 401
+
+    if current_user_id:
+        if current_user_id != int(user_id):
+            return 'Unauthorized access', 401
+    else:
+        return 'Expired Token', 401
+
+    return None
