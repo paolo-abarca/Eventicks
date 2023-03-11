@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import "../../index.css"
 import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 import { categories } from "../../utils/categories.js";
@@ -124,7 +125,7 @@ export default function Home(props) {
       currentPhotoIndex = (currentPhotoIndex + 1) % photos.length;
       showCurrentPhoto();
     };
-
+    
     // Avanzamos a la siguiente foto cada 7 segundos
     setInterval(nextPhoto, 7000);
   }
@@ -190,8 +191,8 @@ export default function Home(props) {
                 <div className="event-card">
                   <div className="imagenCloud" style={{ backgroundImage: `url(${event.photo_event})` }}>
                 </div>
-                <h3>{event.name_event}</h3>
-                <p><b>Fecha:</b> {formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
+                <h3 className="title">{event.name_event}</h3>
+                <p className="date">{formatDate(event.date_start)} - {formatDate(event.date_end)}</p>
                 <p><b>Horario:</b> {formatTime(event.start_time)} - {formatTime(event.end_time)}</p>
                 <p><b>Precio:</b> {event.currency} {event.price}</p>
                 {props.isAuthenticated ? (
