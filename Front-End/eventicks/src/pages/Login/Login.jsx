@@ -1,8 +1,8 @@
 //Login.jsx
 import React, { useState } from "react";
-import { LoginContainer, Title, 
-        BeautyContainer,  
-        Acount, StyledButton, 
+import { LoginContainer, Title,
+        BeautyContainer,
+        Acount, StyledButton,
         StyledLink, Input} from "./someStyle";
 import Register from '../Register/Register';
 import { Route, Routes,} from "react-router-dom";
