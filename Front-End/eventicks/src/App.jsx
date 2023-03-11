@@ -3,6 +3,7 @@ import { BrowserRouter, Route, Link, Routes, useNavigate, useLocation } from "re
 import { Navbar , LeftContainer, LogoA, MainContainer, UltimateContainer, Footer} from './App.js';
 import Logo from "./img/logo.png"
 import axios from 'axios'
+import jwt_decode from "jwt-decode";
 
 // Páginas
 import Home from "./pages/Home/Home";
@@ -23,13 +24,12 @@ const App = () => {
   const [prevLocation, setPrevLocation] = useState(null); // Almacena la ubicación anterior
   const location = useLocation(); // Obtiene la ubicación actual
 
-  const handleLogin = useCallback(async (email, password) => {
+  const handleLogin = useCallback(async (email, password, token) => {
     try {
-      const storedEmail = localStorage.getItem("email");
-      const storedPassword = localStorage.getItem("password");
+      const storedToken = localStorage.getItem("token");
   
       // Si el usuario ya está autenticado con las credenciales almacenadas en el localStorage, no es necesario hacer otra solicitud al servidor
-      if (email === storedEmail && password === storedPassword) {
+      if (token === storedToken) {
         setIsAuthenticated(true);
         alert("¡Bienvenido! Te has autenticado correctamente.");
   
@@ -52,18 +52,25 @@ const App = () => {
           password,
         });
   
-        const userId = response.data;
+        const { token } = response.data;
+        const decodedToken = jwt_decode(token);
+        const userId = decodedToken.user_id;
+
         if (response.status === 200 ) {
           setIsAuthenticated(true);
           alert("¡Bienvenido! Te has autenticado correctamente.");
   
-          const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`);
+          const userResponse = await axios.get(`http://localhost:5000/api/users/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+	  });
+
           const user = userResponse.data;
           setUser(user);
   
           // Almacena las credenciales y los datos del usuario en el localStorage
-          localStorage.setItem("email", email);
-          localStorage.setItem("password", password);
+          localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
   
           // Redirige al usuario a la ubicación anterior después de la autenticación
@@ -93,18 +100,16 @@ const App = () => {
 const handleLogout = useCallback(() => {
     setIsAuthenticated(false);
     setUser(null);
-    localStorage.removeItem("email");
-    localStorage.removeItem("password");
     localStorage.removeItem("user");
+    localStorage.removeItem("token");
     navigate('/login'); // Navega a la página de inicio de sesión
     }, [navigate]);
 
     useEffect(() => {
-      const storedEmail = localStorage.getItem("email");
-      const storedPassword = localStorage.getItem("password");
+      const storedToken = localStorage.getItem("token");
   
       // Si el usuario ya está autenticado con las credenciales almacenadas en el localStorage, establece el estado de autenticación en verdadero
-      if (storedEmail && storedPassword) {
+      if (storedToken) {
         setIsAuthenticated(true);
         const storedUser = localStorage.getItem("user");
         if (storedUser) {
