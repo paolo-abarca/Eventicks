@@ -8,6 +8,7 @@ from flask import jsonify, abort, request
 from models import storage
 from models.event import Event
 from models.ticket import Ticket
+from .utils import verify_user_id, verify_token
 
 
 @app_views.route("/events", methods=['GET'],
@@ -27,6 +28,10 @@ def get_event_id(event_id=None):
     Method that returns the values of
     a event by means of their ID
     """
+    auth_error = comprobation_token()
+    if auth_error:
+        return auth_error
+
     event = storage.get("event", int(event_id))
     if not event:
         return "Event not found", 404
@@ -40,6 +45,10 @@ def get_my_events(user_id=None):
     """
     Method that returns the events created by a user
     """
+    auth_error = comprobation_token_user(user_id)
+    if auth_error:
+        return auth_error
+
     user = storage.get("user", int(user_id))
     if not user:
         return "User not found", 404
@@ -53,6 +62,10 @@ def delete_event(event_id=None):
     """
     Method that deletes a event by their ID
     """
+    auth_error = comprobation_token()
+    if auth_error:
+        return auth_error
+
     event = storage.get("event", int(event_id))
     if not event:
         return "Event not found", 404
@@ -68,6 +81,10 @@ def delete_ticket(ticket_id=None):
     """
     Method that deletes a ticket by their ID
     """
+    auth_error = comprobation_token()
+    if auth_error:
+        return auth_error
+
     ticket = storage.get("ticket", int(ticket_id))
     if not ticket:
         return "Ticket not found", 404
@@ -83,6 +100,10 @@ def post_event(user_id=None):
     """
     Method that creates a event
     """
+    auth_error = comprobation_token_user(user_id)
+    if auth_error:
+        return auth_error
+
     user = storage.get("user", int(user_id))
     if not user:
         return "User not found", 400
@@ -130,6 +151,10 @@ def put_event(event_id=None):
     """
     Method that updates a event by their ID
     """
+    auth_error = comprobation_token()
+    if auth_error:
+        return auth_error
+
     event = storage.get("event", int(event_id))
     if not event:
         return "Event not found", 404
@@ -157,6 +182,10 @@ def put_ticket(ticket_id=None):
     """
     Method that updates a ticket by their ID
     """
+    auth_error = comprobation_token()
+    if auth_error:
+        return auth_error
+
     ticket = storage.get("ticket", int(ticket_id))
     if not ticket:
         return "Ticket not found", 404
@@ -212,3 +241,44 @@ def filter_events():
         events = Event.filters("date", data["date_min"], data["date_max"])
 
     return jsonify(events), 200
+
+
+def comprobation_token_user(user_id):
+    """
+    Method that checks if the token is inside the request,
+    if it is authorized or if the token has expired for users
+    """
+    auth_header = request.headers.get('Authorization')
+
+    if auth_header:
+        token = auth_header.split(" ")[1]
+        current_user_id = verify_user_id(token)
+    else:
+        return 'Token is missing!', 401
+
+    if current_user_id:
+        if current_user_id != int(user_id):
+            return 'Unauthorized access', 401
+    else:
+        return 'Expired Token', 401
+
+    return None
+
+
+def comprobation_token():
+    """
+    Method that checks if the token is inside the request
+    or if the token expired
+    """
+    auth_header = request.headers.get('Authorization')
+
+    if auth_header:
+        token = auth_header.split(" ")[1]
+        current_token = verify_token(token)
+    else:
+        return 'Token is missing!', 401
+
+    if not current_token:
+        return 'Expired Token', 401
+
+    return None
