@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const LoginContainer = styled.div`
     text-align: center;
     width: 100%;
-    height: 78.7%;
+    height: 80%;
     padding-top: 5%;
     position: absolute;
     background: linear-gradient(180deg, rgba(32,35,50,1) 1%, rgba(73,61,73,1) 40%, rgba(105,93,95,1) 120%);
@@ -16,7 +16,7 @@ export const Title = styled.p`
     margin-bottom: 3%;
     font-size: 3em;
     font-weight: lighter;
-    margin-top: -0.1%;
+    margin-top: 5%;
     padding-top: 2%;
 `;
 
@@ -33,11 +33,13 @@ export const StyledButton = styled.button`
     color: white;
     background-color: #EE3869;
     border-radius: 20px;
-    padding: 0.8% 9%;
+    padding: 0.8% 8.5%;
     font-size: 1em;
     text-decoration: none;
     display: inline-block;
     border-color: transparent;
+    font-family: inherit;
+    font-weight: bold;
 
     &:active {
         background-color: #EA134D;
