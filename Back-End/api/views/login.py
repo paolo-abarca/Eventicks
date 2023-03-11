@@ -5,9 +5,12 @@ the users are in the database to be able
 to enter the system
 """
 from api.views import app_views
-from flask import jsonify, abort, request
+from flask import jsonify, abort, request, make_response
 from models import storage
 import hashlib
+import jwt
+import os
+import time
 
 
 @app_views.route("/login", methods=['POST'],
@@ -40,4 +43,19 @@ def login_user():
     if not user_found["password"] == pwd_user:
         return "Password Incorrect", 401
 
-    return jsonify(user_found["id"]), 200
+    token = generate_token(user_found["id"])
+    response = make_response(jsonify({'token': token}), 200)
+    response.headers['Authorization'] = f'Bearer {token}'
+
+    return response
+
+
+def generate_token(user_id):
+    """
+    Generates a JWT token for the given user ID
+    """
+    secret_key = os.environ.get('SECRET_KEY')
+    exp_time = int(time.time()) + 120
+    token = jwt.encode({'user_id': user_id, 'exp': exp_time},
+                       secret_key, algorithm='HS256')
+    return token.decode('utf-8')
