@@ -7,23 +7,50 @@ import ReactPlayer from 'react-player';
 import {StyledButton, VideoDiv, Title, SubTitle1,SubTitle3,
   SubTitle2, SubTitle, Img, DivImage, MainContainer} from './someStyle.js';
 
-export default function BuyTickets(user) {
+export default function BuyTickets({ user }) {
   const { eventId } = useParams();
   const [event, setEvent] = useState(null);
   const [ticketQuantities, setTicketQuantities] = useState({});
   const [ticketList, setTicketList] = useState([]);
   const [total, setTotal] = useState(0);
+  const [nothing, setNothing] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/api/events/${eventId}`).then((response) => {
-      const tickets = response.data.tickets.reduce((acc, ticket) => {
-        acc[ticket.id] = 0;
-        return acc;
-      }, {});
-      setTicketQuantities(tickets);
-      setEvent(response.data);
-    });
-  }, [eventId]);
+    if (true) {
+      setNothing(true);
+    }
+  }, [nothing]);
+
+  useEffect(() => {
+    if (nothing) {
+      const fetchEvent = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          const res = await axios.get(`http://localhost:5000/api/events/${eventId}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            }
+          });
+          const tickets = res.data.tickets.reduce((acc, ticket) => {
+            acc[ticket.id] = 0;
+            return acc;
+          }, {});
+          setTicketQuantities(tickets);
+          setEvent(res.data);
+        } catch (err) {
+          console.error(err);
+          if (err.response && err.response.status === 401) {
+            alert('Debe volver a iniciar sesión');
+            localStorage.removeItem('token');
+            localStorage.removeItem("user");
+            window.location.href = '/login';
+          }
+	}
+      };
+      fetchEvent();
+    };
+  // eslint-disable-next-line
+  }, [nothing]);
 
   useEffect(() => {
     let newTotal = 0;
@@ -67,27 +94,50 @@ export default function BuyTickets(user) {
     const newTickets = Object.entries(ticketQuantities)
       .filter(([ticketId, amount]) => amount > 0)
       .map(([ticketId, amount]) => ({
-        id_user: user.user.id,
+        id_user: user.id,
         id_ticket: parseInt(ticketId),
         amount: amount,
       }));
 
     setTicketList([...ticketList, ...newTickets]);
 
-    axios.post('http://localhost:5000/api/buy_tickets', newTickets)
+    const token = localStorage.getItem('token');
+    axios.post('http://localhost:5000/api/buy_tickets', newTickets, {
+      headers: {
+        Authorization: `Bearer ${token}`
+      }
+    })
       .then((response) => {
         console.log('Tickets comprados con éxito');
-        axios.get(`http://localhost:5000/api/events/${eventId}`).then((response) => {
+        const token = localStorage.getItem('token');
+        axios.get(`http://localhost:5000/api/events/${eventId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }
+	}).then((response) => {
           const tickets = response.data.tickets.reduce((acc, ticket) => {
             acc[ticket.id] = 0;
             return acc;
           }, {});
            setTicketQuantities(tickets);
            setEvent(response.data);
+        }).catch((error) => {
+          if (error.response && error.response.status === 401) {
+            alert('Debe volver a iniciar sesión');
+            localStorage.removeItem('token');
+            localStorage.removeItem("user");
+            window.location.href = '/login';
+          }
         });
         alert("Tickets comprados con éxito")
       })
       .catch((error) => {
+        if (error.response && error.response.status === 401) {
+          alert('Debe volver a iniciar sesión');
+          localStorage.removeItem('token');
+          localStorage.removeItem("user");
+          window.location.href = '/login';
+        }
         console.error('Error al comprar tickets:', error);
       });
   };
