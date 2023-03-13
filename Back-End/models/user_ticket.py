@@ -28,12 +28,12 @@ class User_Ticket(BaseModel):
                 FROM user INNER JOIN user_ticket ON user.id = \
                 user_ticket.id_user INNER JOIN ticket ON \
                 user_ticket.id_ticket = ticket.id INNER JOIN event ON \
-                ticket.id_event = event.id WHERE user_ticket.id_user = {} \
-                ORDER BY user_ticket.id DESC;".format(id_user)
+                ticket.id_event = event.id WHERE user_ticket.id_user = %s \
+                ORDER BY user_ticket.id DESC;"
 
         list_result = []
 
-        storage.cursor.execute(query)
+        storage.cursor.execute(query, (id_user,))
         tupla = storage.cursor.fetchall()
         for ticket in list(tupla):
             ticket = storage.to_dict("Ticket", ticket)
