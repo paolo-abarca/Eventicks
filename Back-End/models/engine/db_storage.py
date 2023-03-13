@@ -48,8 +48,8 @@ class DBStorage():
         table and the id of the data that I want
         to delete from the database
         """
-        self.cursor.execute("DELETE FROM {} WHERE id={};".format(tablename,
-                                                                 id))
+        query = "DELETE FROM {} WHERE id=%s;".format(tablename)
+        self.cursor.execute(query, (id,))
         self.db.commit()
 
     def create(self, dic, procedure):
@@ -102,13 +102,13 @@ class DBStorage():
         email is in the database
         """
         if id is None:
-            query = "SELECT * FROM {} WHERE email='{}'".format(tablename,
-                                                               email)
+            query = "SELECT * FROM {} WHERE email=%s".format(tablename)
+            self.cursor.execute(query, (email,))
         else:
-            query = "SELECT * FROM {} WHERE email='{}'\
-                     AND id!={}".format(tablename, email, id)
+            query = "SELECT * FROM {} WHERE email=%s\
+                     AND id!=%s".format(tablename)
+            self.cursor.execute(query, (email, id))
 
-        self.cursor.execute(query)
         tupla = self.cursor.fetchall()
         if len(tupla) > 0:
             return tupla[0]
@@ -123,9 +123,9 @@ class DBStorage():
         if tablename is None and id is None:
             return None
 
-        query = "SELECT * FROM {} WHERE id = {}".format(tablename, id)
+        query = "SELECT * FROM {} WHERE id = %s".format(tablename)
 
-        self.cursor.execute(query)
+        self.cursor.execute(query, (id,))
         tupla = self.cursor.fetchall()
         if len(tupla) > 0:
             return tupla[0]
