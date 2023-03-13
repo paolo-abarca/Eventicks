@@ -56,6 +56,10 @@ def generate_token(user_id):
     """
     secret_key = os.environ.get('SECRET_KEY')
     exp_time = int(time.time()) + 120
-    token = jwt.encode({'user_id': user_id, 'exp': exp_time},
+    user = storage.get('user', user_id)
+    user = storage.to_dict('User', user)
+    user.pop('created_at')
+    user.pop('updated_at')
+    token = jwt.encode({'user_id': user_id, 'exp': exp_time, 'DataUser': user},
                        secret_key, algorithm='HS256')
     return token.decode('utf-8')
