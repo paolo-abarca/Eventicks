@@ -15,7 +15,7 @@ export const Title = styled.p`
     font-style: normal;
     color: white;
     margin-bottom: 3%;
-    margin-top: -2%;
+    margin-top: 1.6%;
     font-size: 3em;
     font-weight: lighter;
 `;
