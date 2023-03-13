@@ -38,7 +38,6 @@ export default function MyEvents({ user }) {
           if (err.response && err.response.status === 401) {
             alert('Debe volver a iniciar sesión');
             localStorage.removeItem('token');
-            localStorage.removeItem("user");
             window.location.href = '/login';
           }
         }
@@ -89,7 +88,6 @@ export default function MyEvents({ user }) {
             if (error.response && error.response.status === 401) {
               alert('Debe volver a iniciar sesión');
               localStorage.removeItem('token');
-              localStorage.removeItem("user");
               window.location.href = '/login';
             }
           });
@@ -99,7 +97,6 @@ export default function MyEvents({ user }) {
         if (error.response && error.response.status === 401) {
           alert('Debe volver a iniciar sesión');
           localStorage.removeItem('token');
-          localStorage.removeItem("user");
           window.location.href = '/login';
         }
         console.error(error)
@@ -128,7 +125,6 @@ export default function MyEvents({ user }) {
               if (error.response && error.response.status === 401) {
                 alert('Debe volver a iniciar sesión');
                 localStorage.removeItem('token');
-                localStorage.removeItem("user");
                 window.location.href = '/login';
               }
             });
@@ -137,7 +133,6 @@ export default function MyEvents({ user }) {
           if (error.response && error.response.status === 401) {
             alert('Debe volver a iniciar sesión');
             localStorage.removeItem('token');
-            localStorage.removeItem("user");
             window.location.href = '/login';
           }
 	  console.error(error)
@@ -176,7 +171,6 @@ export default function MyEvents({ user }) {
             if (error.response && error.response.status === 401) {
               alert('Debe volver a iniciar sesión');
               localStorage.removeItem('token');
-              localStorage.removeItem("user");
               window.location.href = '/login';
             }
           });
@@ -186,7 +180,6 @@ export default function MyEvents({ user }) {
         if (error.response && error.response.status === 401) {
           alert('Debe volver a iniciar sesión');
           localStorage.removeItem('token');
-          localStorage.removeItem("user");
           window.location.href = '/login';
         }
         console.error(error)
@@ -215,7 +208,6 @@ export default function MyEvents({ user }) {
               if (error.response && error.response.status === 401) {
                 alert('Debe volver a iniciar sesión');
                 localStorage.removeItem('token');
-                localStorage.removeItem("user");
                 window.location.href = '/login';
               }
             });
@@ -224,7 +216,6 @@ export default function MyEvents({ user }) {
            if (error.response && error.response.status === 401) {
              alert('Debe volver a iniciar sesión');
              localStorage.removeItem('token');
-             localStorage.removeItem("user");
              window.location.href = '/login';
            }
 	   console.error(error)
@@ -333,7 +324,7 @@ export default function MyEvents({ user }) {
                       {event.id === ticket.id_event && (
                         <div>
                           <StyledButton onClick={() => handleEditTicket(ticket.id)}>Editar</StyledButton>
-                          <StyledButton onClick={() => handleDeleteTicket(ticket.id)}>Eliminar</StyledButton>
+                          <StyledButton onClick={() => handleDeleteTicket(ticket.id)} disabled={event.tickets.length === 1}>Eliminar</StyledButton>
                         </div>
                       )}
                   </div>
