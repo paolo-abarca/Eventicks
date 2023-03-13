@@ -155,8 +155,7 @@ export default function BuyTickets({ user }) {
           <SubTitle>Información adicional</SubTitle>
           <SubTitle1 >{event.information}</SubTitle1>
           <SubTitle1 >Para mayores de {event.restriction}</SubTitle1>
-          <SubTitle >Organiza</SubTitle>
-          <SubTitle1 >{event.name_user} {event.last_name}</SubTitle1>
+  
           <VideoDiv className='video'>
           <ReactPlayer
           url= {event.video}
@@ -194,6 +193,8 @@ export default function BuyTickets({ user }) {
             </div>
           </div>
           <div class="div3">
+          <SubTitle >Organiza</SubTitle>
+          <SubTitle1 >{event.name_user} {event.last_name}</SubTitle1>
           <SubTitle >Lugar</SubTitle >
           <SubTitle1 >{event.city}, PE</SubTitle1 >
           <SubTitle1 >{event.address}</SubTitle1 >
