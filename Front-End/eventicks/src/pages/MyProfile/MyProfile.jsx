@@ -182,7 +182,7 @@ export default function MyProfile({ user }) {
               {users.document_type ?
               <SubTitle1>{users.document_type}</SubTitle1> :
               <SubTitle1>Selecciona un tipo de documento</SubTitle1>}
-              <SubTitle>Numero de Documento </SubTitle>
+              <SubTitle>Número de Documento</SubTitle>
               {users.number_document ?
               <SubTitle1>{users.number_document}</SubTitle1> :
               <SubTitle1>Ingresa tu numero de Documento</SubTitle1>}
