@@ -33,9 +33,11 @@ const App = () => {
         setIsAuthenticated(true);
         alert("¡Bienvenido! Te has autenticado correctamente.");
   
-        const storedUser = localStorage.getItem("user");
+        const decodedToken = jwt_decode(storedToken);
+        const dataUser = decodedToken.DataUser;
+        const storedUser = dataUser;
         if (storedUser) {
-          setUser(JSON.parse(storedUser));
+          setUser(storedUser);
         }
   
         // Redirige al usuario a la ubicación anterior después de la autenticación
@@ -71,7 +73,6 @@ const App = () => {
   
           // Almacena las credenciales y los datos del usuario en el localStorage
           localStorage.setItem("token", token);
-          localStorage.setItem("user", JSON.stringify(user));
   
           // Redirige al usuario a la ubicación anterior después de la autenticación
           navigate(prevLocation || '/');
@@ -100,7 +101,6 @@ const App = () => {
 const handleLogout = useCallback(() => {
     setIsAuthenticated(false);
     setUser(null);
-    localStorage.removeItem("user");
     localStorage.removeItem("token");
     navigate('/login'); // Navega a la página de inicio de sesión
     }, [navigate]);
@@ -111,9 +111,11 @@ const handleLogout = useCallback(() => {
       // Si el usuario ya está autenticado con las credenciales almacenadas en el localStorage, establece el estado de autenticación en verdadero
       if (storedToken) {
         setIsAuthenticated(true);
-        const storedUser = localStorage.getItem("user");
+        const decodedToken = jwt_decode(storedToken);
+        const dataUser = decodedToken.DataUser;
+        const storedUser = dataUser;
         if (storedUser) {
-          setUser(JSON.parse(storedUser));
+          setUser(storedUser);
         }
       } else {
         setIsAuthenticated(false);
