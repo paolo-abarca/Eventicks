@@ -55,7 +55,7 @@ def generate_token(user_id):
     Generates a JWT token for the given user ID
     """
     secret_key = os.environ.get('SECRET_KEY')
-    exp_time = int(time.time()) + 120
+    exp_time = int(time.time()) + 300
     user = storage.get('user', user_id)
     user = storage.to_dict('User', user)
     user.pop('created_at')
