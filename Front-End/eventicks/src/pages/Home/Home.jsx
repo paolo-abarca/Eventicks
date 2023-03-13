@@ -95,6 +95,22 @@ export default function Home(props) {
     });
   };
 
+  const validateFilter = () => {
+    if (filterValue1 === '') {
+      alert('Por favor, selecciona una opción antes de aplicar el filtro.');
+      return false;
+    }
+    return true;
+  };
+
+  const validateFilter2 = () => {
+    if (filterValue1 === '' || filterValue2 === '') {
+      alert('Por favor, ingrese un valor antes de aplicar el filtro.');
+      return false;
+    }
+    return true;
+  };
+
   const exceptThisSymbols = ["e", "E", "+", "-", "."];
 
   const photos = [
@@ -158,29 +174,31 @@ export default function Home(props) {
         <FilterContainer>
           <StyledInput className="delete-button" type="number" min="0" placeholder="0.00" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } step="0.01" value={filterValue1} onChange={handleFilterValue1} required/>
           <StyledInput className="delete-button" type="number" min="0" placeholder="0.00" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } step="0.01" value={filterValue2} onChange={handleFilterValue2} required/>
-          <StyledButton className="delete-button" onClick={handleFilterSubmit}>Filtrar</StyledButton>
+          <StyledButton className="delete-button" onClick={() => validateFilter2() && handleFilterSubmit()}>Filtrar</StyledButton>
           <StyledButton className="delete-button" onClick={handleClearFilter}>Eliminar filtro</StyledButton>
         </FilterContainer>
       )}
       {filterType === "category" && (
         <FilterContainer>
-          <StyledSelect className="delete-button" value={filterValue1} onChange={handleFilterValue1}>
+          <StyledSelect className="delete-button" value={filterValue1} onChange={handleFilterValue1} required>
+            <option value="">Elige una categoría</option>
             {categories.map((category) => (
-              <option key={category.id} value={category.id} required>
+              <option key={category.id} value={category.id}>
                 {category.name_category}
               </option>
             ))}
           </StyledSelect>
-          <StyledButton className="delete-button" onClick={handleFilterSubmit}>Filtrar</StyledButton>
+          <StyledButton className="delete-button" onClick={() => validateFilter() && handleFilterSubmit()}>Filtrar</StyledButton>
           <StyledButton className="button-container" onClick={handleClearFilter}>Eliminar filtro</StyledButton>
         </FilterContainer>
       )}
       {filterType === "city" && (
         <FilterContainer>
           <StyledSelect className="delete-button" value={filterValue1} onChange={handleFilterValue1} required>
+	    <option value="">Selecciona una Ciudad</option>
             {cities.map(city => <option key={city} value={city}>{city}</option>)}
           </StyledSelect>
-          <StyledButton className="button-container" onClick={handleFilterSubmit}>Filtrar</StyledButton>
+          <StyledButton className="button-container" onClick={() => validateFilter() && handleFilterSubmit()}>Filtrar</StyledButton>
           <StyledButton className="button-container" onClick={handleClearFilter}>Eliminar filtro</StyledButton>
         </FilterContainer>
       )}
@@ -188,7 +206,7 @@ export default function Home(props) {
         <FilterContainer>
           <StyledInput className="delete-button" type="date" value={filterValue1} onChange={handleFilterValue1} required/>
           <StyledInput  className="delete-button" type="date" value={filterValue2} onChange={handleFilterValue2} required/>
-          <StyledButton onClick={handleFilterSubmit}>Filtrar</StyledButton>
+          <StyledButton onClick={() => validateFilter2() && handleFilterSubmit()}>Filtrar</StyledButton>
           <StyledButton onClick={handleClearFilter}>Eliminar filtro</StyledButton>
         </FilterContainer>
       )}
