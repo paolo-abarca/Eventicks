@@ -2,9 +2,9 @@ import styled from "styled-components";
 
 export const Title = styled.p`
     color: #EE3869;
-    margin-top: 0%;
+    margin-top: -6%;
     margin-bottom: -1%;
-    font-size: 5vw;
+    font-size: 4vw;
     margin-left: 6%;
     text-shadow:
     0 0 10px rgba(255,81,255,0.7),
@@ -20,7 +20,7 @@ export const StyledButton = styled.button`
     text-decoration: none;
     display: inline-block;
     border-color: transparent;
-    margin: 3px;
+    margin: 7px;
 
     &:active {
         background-color: #EA134D;
