@@ -4,7 +4,7 @@ export const StyledButton = styled.button`
    color: white;
     background-color: #EE3869;
     border-radius: 20px;
-    padding: 0.2% 0.7%;
+    padding: 0.3% 0.7%;
     font-size: 1em;
     text-decoration: none;
     border-color: transparent;
@@ -14,7 +14,36 @@ export const StyledButton = styled.button`
         color: white;
     }
 `;
-
+export const StyledButton2 = styled.button`
+   color: white;
+    background-color: #EE3869;
+    margin-top: 10px;
+    border-radius: 20px;
+    padding: 10% 4%;
+    font-size: 1em;
+    text-decoration: #EE3869;
+    border-color: transparent;
+    display: inline-block;
+    &:active {
+        background-color: #EA134D;
+        text-decoration: none;
+        color: white;
+    }
+`;
+export const StyledButton1 = styled.button`
+   color: white;
+    background-color: #EE3869;
+    border-radius: 100px;
+    padding: 1% 4%;
+    font-size: 1em;
+    text-decoration: none;
+    border-color: transparent;
+    &:active {
+        background-color: #EA134D;
+        text-decoration: none;
+        color: white;
+    }
+`;
 export const StyledInput = styled.input`
     padding: 0.5% 1%;
     width: 20%;
@@ -83,6 +112,7 @@ export const SubTitle = styled.p`
     color: #EE3869;
     font-size: 2em;
     font-weight: bold;
+    margin-top: -1px;
 `;
 
 export const SubTitle1 = styled.p`
@@ -91,11 +121,25 @@ export const SubTitle1 = styled.p`
     margin-left: 1%;
 `;
 
-export const SubTitle3 = styled.p`
+
+export const SubTitle4 = styled.p`
     color: white;
     font-size: 1.2em;
     margin-left: 1%;
-    margin-right: 1%;
+    display: inline-block;
+`;
+export const Pricename = styled.p`
+    color: white;
+    font-size: 1.2em;
+    margin-left: 1%;
+    display: inline-block;
+`;
+
+export const SubTitle3 = styled.p`
+    color: white;
+    font-size: 1.2em;
+    margin-left: 5%;
+    margin-right: 5%;
     display: inline-block;
 `;
 
@@ -105,9 +149,6 @@ export const SubTitle2 = styled.p`
     text-shadow:
     0 0 20px rgba(255,81,255,0.7);
     margin-right: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
 `;
 
 export const ThirdContainer = styled.div`
@@ -206,9 +247,10 @@ align-items: center;
 
 export const Img = styled.img`
 border-radius: 30px;
-width: 1200px;
+max-height: 30vw;
+max-width: 90vw;
 `;
-
+ 
 export const TogetherContainer = styled.div`
 justify-content: center;
 align-items: center;
@@ -220,6 +262,31 @@ export const Div1 = styled.div`
 
 export const Div2 = styled.div`
 
+`;
+
+export const Div3 = styled.div`
+background-color: #3B3C4E;
+border-radius: 30px;
+margin: 5%;
+`;
+
+export const Div4 = styled.div`
+background-color: #3B3C4E;
+border-radius: 30px;
+
+
+`;
+
+export const Div5 = styled.div`
+background-color: #3B3C4E;
+border-radius: 30px;
+
+`;
+
+export const VideoDiv = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
 `;
 
 export const Div3 = styled.div`
