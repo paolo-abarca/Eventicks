@@ -35,7 +35,7 @@ export const StyledInput = styled.input`
 
 export const StyledInput1 = styled.input`
     padding: 0.5% 1%;
-    width: 10%;
+    width: 20%;
     border-radius: 20px;
     border-style: none;
     color: #130407;
@@ -50,7 +50,7 @@ export const StyledInput1 = styled.input`
 
 export const StyledTextArea = styled.textarea`
     padding: 0.5% 1%;
-    width: auto;
+    width: 20%;
     height: auto;
     border-radius: 20px;
     border-style: none;
@@ -66,7 +66,7 @@ export const StyledTextArea = styled.textarea`
 
 export const StyledSelect = styled.select`
     padding: 0.6% 1%;
-    width: auto;
+    width: 22.3%;
     border-radius: 20px;
     border-style: none;
     background: rgb(217, 217, 217, 0.6);
