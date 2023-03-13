@@ -15,6 +15,7 @@ import MyProfile from "./pages/MyProfile/MyProfile";
 import BuyTickets from "./pages/BuyTickets/BuyTickets";
 import MyEvents from "./pages/MyEvents/MyEvents";
 import MyTickets from "./pages/MyTickets/MyTickets";
+import TermsAndConditions from './pages/TermsAndConditions/TermsAndConditions';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -91,7 +92,7 @@ const App = () => {
       if (error.response && error.response.status === 401) {
         alert("Password Incorrecto");
       } else if (error.response && error.response.status === 404) {
-        alert("Email no valido");
+        alert("Correo no encontrado");
       } else {
         alert("Hubo un error al iniciar sesión. Inténtelo de nuevo más tarde.");
       }
@@ -167,6 +168,7 @@ const handleLogout = useCallback(() => {
         <Route path="/login" element={<Login handleLogin={handleLogin} />} />
         <Route path="/registrar" element={<Register  />} />
         <Route path="/sobre-nosotros" element={<AboutUs />} />
+        <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
       </Routes>
       <Footer>
 
