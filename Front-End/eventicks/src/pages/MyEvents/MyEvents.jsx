@@ -334,7 +334,7 @@ export default function MyEvents({ user }) {
           </div>
         ))
       ) : (
-        <p>No tienes eventos registrados.</p>
+        <SubTitle>No tienes eventos registrados. </SubTitle>
       )}
           </MainContainer>
       </div>
