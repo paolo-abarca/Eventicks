@@ -4,8 +4,7 @@ import axios from "axios";
 import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 import ReactPlayer from 'react-player';
-import {StyledButton, VideoDiv, Title, SubTitle1,SubTitle3,
-  SubTitle2, SubTitle, Img, DivImage, StyledButton1, SubTitle4, StyledButton2} from './someStyle.js';
+import {VideoDiv, Title, SubTitle1,SubTitle3, SubTitle, Img, DivImage, StyledButton1, SubTitle4, StyledButton2} from './someStyle.js';
 import "./BuyTickets.css";
 
 export default function BuyTickets(user) {
