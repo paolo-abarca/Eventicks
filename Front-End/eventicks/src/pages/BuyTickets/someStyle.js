@@ -256,62 +256,6 @@ justify-content: center;
 align-items: center;
 `;
 
-export const Div1 = styled.div`
- margin-right: 3px;
-`;
-
-export const Div2 = styled.div`
-
-`;
-
-export const Div3 = styled.div`
-background-color: #3B3C4E;
-border-radius: 30px;
-margin: 5%;
-`;
-
-export const Div4 = styled.div`
-background-color: #3B3C4E;
-border-radius: 30px;
-
-
-`;
-
-export const Div5 = styled.div`
-background-color: #3B3C4E;
-border-radius: 30px;
-
-`;
-
-export const VideoDiv = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-`;
-
-export const Div3 = styled.div`
-background-color: #3B3C4E;
-border-radius: 30px;
-margin: 5%;
-`;
-
-export const Div4 = styled.div`
-background-color: #3B3C4E;
-border-radius: 30px;
-
-
-`;
-
-export const Div5 = styled.div`
-background-color: #3B3C4E;
-border-radius: 30px;
-
-`;
-
-export const HR = styled.hr`
-color: red;
-`;
-
 export const VideoDiv = styled.div`
 display: flex;
 justify-content: center;
