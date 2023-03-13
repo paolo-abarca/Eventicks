@@ -45,7 +45,7 @@ const Login = ({ handleLogin }) => {
         <StyledButton type="submit">Iniciar Sesión</StyledButton>
       </form>
       <Acount>¿No tienes cuenta?</Acount>
-      <StyledLink to= "/registrar">Registrate aqui</StyledLink>
+      <StyledLink to= "/registrar">Registrate aquí</StyledLink>
 
       <Routes>
       <Route path="/registrar" element={<Register  />} />
