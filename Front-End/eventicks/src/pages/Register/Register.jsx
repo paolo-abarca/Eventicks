@@ -81,6 +81,7 @@ const Register = () => {
         <BeautyContainer></BeautyContainer>
         <label>
           <Select value={city} onChange={(event) => setCity(event.target.value)} required >
+	    <option value="">Selecciona una Ciudad</option>
 	    {cities.map(city => <option key={city} value={city}>{city}</option>)}
           </Select>
         </label>
