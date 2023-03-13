@@ -90,6 +90,10 @@ export default function BuyTickets({ user }) {
   };
 
   const handleBuyTickets = () => {
+    if (Object.values(ticketQuantities).reduce((acc, curr) => acc + curr, 0) === 0) {
+      alert("Elige la cantidad de tickets a comprar");
+      return;
+    }
     const newTickets = Object.entries(ticketQuantities)
       .filter(([ticketId, amount]) => amount > 0)
       .map(([ticketId, amount]) => ({
