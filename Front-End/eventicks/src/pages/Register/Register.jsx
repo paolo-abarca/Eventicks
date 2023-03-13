@@ -56,7 +56,7 @@ const Register = () => {
   return (
     <LoginContainer>
       {errorMessage && <div>{errorMessage}</div>}
-      <Title>Register</Title>
+      <Title>Bienvenido a Eventicks</Title>
       <form onSubmit={handleSubmit}>
         <label>
           <Input type="text" value={name_user} maxlength="49" placeholder="Nombres" onChange={(event) => setName(event.target.value)} required />
@@ -95,6 +95,11 @@ const Register = () => {
         </label>
         <BeautyContainer></BeautyContainer>
         <BeautyContainer></BeautyContainer>
+        <label>
+        <input type="checkbox" required /> <span>He leído y acepto los <a href="/terminos-y-condiciones" target="_blank">Términos y Condiciones.</a>.</span>
+        <br />
+        <br />
+        </label>
         <StyledButton type="submit">Registrarse</StyledButton>
       </form>
     </LoginContainer>
