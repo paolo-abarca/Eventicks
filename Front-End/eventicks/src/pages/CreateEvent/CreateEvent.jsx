@@ -60,7 +60,6 @@ function CreateEvent({ user }) {
           if (err.response && err.response.status === 401) {
             alert('Debe volver a iniciar sesión');
             localStorage.removeItem('token');
-            localStorage.removeItem("user");
             window.location.href = '/login';
           }
         }
@@ -111,7 +110,6 @@ function CreateEvent({ user }) {
           if (response.status === 401) {
             alert('Debe volver a iniciar sesión');
             localStorage.removeItem('token');
-            localStorage.removeItem("user");
             window.location.href = '/login';
           } else {
             throw Error('Error en la solicitud');
@@ -239,7 +237,7 @@ function CreateEvent({ user }) {
       <label>
         <SubTitle>Ciudad*</SubTitle>
         <StyledSelect name="city" value={eventData.city} onChange={handleInputChange} required>
-          <option value="">Seleccionar ciudad</option>
+          <option value="">Selecciona una Ciudad</option>
           {cities.map(city => <option key={city} value={city}>{city}</option>)}
         </StyledSelect>
       </label>
