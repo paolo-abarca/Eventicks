@@ -34,7 +34,6 @@ export default function MyTickets({ user }) {
           if (err.response && err.response.status === 401) {
             alert('Debe volver a iniciar sesión');
             localStorage.removeItem('token');
-            localStorage.removeItem("user");
             window.location.href = '/login';
           }
         }
