@@ -20,7 +20,7 @@ const Login = ({ handleLogin }) => {
 
   return (
     <LoginContainer>
-      <Title>Log in</Title>
+      <Title>Iniciar Sesión</Title>
       <form onSubmit={handleSubmit}>
         <label>
           <Input
