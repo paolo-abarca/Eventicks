@@ -185,7 +185,7 @@ export default function MyProfile({ user }) {
               <SubTitle>Número de Documento</SubTitle>
               {users.number_document ?
               <SubTitle1>{users.number_document}</SubTitle1> :
-              <SubTitle1>Ingresa tu numero de Documento</SubTitle1>}
+              <SubTitle1>Ingresa tu número de Documento</SubTitle1>}
               <SubTitle>País </SubTitle>
               <SubTitle1>{users.country}</SubTitle1>
               <SubTitle>Ciudad </SubTitle>
