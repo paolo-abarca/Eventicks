@@ -34,7 +34,6 @@ export default function MyProfile({ user }) {
           if (err.response && err.response.status === 401) {
             alert('Debe volver a iniciar sesión');
             localStorage.removeItem('token');
-            localStorage.removeItem("user");
             window.location.href = '/login';
           }
         }
@@ -75,7 +74,6 @@ export default function MyProfile({ user }) {
             if (error.response && error.response.status === 401) {
               alert('Debe volver a iniciar sesión');
               localStorage.removeItem('token');
-              localStorage.removeItem("user");
               window.location.href = '/login';
             }
           });
@@ -85,7 +83,6 @@ export default function MyProfile({ user }) {
         if (error.response && error.response.status === 401) {
           alert('Debe volver a iniciar sesión');
           localStorage.removeItem('token');
-          localStorage.removeItem("user");
           window.location.href = '/login';
         }
         console.error(error)
@@ -103,7 +100,6 @@ export default function MyProfile({ user }) {
 	})
         .then(() => {
           // Eliminar la sesión del usuario en el cliente
-          localStorage.removeItem("user");
           localStorage.removeItem('token');
           // Redireccionar a la página de inicio de sesión
           localStorage.clear();
@@ -113,7 +109,6 @@ export default function MyProfile({ user }) {
           if (error.response && error.response.status === 401) {
             alert('Debe volver a iniciar sesión');
             localStorage.removeItem('token');
-            localStorage.removeItem("user");
             window.location.href = '/login';
           }
 	  console.error(error)
@@ -148,7 +143,6 @@ export default function MyProfile({ user }) {
             if (error.response && error.response.status === 401) {
               alert('Debe volver a iniciar sesión');
               localStorage.removeItem('token');
-              localStorage.removeItem("user");
               window.location.href = '/login';
             }
           });
@@ -158,7 +152,6 @@ export default function MyProfile({ user }) {
         if (error.response && error.response.status === 401) {
           alert('Debe volver a iniciar sesión');
           localStorage.removeItem('token');
-          localStorage.removeItem("user");
           window.location.href = '/login';
         }
         console.error(error)
