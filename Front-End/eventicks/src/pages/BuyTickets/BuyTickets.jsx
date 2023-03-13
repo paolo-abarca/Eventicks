@@ -5,52 +5,26 @@ import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 import ReactPlayer from 'react-player';
 import {StyledButton, VideoDiv, Title, SubTitle1,SubTitle3,
-  SubTitle2, SubTitle, Img, DivImage, MainContainer} from './someStyle.js';
+  SubTitle2, SubTitle, Img, DivImage, StyledButton1, SubTitle4, StyledButton2} from './someStyle.js';
+import "./BuyTickets.css";
 
-export default function BuyTickets({ user }) {
+export default function BuyTickets(user) {
   const { eventId } = useParams();
   const [event, setEvent] = useState(null);
   const [ticketQuantities, setTicketQuantities] = useState({});
   const [ticketList, setTicketList] = useState([]);
   const [total, setTotal] = useState(0);
-  const [nothing, setNothing] = useState(null);
 
   useEffect(() => {
-    if (true) {
-      setNothing(true);
-    }
-  }, [nothing]);
-
-  useEffect(() => {
-    if (nothing) {
-      const fetchEvent = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          const res = await axios.get(`http://localhost:5000/api/events/${eventId}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            }
-          });
-          const tickets = res.data.tickets.reduce((acc, ticket) => {
-            acc[ticket.id] = 0;
-            return acc;
-          }, {});
-          setTicketQuantities(tickets);
-          setEvent(res.data);
-        } catch (err) {
-          console.error(err);
-          if (err.response && err.response.status === 401) {
-            alert('Debe volver a iniciar sesión');
-            localStorage.removeItem('token');
-            localStorage.removeItem("user");
-            window.location.href = '/login';
-          }
-	}
-      };
-      fetchEvent();
-    };
-  // eslint-disable-next-line
-  }, [nothing]);
+    axios.get(`http://localhost:5000/api/events/${eventId}`).then((response) => {
+      const tickets = response.data.tickets.reduce((acc, ticket) => {
+        acc[ticket.id] = 0;
+        return acc;
+      }, {});
+      setTicketQuantities(tickets);
+      setEvent(response.data);
+    });
+  }, [eventId]);
 
   useEffect(() => {
     let newTotal = 0;
@@ -94,50 +68,27 @@ export default function BuyTickets({ user }) {
     const newTickets = Object.entries(ticketQuantities)
       .filter(([ticketId, amount]) => amount > 0)
       .map(([ticketId, amount]) => ({
-        id_user: user.id,
+        id_user: user.user.id,
         id_ticket: parseInt(ticketId),
         amount: amount,
       }));
 
     setTicketList([...ticketList, ...newTickets]);
 
-    const token = localStorage.getItem('token');
-    axios.post('http://localhost:5000/api/buy_tickets', newTickets, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    })
+    axios.post('http://localhost:5000/api/buy_tickets', newTickets)
       .then((response) => {
         console.log('Tickets comprados con éxito');
-        const token = localStorage.getItem('token');
-        axios.get(`http://localhost:5000/api/events/${eventId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          }
-	}).then((response) => {
+        axios.get(`http://localhost:5000/api/events/${eventId}`).then((response) => {
           const tickets = response.data.tickets.reduce((acc, ticket) => {
             acc[ticket.id] = 0;
             return acc;
           }, {});
            setTicketQuantities(tickets);
            setEvent(response.data);
-        }).catch((error) => {
-          if (error.response && error.response.status === 401) {
-            alert('Debe volver a iniciar sesión');
-            localStorage.removeItem('token');
-            localStorage.removeItem("user");
-            window.location.href = '/login';
-          }
         });
         alert("Tickets comprados con éxito")
       })
       .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          alert('Debe volver a iniciar sesión');
-          localStorage.removeItem('token');
-          localStorage.removeItem("user");
-          window.location.href = '/login';
-        }
         console.error('Error al comprar tickets:', error);
       });
   };
@@ -148,34 +99,18 @@ export default function BuyTickets({ user }) {
       {event && (
         <>
           <DivImage><Img src={event.photo_event} alt="Imagen de evento" /></DivImage>
-          <SubTitle2>Fecha: {formatDate(event.date_start)} - {formatDate(event.date_end)}</SubTitle2>
-          <SubTitle2>Horario: {formatTime(event.start_time)} - {formatTime(event.end_time)}</SubTitle2>
-          <MainContainer>
-          <SubTitle >Tickets</SubTitle >
-            {event.tickets.map((ticket) => (
-              <div key={ticket.id}>
-                <SubTitle1>{ticket.type}</SubTitle1>
-                <SubTitle1>{ticket.currency} {ticket.price}</SubTitle1>
-                <SubTitle1>{ticket.amount_ticket}</SubTitle1>
-                <div>
-                  <StyledButton onClick={() => handleDecrement(ticket.id)}>-</StyledButton>
-                  <SubTitle3>{ticketQuantities[ticket.id]}</SubTitle3>
-                  <StyledButton onClick={() => handleIncrement(ticket.id)}>+</StyledButton>
-                </div>
-              </div>
-            ))}
-          <SubTitle1 >Para mayores de {event.restriction}</SubTitle1>
-          <SubTitle1 >Total: {event.currency}{total.toFixed(2)}</SubTitle1 >
-          <StyledButton onClick={handleBuyTickets}>Comprar</StyledButton>
-          <SubTitle >Lugar</SubTitle >
-          <SubTitle1 >{event.city}, PE</SubTitle1 >
-          <SubTitle1 >{event.address}</SubTitle1 >
-          <SubTitle1 >{event.reference}</SubTitle1 >
-          <SubTitle >Organiza</SubTitle >
-          <SubTitle1 >{event.name_user} {event.last_name}</SubTitle1>
+          <div class="parent">
+          <div class="div1">
+          <SubTitle>Detalles del evento:</SubTitle>
+          <SubTitle>Fecha </SubTitle><SubTitle1>{formatDate(event.date_start)} - {formatDate(event.date_end)}</SubTitle1>
+          <SubTitle>Horario </SubTitle><SubTitle1>{formatTime(event.start_time)} - {formatTime(event.end_time)}</SubTitle1>
+          <SubTitle>Descripción</SubTitle>
           <SubTitle1 >{event.description}</SubTitle1 >
+          <SubTitle>Información adicional</SubTitle>
           <SubTitle1 >{event.information}</SubTitle1>
-          </MainContainer>
+          <SubTitle1 >Para mayores de {event.restriction}</SubTitle1>
+          <SubTitle >Organiza</SubTitle>
+          <SubTitle1 >{event.name_user} {event.last_name}</SubTitle1>
           <VideoDiv className='video'>
           <ReactPlayer
           url= {event.video}
@@ -185,6 +120,40 @@ export default function BuyTickets({ user }) {
          className='react-player'
           />
           </VideoDiv>
+          </div>
+          <div class="div2">
+          <SubTitle >Tickets</SubTitle >
+            {event.tickets.map((ticket) => (
+              <div key={ticket.id} className="Ticket0">
+                <div className="Ticket1"> 
+                <SubTitle4>{ticket.type}</SubTitle4>
+                </div>
+                <div className="Ticket2">
+                <SubTitle4>{ticket.currency} {ticket.price}</SubTitle4>
+                </div>
+                <div className="Ticket3">
+                  <StyledButton1 onClick={() => handleDecrement(ticket.id)}>-</StyledButton1>
+                  <SubTitle3>{ticketQuantities[ticket.id]}</SubTitle3>
+                  <StyledButton1 onClick={() => handleIncrement(ticket.id)}>+</StyledButton1>
+                </div>
+              </div>
+            ))}
+            <div className="minigrid">
+            <div className="mini1">
+            <SubTitle1 ><b>Total: </b> {event.currency}{total.toFixed(2)}</SubTitle1 >
+            </div>
+            <div className="mini4">
+            <StyledButton2 onClick={handleBuyTickets}>Comprar</StyledButton2>
+            </div>
+            </div>
+          </div>
+          <div class="div3">
+          <SubTitle >Lugar</SubTitle >
+          <SubTitle1 >{event.city}, PE</SubTitle1 >
+          <SubTitle1 >{event.address}</SubTitle1 >
+          <SubTitle1 >{event.reference}</SubTitle1 >
+          </div>
+          </div>
         </>
       )}
     </div>
