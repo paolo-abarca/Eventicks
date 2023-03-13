@@ -103,7 +103,7 @@ export const StyledSelect = styled.select`
 export const Title = styled.p`
     color: #EE3869;
     font-size: 3em;
-    margin: 3%;
+    margin: 7% 6% -3% 5% ;
     text-shadow:
     0 0 20px rgba(255,81,255,0.7);
 `;
@@ -243,6 +243,7 @@ export const DivImage = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
+margin: 5% 6% -1% 5% ;
 `;
 
 export const Img = styled.img`
