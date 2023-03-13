@@ -218,7 +218,7 @@ function CreateEvent({ user }) {
       </FirstContainer>
       <SecondContainer>
       <label>
-  <SubTitle>Imagen* (846px x 522px)</SubTitle>
+  <SubTitle>Imagen*</SubTitle>
   <input type="file" name="photo_event" onChange={handleFileInputChange} required />
   {eventData["photo_event"] !== "" ?
   <p><img src={eventData["photo_event"]} alt="Imagen de Evento" width="500px" /></p> :
