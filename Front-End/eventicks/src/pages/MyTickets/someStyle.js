@@ -77,7 +77,7 @@ export const StyledSelect = styled.select`
 export const Title = styled.p`
     color: #EE3869;
     font-size: 3em;
-    margin: 3%;
+    margin: 7% 6% -3% 5% ;
     text-shadow:
     0 0 20px rgba(255,81,255,0.7);
 `;
@@ -86,6 +86,7 @@ export const SubTitle = styled.p`
     color: #EE3869;
     font-size: 1.2em;
     font-weight: bold;
+
 `;
 
 export const SubTitle1 = styled.p`
@@ -190,5 +191,5 @@ export const TitleContainer = styled.p`
 
 export const Img = styled.img`
 border-radius: 30px;
-align-items: center;
+margin: -1% 8% 1% 4% ;
 `;
