@@ -115,6 +115,7 @@ export default function UserEditor({ user, onCancel, onSave }) {
           <StyledSelect
             value={city}
             onChange={(e) => setCity(e.target.value)} required>
+	    <option value="">Selecciona una Ciudad</option>
 	    {cities.map(city => <option key={city} value={city}>{city}</option>)}
           </StyledSelect>
         </label>
