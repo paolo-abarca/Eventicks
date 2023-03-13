@@ -46,8 +46,8 @@ class Event(BaseModel):
             id = event["id"]
             query = "SELECT ticket.currency, MIN(ticket.price) as price FROM \
                     ticket INNER JOIN event ON ticket.id_event = event.id \
-                    WHERE event.id = {} GROUP BY ticket.currency;".format(id)
-            storage.cursor.execute(query)
+                    WHERE event.id = %s GROUP BY ticket.currency;"
+            storage.cursor.execute(query, (id,))
             tupla = storage.cursor.fetchall()
             event["currency"] = tupla[0]["currency"]
             event["price"] = tupla[0]["price"]
@@ -66,18 +66,18 @@ class Event(BaseModel):
                 event.end_time, event.restriction, event.city, event.address, \
                 event.reference, user.name_user, user.last_name, \
                 user.photo_user FROM event INNER JOIN user ON user.id = \
-                event.id_user WHERE event.id = {}".format(id_event)
+                event.id_user WHERE event.id = %s"
 
-        storage.cursor.execute(query)
+        storage.cursor.execute(query, (id_event,))
         tupla = storage.cursor.fetchall()
         dic_result = storage.to_dict("Event", tupla[0])
 
         query = "SELECT ticket.id, ticket.currency, ticket.type, \
                 ticket.amount_ticket, ticket.price FROM ticket WHERE \
-                ticket.id_event = {}".format(id_event)
+                ticket.id_event = %s"
 
         list_tickets = []
-        storage.cursor.execute(query)
+        storage.cursor.execute(query, (id_event,))
         tupla = storage.cursor.fetchall()
         for ticket in list(tupla):
             list_tickets.append(storage.to_dict("Ticket", ticket))
@@ -93,10 +93,10 @@ class Event(BaseModel):
         """
         query = "SELECT event.*, category.name_category FROM event INNER JOIN \
                 category ON event.id_category = category.id WHERE id_user = \
-                {} ORDER BY id DESC;".format(id_user)
+                %s ORDER BY id DESC;"
         list_result = []
 
-        storage.cursor.execute(query)
+        storage.cursor.execute(query, (id_user,))
         tupla = storage.cursor.fetchall()
         for event in list(tupla):
             id_event = event["id"]
