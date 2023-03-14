@@ -19,6 +19,7 @@ export const LeftContainer = styled.div`
   display: flex;
   align-items: center;
   padding-left: 5%;
+  padding-top: 0.7%;
 `;
 
 export const NavbarLink = styled(Link)`

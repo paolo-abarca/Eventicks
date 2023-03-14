@@ -38,6 +38,8 @@ nav ul {
   display: flex;
   justify-content: flex-end;
   margin-right: 20%;
+  transition: transform 0.3s ease-in-out;
+
 }
 
 nav a {
@@ -50,23 +52,41 @@ nav a {
   text-decoration: none; /* Sin subrayado en los enlaces */
   margin-right: 13px; /* Espaciado entre los enlaces */
   font-weight: bold; /* Texto en negrita */
+  transition: transform 0.3s ease-in-out;
+
 }
 
 nav a:hover {
   color:  #ff5890;
+  transform: scale(1.1);
+  transition: transform 0.7s ease-in-out;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+
 }
+
+
+
 
 .btn-logout {
   background-color: #EE3869; /* Cambia el color de fondo del botón a rojo */
   color: white; /* Cambia el color del texto a blanco */
   border: none; /* Elimina el borde del botón */
-  padding: 7px; /* Ajusta el espaciado interno del botón a tu preferencia */
+  padding: 6px; /* Ajusta el espaciado interno del botón a tu preferencia */
   border-radius: 36px; /* Agrega bordes redondeados al botón */
-  margin-right: 30px;
+  margin-right: 32px;
+  transition: transform 0.1s ease-in-out;
+  
 }
 
 .btn-logout button:hover {
   background-color: #ff5890;
+}
+
+.btn-logout:hover {
+  background-color: #ff5890;
+  transform: scale(1.1);
+  transition: transform 0.7s ease-in-out;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
 }
 
 .button-container {
@@ -91,8 +111,15 @@ nav a:hover {
 }
 
 .button-container button:hover {
-  background-color: #ec5b82;
+  background-color: #d1476c;
+  transform: scale(1.1);
+  transition: transform 0.2s ease-in-out;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+
+
 }
+
+
 
 .filter-buttons {
   display: flex;
@@ -137,7 +164,6 @@ nav a:hover {
   margin-right: 10px;
   margin-top: -100px;
   cursor: pointer;
-  
 }
 
 
@@ -168,7 +194,7 @@ nav a:hover {
 .allcard {
   display: grid;
   /* grid-template-rows: repeat(3, 1fr); */
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(4, 1fr);
   grid-gap: 2%;
 }
 
@@ -183,11 +209,12 @@ nav a:hover {
 
 
 .card {
-  background-color: #0e0c18;
-  border-radius: 15px;
-  margin: 10%;
-  margin-bottom: -30px;
-  transition: transform 0.3s ease-in-out;
+  background-color: rgb(52, 67, 56);
+  border-radius: 5px;
+  margin: 8%;
+  margin-top: 30px;
+  margin-bottom: -20px;
+  transition: transform 0.7s ease-in-out;
 
 }
 
