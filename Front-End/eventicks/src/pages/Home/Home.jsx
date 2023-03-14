@@ -118,8 +118,8 @@ export default function Home(props) {
     "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676996528/eventicks/QvsUiqfh3SxhfTY_nzomdk.png",
     "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676996528/eventicks/HaiMT3Qa3L5U26j_mxwjtk.jpg",
     "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676996528/eventicks/VLreJXGN5WWAAkn_xvll3c.png",
-    "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676996528/eventicks/rE9F3vyBq8o3g4z_kky8ba.jpg",
-    "https://res.cloudinary.com/cloud-eventicks/image/upload/v1676996528/eventicks/2BgFx4SF2oy3LYE_dvhnzl.jpg"
+    "https://res.cloudinary.com/cloud-eventicks/image/upload/v1678728918/eventicks/jozaj8g6d0srrdtofx6w.jpg",
+    "https://res.cloudinary.com/cloud-eventicks/image/upload/v1678733686/eventicks/dtw7usp0yupbihr6yuqr.png"
   ];
 
   const banner = document.getElementById('banner');
