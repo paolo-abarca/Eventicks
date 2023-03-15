@@ -6,7 +6,7 @@ import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 import { categories } from "../../utils/categories.js";
 import { cities } from "../../utils/cities.js";
-import { Title, StyledButton, StyledSelect, FilterContainer, StyledInput, Lildiv} from './someStyle.js';
+import { Title, StyledButton, StyledSelect, FilterContainer, StyledInput, Lildiv, SubTitle} from './someStyle.js';
 import Footer from '../Footer/Footer';
 import CookieNotice from '../Cookies/Cookies';
 
@@ -217,7 +217,7 @@ export default function Home(props) {
       </div>
       <div className="allcard">
         {loading ? (
-            <Lildiv><p>Cargando Eventos...</p></Lildiv>
+            <Lildiv><SubTitle>Cargando Eventos...</SubTitle></Lildiv>
         ) : events.length > 0 ? (
           events.map((event) => (
             <div key={event.id} >
@@ -243,7 +243,7 @@ export default function Home(props) {
       </div>        
     ))
   ) : (
-    <p>No hay eventos</p>
+    <Lildiv><SubTitle>No hay eventos</SubTitle></Lildiv>
   )}
 </div>
 <CookieNotice />
