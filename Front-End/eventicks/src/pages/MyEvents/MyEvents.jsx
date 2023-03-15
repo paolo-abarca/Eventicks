@@ -275,7 +275,7 @@ export default function MyEvents({ user }) {
                 </div>
                 <div>
                 <SubTitle>Visibilidad: </SubTitle>
-                <SubTitle1>{event.visibility}</SubTitle1>
+                <SubTitle1>{event.visibility === 'yes' ? 'Si' : event.visibility}</SubTitle1>
                 </div>
                 </div>
                 <SubTitle>Descripción: </SubTitle>
