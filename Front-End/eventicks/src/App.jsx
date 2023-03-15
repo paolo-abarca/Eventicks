@@ -103,6 +103,7 @@ const handleLogout = useCallback(() => {
     setIsAuthenticated(false);
     setUser(null);
     localStorage.removeItem("token");
+    localStorage.clear();
     navigate('/login'); // Navega a la página de inicio de sesión
     }, [navigate]);
 
