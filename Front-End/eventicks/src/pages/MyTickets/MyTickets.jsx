@@ -87,19 +87,19 @@ export default function MyTickets({ user }) {
             <SubTitle1>{ticket.address}</SubTitle1>
             </div>
             <div>
-            <SubTitle3>Evento de</SubTitle3>
-            <SubTitle1>{ticket.name_user} {ticket.last_name}</SubTitle1>
+            <SubTitle3>Entrada: {ticket.type}</SubTitle3>
+            <SubTitle1>Para {ticket.amount} personas</SubTitle1>
             </div>
             <div>
             <SubTitle3>Restricción</SubTitle3>
             <SubTitle1>Mayores de {ticket.restriction}</SubTitle1>
             </div>
             <div>
-            <SubTitle3>Entrada: {ticket.type}</SubTitle3>
-            <SubTitle1>Para {ticket.amount} personas</SubTitle1>
+            <SubTitle3>Cliente</SubTitle3>
+            <SubTitle1>{ticket.name_user} {ticket.last_name}</SubTitle1>
             </div>
             <div>
-            <SubTitle3>Ticket</SubTitle3>
+            <SubTitle3>Identificación</SubTitle3>
             {ticket.document_type ?
             <SubTitle1>{ticket.document_type} - {ticket.number_document}</SubTitle1>  :
             <SubTitle1>Sin Documentos</SubTitle1>}
