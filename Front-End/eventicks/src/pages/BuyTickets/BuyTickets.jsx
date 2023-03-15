@@ -4,7 +4,7 @@ import axios from "axios";
 import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 import ReactPlayer from 'react-player';
-import {VideoDiv, Title, SubTitle1,SubTitle3, SubTitle, Img, DivImage, StyledButton1, SubTitle4, StyledButton2} from './someStyle.js';
+import {VideoDiv, Title, SubTitle1,SubTitle3, SubTitle, Img, DivImage, StyledButton1, SubTitle4, StyledButton2, Lildiv, SubTitle5, SubTitle6} from './someStyle.js';
 import "./BuyTickets.css";
 import Footer from '../Footer/Footer';
 
@@ -146,7 +146,8 @@ export default function BuyTickets({ user }) {
 
   return (
     <div>
-      <Title>{event ? event.name_event : "Cargando evento..."}</Title>
+        {event ? <Title>{event.name_event}</Title> :
+          <Lildiv><SubTitle5>Cargando Evento...</SubTitle5></Lildiv>}
       {event && (
         <>
           <DivImage><Img src={event.photo_event} alt="Imagen de evento" /></DivImage>
@@ -182,9 +183,17 @@ export default function BuyTickets({ user }) {
                 <SubTitle4>{ticket.currency} {ticket.price}</SubTitle4>
                 </div>
                 <div className="Ticket3">
-                  <StyledButton1 onClick={() => handleDecrement(ticket.id)}>-</StyledButton1>
-                  <SubTitle3>{ticketQuantities[ticket.id]}</SubTitle3>
-                  <StyledButton1 onClick={() => handleIncrement(ticket.id)}>+</StyledButton1>
+                  {ticket.amount_ticket > 0 ? (
+                    <>
+                      <StyledButton1 onClick={() => handleDecrement(ticket.id)}>-</StyledButton1>
+                      <SubTitle3>{ticketQuantities[ticket.id]}</SubTitle3>
+                      <StyledButton1 onClick={() => handleIncrement(ticket.id)}>+</StyledButton1>
+                    </>
+                  ) : (
+                    <>
+                      <SubTitle6>Agotado</SubTitle6>
+                    </>
+                  )}
                 </div>
               </div>
             ))}
