@@ -71,3 +71,9 @@ export const Lildiv = styled.div`
     border-radius: 30px;
     width: 100%;
 `;
+
+export const SubTitle = styled.p`
+    color: #EE3869;
+    font-size: 1.2em;
+    font-weight: bold;
+`;
