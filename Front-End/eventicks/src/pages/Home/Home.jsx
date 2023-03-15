@@ -8,6 +8,7 @@ import { categories } from "../../utils/categories.js";
 import { cities } from "../../utils/cities.js";
 import { Title, StyledButton, StyledSelect, FilterContainer, StyledInput, Lildiv} from './someStyle.js';
 import Footer from '../Footer/Footer';
+import CookieNotice from '../Cookies/Cookies';
 
 export default function Home(props) {
   const [events, setEvents] = useState([]);
@@ -245,7 +246,9 @@ export default function Home(props) {
     <p>No hay eventos</p>
   )}
 </div>
+<CookieNotice />
   <Footer />
+
 </div>
   );
 }
