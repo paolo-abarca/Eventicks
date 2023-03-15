@@ -121,6 +121,11 @@ export const SubTitle1 = styled.p`
     margin-left: 1%;
 `;
 
+export const SubTitle5 = styled.p`
+    color: #EE3869;
+    font-size: 1.2em;
+    font-weight: bold;
+`;
 
 export const SubTitle4 = styled.p`
     color: white;
@@ -137,6 +142,14 @@ export const Pricename = styled.p`
 
 export const SubTitle3 = styled.p`
     color: white;
+    font-size: 1.2em;
+    margin-left: 5%;
+    margin-right: 5%;
+    display: inline-block;
+`;
+
+export const SubTitle6 = styled.p`
+    color: red;
     font-size: 1.2em;
     margin-left: 5%;
     margin-right: 5%;
@@ -261,4 +274,11 @@ export const VideoDiv = styled.div`
 display: flex;
 justify-content: center;
 align-items: center;
+`;
+
+export const Lildiv = styled.div`
+    background-color: #3B3C4E;
+    padding: 2vw;
+    margin: 5vw;
+    border-radius: 30px;
 `;
