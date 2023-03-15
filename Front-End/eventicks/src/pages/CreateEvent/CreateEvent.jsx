@@ -6,7 +6,8 @@ import { Title, SubTitle, StyledButton,
   StyledInput1, MainContainer, FirstContainer, 
   SecondContainer, ThirdContainer, FourthContainer,
   TitleContainer, BeautyContainer, Number, 
-  FinalButton, SubTitle1, SubTitle2} from './someStyle.js';
+  FinalButton, SubTitle1, SubTitle2,
+  InputCheckboxny, InputFile} from './someStyle.js';
   import Footer from '../Footer/Footer';
 
 function CreateEvent({ user }) {
@@ -25,7 +26,7 @@ function CreateEvent({ user }) {
     start_time: '',
     date_end: '',
     end_time: '',
-    visibility: '',
+    visibility: 'No',
     restriction: 0,
     city: '',
     address: '',
@@ -207,7 +208,7 @@ function CreateEvent({ user }) {
       <br />
       <label>
         <SubTitle>Visibilidad*</SubTitle>
-        <input type="checkbox" name="visibility" checked={eventData.visibility === 'yes'} onChange={(e) => setEventData({...eventData, visibility: e.target.checked ? 'yes' : 'no' })} />
+        <InputCheckboxny type="checkbox" name="visibility" checked={eventData.visibility === 'yes'} onChange={(e) => setEventData({...eventData, visibility: e.target.checked ? 'yes' : 'no' })} />
         <SubTitle1>Mostrar el evento públicamente</SubTitle1>
       </label>
       <br />
@@ -220,7 +221,7 @@ function CreateEvent({ user }) {
       <SecondContainer>
       <label>
   <SubTitle>Imagen*</SubTitle>
-  <input type="file" name="photo_event" onChange={handleFileInputChange} required />
+  <InputFile type="file" name="photo_event" onChange={handleFileInputChange} required />
   {eventData["photo_event"] !== "" ?
   <p><img src={eventData["photo_event"]} alt="Imagen de Evento" width="500px" /></p> :
   <SubTitle2>Selecciona una foto</SubTitle2>}
