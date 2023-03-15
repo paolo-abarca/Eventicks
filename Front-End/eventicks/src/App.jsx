@@ -16,6 +16,7 @@ import BuyTickets from "./pages/BuyTickets/BuyTickets";
 import MyEvents from "./pages/MyEvents/MyEvents";
 import MyTickets from "./pages/MyTickets/MyTickets";
 import TermsAndConditions from './pages/TermsAndConditions/TermsAndConditions';
+import Form from './pages/Footer/Footer';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -171,7 +172,7 @@ const handleLogout = useCallback(() => {
         <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
       </Routes>
       <Footer>
-
+      <Form />
       </Footer>
     </div>
   );
