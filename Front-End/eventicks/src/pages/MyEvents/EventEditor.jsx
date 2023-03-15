@@ -152,7 +152,7 @@ export default function EventEditor({ event, onCancel, onSave }) {
           <input
             type="checkbox"
             checked={visibility === "yes"}
-            onChange={(e) => setVisibility(e.target.checked ? "yes" : "no")}
+            onChange={(e) => setVisibility(e.target.checked ? "yes" : "No")}
           /> <SubTitle1>Mostrar el evento públicamente</SubTitle1>
         </label>
        </div>
