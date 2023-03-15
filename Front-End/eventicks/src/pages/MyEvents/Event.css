@@ -1,0 +1,17 @@
+#grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 10px;
+  }
+  #grid > div {
+    padding: 2vw;
+    margin: 1vw;
+    background-color: #53546e;
+    border-radius: 30px;
+  }
+
+  .a {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+  }

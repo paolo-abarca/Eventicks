@@ -79,7 +79,3 @@ export const UltimateContainer = styled.div`
   overflow: hidden;
 `;
 
-export const Footer = styled.div`
-  background-color: aliceblue;
-  width: 20%;
-`;

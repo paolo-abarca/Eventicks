@@ -6,6 +6,7 @@ import { daysDict, monthsDict } from "../../utils/translations.js";
 import ReactPlayer from 'react-player';
 import {VideoDiv, Title, SubTitle1,SubTitle3, SubTitle, Img, DivImage, StyledButton1, SubTitle4, StyledButton2} from './someStyle.js';
 import "./BuyTickets.css";
+import Footer from '../Footer/Footer';
 
 export default function BuyTickets({ user }) {
   const { eventId } = useParams();
@@ -207,6 +208,7 @@ export default function BuyTickets({ user }) {
           </div>
         </>
       )}
+      <Footer />
     </div>
   );
 }

@@ -7,6 +7,7 @@ import { Title, SubTitle, StyledButton,
   SecondContainer, ThirdContainer, FourthContainer,
   TitleContainer, BeautyContainer, Number, 
   FinalButton, SubTitle1, SubTitle2} from './someStyle.js';
+  import Footer from '../Footer/Footer';
 
 function CreateEvent({ user }) {
   const [categories, setCategories] = useState([]);
@@ -293,6 +294,7 @@ function CreateEvent({ user }) {
         <BeautyContainer>
         <FinalButton type="submit">Publicar Evento</FinalButton>
         </BeautyContainer>
+        <Footer />
     </form>
   );
 }

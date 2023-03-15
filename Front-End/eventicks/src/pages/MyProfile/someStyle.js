@@ -4,13 +4,15 @@ export const StyledButton = styled.button`
    color: white;
     background-color: #EE3869;
     border-radius: 20px;
-    padding: 0.7% 1%;
+    padding: 1% 2%;
     font-size: 1em;
     text-decoration: none;
     display: inline-block;
     border-color: transparent;
     margin-right: 2%;
     margin-top: 2%;
+    margin-left: 1%;
+
     &:active {
         background-color: #EA134D;
         text-decoration: none;
@@ -19,8 +21,9 @@ export const StyledButton = styled.button`
 `;
 
 export const StyledInput = styled.input`
-    padding: 0.5% 1%;
+    padding: 1.5% 2%;
     width: 20%;
+    width: auto;
     border-radius: 20px;
     border-style: none;
     color: #130407;
@@ -33,8 +36,8 @@ export const StyledInput = styled.input`
 `;
 
 export const StyledInput1 = styled.input`
-    padding: 0.5% 1%;
-    width: 10%;
+    padding: 2% 3%;
+    width: 20%;
     border-radius: 20px;
     border-style: none;
     color: #130407;
@@ -48,7 +51,7 @@ export const StyledInput1 = styled.input`
 `;
 
 export const StyledTextArea = styled.textarea`
-    padding: 0.5% 1%;
+    padding: 2% 3%;
     width: auto;
     height: auto;
     border-radius: 20px;
@@ -64,7 +67,7 @@ export const StyledTextArea = styled.textarea`
 `;
 
 export const StyledSelect = styled.select`
-    padding: 0.6% 1%;
+    padding: 2% 2%;
     width: auto;
     border-radius: 20px;
     border-style: none;
@@ -174,7 +177,7 @@ export const MainContainer = styled.p`
         padding: 3%;
         margin: 5%;
         border-radius: 30px;
-        padding-bottom: 35%;
+        padding-bottom: 32%;
 `;
 
 export const MainContainer1 = styled.p`
@@ -182,7 +185,7 @@ export const MainContainer1 = styled.p`
         padding: 3%;
         margin: 5%;
         border-radius: 30px;
-        padding-bottom: 65%;
+        padding-bottom: 20%;
 `;
 
 
@@ -204,4 +207,16 @@ export const TitleContainer = styled.p`
 
 export const Img = styled.img`
 border-radius: 100%;
+`;
+
+export const Lildiv = styled.div`
+    background-color: #3B3C4E;
+    padding: 2vw;
+    margin: 5vw;
+    border-radius: 30px;
+`;
+
+export const SubTitle4 = styled.p`
+    margin-left: 9px;
+    display: inline-block;
 `;

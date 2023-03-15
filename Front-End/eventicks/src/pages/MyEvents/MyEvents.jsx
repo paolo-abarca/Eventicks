@@ -8,6 +8,9 @@ import ReactPlayer from 'react-player';
 import { Title, SubTitle, StyledButton, 
   MainContainer, TitleContainer, TitleT, Number, 
   Img, SubTitle1} from './someStyle.js';
+import Footer from '../Footer/Footer';
+import { Lildiv } from "../MyProfile/someStyle.js";
+import "./Event.css"
 
 export default function MyEvents({ user }) {
   const [events, setEvents] = useState(null);
@@ -228,12 +231,11 @@ export default function MyEvents({ user }) {
       <TitleContainer>
       <Title> Mis eventos</Title>
       </TitleContainer>
-      <MainContainer>
       {loading ? (
-        <SubTitle>Cargando Eventos...</SubTitle>
+        <Lildiv><SubTitle>Cargando Eventos...</SubTitle></Lildiv>
       ) : events.length > 0 ? (
         events.map((event) => (
-          <div key={event.id}>
+          <MainContainer key={event.id}>
             {editingEvent === event.id ? (
               <EventEditor
                 event={event}
@@ -246,18 +248,42 @@ export default function MyEvents({ user }) {
                 <Number>1</Number><TitleT>Detalles del Evento</TitleT>
                 </TitleContainer>
                 <p><Img src={event.photo_event} alt="Imagen de evento" width="1100px"/></p>
+                <div className="a">
+                <div>
                 <SubTitle>Nombre del Evento: </SubTitle>
                 <SubTitle1>{event.name_event}</SubTitle1>
+                </div>
+                <div>
                 <SubTitle>Fecha de Inicio: </SubTitle>
                 <SubTitle1>{formatDate(event.date_start)} </SubTitle1>
-                <SubTitle>Fecha Final: </SubTitle>
-                <SubTitle1>{formatDate(event.date_end)}</SubTitle1>
-                <SubTitle>Hora de Inicio: </SubTitle>
-                <SubTitle1>{formatTime(event.start_time)}</SubTitle1>
+                </div>
+                <div><SubTitle>Fecha Final: </SubTitle>
+                <SubTitle1>{formatDate(event.date_end)}</SubTitle1></div>
+                <div><SubTitle>Hora de Inicio: </SubTitle>
+                <SubTitle1>{formatTime(event.start_time)}</SubTitle1></div>
+                <div>
                 <SubTitle>Hora Final: </SubTitle>
                 <SubTitle1>{formatTime(event.end_time)}</SubTitle1>
+                </div>
+                <div>
                 <SubTitle>Categoría: </SubTitle>
                 <SubTitle1>{event.name_category}</SubTitle1>
+                </div>
+                <div>
+                <SubTitle>Restricción: </SubTitle>
+                <SubTitle1>{event.restriction}</SubTitle1>
+                </div>
+                <div>
+                <SubTitle>Visibilidad: </SubTitle>
+                <SubTitle1>{event.visibility}</SubTitle1>
+                </div>
+                </div>
+                <SubTitle>Descripción: </SubTitle>
+                <SubTitle1>{event.description}</SubTitle1>
+                <SubTitle>Información Adicional: </SubTitle>
+                {event["information"] !== "" ?
+                <SubTitle1>{event.information}</SubTitle1> :
+                <SubTitle1>No hay Información Adicional</SubTitle1>}
                 <SubTitle>Link de Video: </SubTitle>
                 {event["video"] !== "" ?
                 <div className='video'>
@@ -270,16 +296,6 @@ export default function MyEvents({ user }) {
                   />
                 </div> :
                 <SubTitle1>No hay Video</SubTitle1>}
-                <SubTitle>Restricción: </SubTitle>
-                <SubTitle1>{event.restriction}</SubTitle1>
-                <SubTitle>Visibilidad: </SubTitle>
-                <SubTitle1>{event.visibility}</SubTitle1>
-                <SubTitle>Descripción: </SubTitle>
-                <SubTitle1>{event.description}</SubTitle1>
-                <SubTitle>Información Adicional: </SubTitle>
-                {event["information"] !== "" ?
-                <SubTitle1>{event.information}</SubTitle1> :
-                <SubTitle1>No hay Información Adicional</SubTitle1>}
 
                 <TitleContainer>
                 <Number>2</Number><TitleT>Ubicación</TitleT>
@@ -304,6 +320,7 @@ export default function MyEvents({ user }) {
             <TitleContainer>
             <Number>3</Number><TitleT>Tickets</TitleT>
             </TitleContainer>
+            <div id="grid">
             {event.tickets.map((ticket) => (
               <div key={ticket.id}>
                 {editingTicket === ticket.id ? (
@@ -331,12 +348,13 @@ export default function MyEvents({ user }) {
                 )}
               </div>
             ))}
-          </div>
+            </div>
+          </MainContainer>
         ))
       ) : (
-        <SubTitle>No tienes eventos registrados. </SubTitle>
+        <Lildiv><SubTitle>No tienes eventos registrados. </SubTitle></Lildiv>
       )}
-          </MainContainer>
+          <Footer />
       </div>
   );
 }

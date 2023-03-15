@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { BrowserRouter, Route, Link, Routes, useNavigate, useLocation } from "react-router-dom";
-import { Navbar , LeftContainer, LogoA, MainContainer, UltimateContainer, Footer} from './App.js';
+import { Navbar , LeftContainer, LogoA, MainContainer, UltimateContainer} from './App.js';
 import Logo from "./img/logo.png"
 import axios from 'axios'
 import jwt_decode from "jwt-decode";
@@ -16,7 +16,6 @@ import BuyTickets from "./pages/BuyTickets/BuyTickets";
 import MyEvents from "./pages/MyEvents/MyEvents";
 import MyTickets from "./pages/MyTickets/MyTickets";
 import TermsAndConditions from './pages/TermsAndConditions/TermsAndConditions';
-import Form from './pages/Footer/Footer';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -171,9 +170,6 @@ const handleLogout = useCallback(() => {
         <Route path="/sobre-nosotros" element={<AboutUs />} />
         <Route path="/terminos-y-condiciones" element={<TermsAndConditions />} />
       </Routes>
-      <Footer>
-      <Form />
-      </Footer>
     </div>
   );
 };

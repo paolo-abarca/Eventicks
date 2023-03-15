@@ -101,6 +101,13 @@ export const SubTitle2 = styled.p`
     font-weight: bold;
 `;
 
+export const SubTitle3 = styled.p`
+    color: #EE3869;
+    font-size: 1em;
+    font-weight: bold;
+`;
+
+
 export const ThirdContainer = styled.div`
   grid-column: 1/5;
   grid-row: 3;
@@ -192,4 +199,11 @@ export const TitleContainer = styled.p`
 export const Img = styled.img`
 border-radius: 30px;
 margin: -1% 8% 1% 4% ;
+`;
+
+export const Lildiv = styled.div`
+    background-color: #3B3C4E;
+    padding: 2vw;
+    margin: 5vw;
+    border-radius: 30px;
 `;

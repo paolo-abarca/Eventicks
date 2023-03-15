@@ -27,6 +27,7 @@ export const StyledInput = styled.input`
     color: #130407;
     margin: 4px;
     background: #9A9AA1;
+    margin-left: 3vw;
 
     ::placeholder {
     color: #130407; /* Cambia el color del placeholder a rojo */
@@ -41,6 +42,7 @@ export const StyledInput1 = styled.input`
     color: #130407;
     margin: 4px;
     background: #9A9AA1;
+    margin-left: 3vw;
     /* margin-left: 20px; */
 
     ::placeholder {
@@ -57,6 +59,7 @@ export const StyledTextArea = styled.textarea`
     color: #130407;
     margin: 4px;
     background: rgb(217, 217, 217, 0.6);
+    margin-left: 3vw;
     /* margin-left: 20px; */
 
     ::placeholder {
@@ -70,6 +73,7 @@ export const StyledSelect = styled.select`
     border-radius: 20px;
     border-style: none;
     background: rgb(217, 217, 217, 0.6);
+    margin-left: 3vw;
     ::placeholder {
     color: #130407; /* Cambia el color del placeholder a rojo */
   }
@@ -178,7 +182,7 @@ export const FinalButton = styled.button`
   text-decoration: none;
   display: inline-block;
   border-color: transparent;
-  margin: 3px;
+  margin: 2vw;
 
  &:active {
      background-color: #EA134D;

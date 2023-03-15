@@ -3,7 +3,7 @@ import {FooterContainer} from './someStyle.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFacebook, faTwitter, faInstagram, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 
-export default function Footer() {
+function Footer() {
   return (
     <FooterContainer>
       <p>Síguenos en:</p>
@@ -14,3 +14,5 @@ export default function Footer() {
     </FooterContainer>
   );
 }
+
+export default Footer;

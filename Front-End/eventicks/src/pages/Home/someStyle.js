@@ -63,3 +63,11 @@ export const StyledInput = styled.input`
 `;
 
 export const Div = styled.div``;
+
+export const Lildiv = styled.div`
+    background-color: #3B3C4E;
+    padding: 2vw;
+    margin: 5vw;
+    border-radius: 30px;
+    width: 100%;
+`;

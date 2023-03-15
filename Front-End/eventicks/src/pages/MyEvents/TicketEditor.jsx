@@ -3,6 +3,7 @@ import { StyledButton,
   StyledSelect, StyledInput,
   SubTitle2} from './someStyle.js';
 
+
 export default function TicketEditor({ ticket, onCancel, onSave }) {
   const [currency, setCurrency] = useState(ticket.currency);
   const [type, setType] = useState(ticket.type);

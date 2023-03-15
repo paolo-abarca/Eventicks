@@ -4,6 +4,7 @@ import axios from "axios";
 import { SubTitle, StyledButton, 
   StyledSelect, StyledInput, MainContainer1, FirstContainer, 
   SecondContainer, Img, SubTitle1} from './someStyle.js';
+  import Footer from '../Footer/Footer';
 
 export default function UserEditor({ user, onCancel, onSave }) {
   const [name_user, setName_user] = useState(user.name_user);
@@ -61,7 +62,8 @@ export default function UserEditor({ user, onCancel, onSave }) {
     <MainContainer1>
     <form onSubmit={handleSubmit}>
       <FirstContainer>
-      <label>
+        <div className="a">
+        <label>
           <SubTitle>Nombres </SubTitle>
           <StyledInput
             type="text" maxlength="49" placeholder="Nombres"
@@ -69,7 +71,6 @@ export default function UserEditor({ user, onCancel, onSave }) {
             onChange={(e) => setName_user(e.target.value)} required
           />
         </label>
-        <br />
         <label>
           <SubTitle>Apellidos </SubTitle>
           <StyledInput
@@ -91,7 +92,6 @@ export default function UserEditor({ user, onCancel, onSave }) {
 	     <option value="Otro">Otro</option>
           </StyledSelect>
         </label>
-        <br />
         <label>
           <SubTitle>Número de Documento </SubTitle>
           <StyledInput
@@ -100,7 +100,6 @@ export default function UserEditor({ user, onCancel, onSave }) {
             onChange={(e) => setNumber_document(e.target.value)} required
           />
         </label>
-        <br />
         <label>
           <SubTitle>País </SubTitle>
           <StyledInput
@@ -109,7 +108,6 @@ export default function UserEditor({ user, onCancel, onSave }) {
             onChange={(e) => setCountry(e.target.value)} required
           />
         </label>
-        <br />
         <label>
           <SubTitle>Ciudad </SubTitle>
           <StyledSelect
@@ -119,8 +117,10 @@ export default function UserEditor({ user, onCancel, onSave }) {
 	    {cities.map(city => <option key={city} value={city}>{city}</option>)}
           </StyledSelect>
         </label>
-        <br />
-        <label>
+        </div>
+        <div className="b">
+          <div id="item-0">
+          <label>
           <SubTitle>Correo Electrónico </SubTitle>
           <StyledInput
             type="text"
@@ -128,8 +128,9 @@ export default function UserEditor({ user, onCancel, onSave }) {
             onChange={(e) => setEmail(e.target.value)} required
           />
         </label>
-        <br />
-        <label>
+          </div>
+          <div id="item-1">
+          <label>
           <SubTitle>Teléfono </SubTitle>
           <StyledInput
             type="number" min="0" onKeyDown={e => exceptThisSymbols.includes(e.key) && e.preventDefault() } 
@@ -137,11 +138,14 @@ export default function UserEditor({ user, onCancel, onSave }) {
             onChange={(e) => setPhone(e.target.value)} required
           />
         </label>
-	<br />
-        <label>
+          </div>
+          <div id="item-2">
+          <label>
           <SubTitle>Contraseña </SubTitle>
 	  <SubTitle1>**********</SubTitle1>
         </label>
+          </div>
+        </div>
       </FirstContainer>
       <SecondContainer>
       <label>
@@ -154,13 +158,16 @@ export default function UserEditor({ user, onCancel, onSave }) {
         <p><Img src={photo_user} alt="Imagen de perfil" /></p> :
         <p>Seleccione una foto</p>}
         </label>
+      </SecondContainer>
+      <div className="idk1">
         <StyledButton type="submit">Actualizar datos</StyledButton>
         <StyledButton type="button" onClick={onCancel}>
           Cancelar
         </StyledButton>
-      </SecondContainer>
+        </div>
       </form>
     </MainContainer1>
+    <Footer />
     </div>
   );
 }

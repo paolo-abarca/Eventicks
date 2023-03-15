@@ -5,7 +5,9 @@ import moment from "moment";
 import { daysDict, monthsDict } from "../../utils/translations.js";
 import { Title, SubTitle, StyledButton,
   MainContainer, TitleContainer,
-  Img, SubTitle1} from './someStyle.js';
+  Img, SubTitle1, Lildiv, SubTitle3} from './someStyle.js';
+  import Footer from '../Footer/Footer';
+  import "./Tickets.css"
 
 export default function MyTickets({ user }) {
   const [tickets, setTickets] = useState([]);
@@ -59,31 +61,59 @@ export default function MyTickets({ user }) {
       <Title> Mis Tickets</Title>
       </TitleContainer>
       {loading ? (
-        <SubTitle>Cargando Tickets...</SubTitle>
+        <Lildiv> 
+          <SubTitle>Cargando Tickets...</SubTitle> 
+        </Lildiv>
       ) : tickets.length > 0 ? (
         tickets.map((ticket) => (
           <MainContainer key={ticket.nanme_event}>
             <p><Img src={ticket.photo_event} alt="Imagen de evento" width="1100px"/></p>
             <SubTitle>{ticket.name_event}</SubTitle>
+            <div className="a">
+            <div>
+            <SubTitle3>Fecha</SubTitle3>
             <SubTitle1>{formatDate(ticket.date_start)} - {formatDate(ticket.date_end)}</SubTitle1>
+            </div>
+            <div>
+            <SubTitle3>Horario</SubTitle3>
             <SubTitle1>{formatTime(ticket.start_time)} - {formatTime(ticket.end_time)}</SubTitle1>
+            </div>
+            <div>
+            <SubTitle3>Ciudad</SubTitle3>
             <SubTitle1>{ticket.city}, PE</SubTitle1>
+            </div>
+            <div>
+            <SubTitle3>Dirección</SubTitle3>
             <SubTitle1>{ticket.address}</SubTitle1>
-            <SubTitle1>Entrada: {ticket.type}</SubTitle1>
-            <SubTitle1>Para {ticket.amount} personas</SubTitle1>
-            <SubTitle1>Mayores de {ticket.restriction}</SubTitle1>
+            </div>
+            <div>
+            <SubTitle3>Evento de</SubTitle3>
             <SubTitle1>{ticket.name_user} {ticket.last_name}</SubTitle1>
+            </div>
+            <div>
+            <SubTitle3>Restricción</SubTitle3>
+            <SubTitle1>Mayores de {ticket.restriction}</SubTitle1>
+            </div>
+            <div>
+            <SubTitle3>Entrada: {ticket.type}</SubTitle3>
+            <SubTitle1>Para {ticket.amount} personas</SubTitle1>
+            </div>
+            <div>
+            <SubTitle3>Ticket</SubTitle3>
             {ticket.document_type ?
             <SubTitle1>{ticket.document_type} - {ticket.number_document}</SubTitle1>  :
             <SubTitle1>Sin Documentos</SubTitle1>}
+            </div>
+            </div>
             <Link to={`/comprar-tickets/${ticket.id}`}>
               <StyledButton>Ver evento</StyledButton>
             </Link>
           </MainContainer>
         ))
       ) : (
-        <SubTitle>No hay tickets</SubTitle>
+        <Lildiv><SubTitle>No hay tickets</SubTitle></Lildiv>
       )}
+      <Footer />
     </div>
   );
 }

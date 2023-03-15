@@ -88,7 +88,8 @@ export default function EventEditor({ event, onCancel, onSave }) {
           <p><img src={photo_event} alt="Imagen de perfil" width="500px"/></p>
         </label>
         <br />
-        <label>
+       <div className="a">
+       <label>
           <SubTitle2 >Nombre del Evento  </SubTitle2 >
           <StyledInput
             type="text" maxlength="99" placeholder="Dale un nombre corto y llamativo."
@@ -96,7 +97,6 @@ export default function EventEditor({ event, onCancel, onSave }) {
             onChange={(e) => setName_event(e.target.value)} required
           />
         </label>
-        <br />
         <label>
           <SubTitle2>Fecha de Inicio  </SubTitle2>
           <StyledInput
@@ -105,7 +105,6 @@ export default function EventEditor({ event, onCancel, onSave }) {
             onChange={(e) => setDate_start(e.target.value)} required
           />
         </label>
-        <br />
         <label>
           <SubTitle2>Fecha Final  </SubTitle2>
           <StyledInput
@@ -114,7 +113,6 @@ export default function EventEditor({ event, onCancel, onSave }) {
             onChange={(e) => setDate_end(e.target.value)} required
           />
         </label>
-        <br />
         <label>
           <SubTitle2>Hora de Inicio  </SubTitle2>
           <StyledInput
@@ -123,7 +121,6 @@ export default function EventEditor({ event, onCancel, onSave }) {
             onChange={(e) => setStart_time(e.target.value)} required
           />
         </label>
-        <br />
         <label>
           <SubTitle2>Hora Final  </SubTitle2>
           <StyledInput
@@ -132,7 +129,6 @@ export default function EventEditor({ event, onCancel, onSave }) {
             onChange={(e) => setEnd_time(e.target.value)} required
           />
         </label>
-        <br />
         <label>
           <SubTitle2>Categoría  </SubTitle2>
 	  <StyledSelect value={id_category} onChange={(e) => setId_category(e.target.value)} required>
@@ -143,16 +139,6 @@ export default function EventEditor({ event, onCancel, onSave }) {
             ))}
           </StyledSelect>
         </label>
-        <br />
-        <label>
-          <SubTitle2>Link de Video  </SubTitle2>
-          <StyledInput
-            type="text" maxlength="254" placeholder="Copia el link de tu video youtube"
-            value={video}
-            onChange={(e) => setVideo(e.target.value)}
-          />
-        </label>
-        <br />
         <label>
           <SubTitle2>Restricción  </SubTitle2>
           <StyledInput
@@ -161,7 +147,6 @@ export default function EventEditor({ event, onCancel, onSave }) {
             onChange={(e) => setRestriction(e.target.value)} required
           />
         </label>
-	<br />
         <label>
           <SubTitle2>Visibilidad  </SubTitle2>
           <input
@@ -170,24 +155,29 @@ export default function EventEditor({ event, onCancel, onSave }) {
             onChange={(e) => setVisibility(e.target.checked ? "yes" : "no")}
           /> <SubTitle1>Mostrar el evento públicamente</SubTitle1>
         </label>
-	<br />
+       </div>
         <label>
           <SubTitle2>Descripción  </SubTitle2>
-	  <br />
           <StyledTextArea name="description" maxlength="65535" rows="3"
 	    placeholder="Escribe un párrafo corto pero potente que describa tu evento"
             value={description}
             onChange={(e) => setDescription(e.target.value)} required
           />
         </label>
-	<br />
         <label>
           <SubTitle2>Información Adicional  </SubTitle2>
-	  <br />
           <StyledTextArea name="information" maxlength="65535" rows="10"
 	    placeholder="Dale a los usuarios más información: detalles del evento, panelistas, links relacionados, cronograma del evento, etc."
             value={information}
             onChange={(e) => setInformation(e.target.value)}
+          />
+        </label>
+        <label>
+          <SubTitle2>Link de Video  </SubTitle2>
+          <StyledInput
+            type="text" maxlength="254" placeholder="Copia el link de tu video youtube"
+            value={video}
+            onChange={(e) => setVideo(e.target.value)}
           />
         </label>
         <br />

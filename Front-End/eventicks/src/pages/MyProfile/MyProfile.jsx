@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import UserEditor from "./UserEditor";
 import { Title, SubTitle, StyledButton, MainContainer, FirstContainer, 
-  SecondContainer, Img, SubTitle1, SubTitle2} from './someStyle.js';
+  SecondContainer, Img, SubTitle1, Lildiv} from './someStyle.js';
+  import Footer from '../Footer/Footer';
+  import "./Profile.css"
 
 export default function MyProfile({ user }) {
   const [users, setUsers] = useState(null);
@@ -162,7 +164,7 @@ export default function MyProfile({ user }) {
     <div>
       <Title>Información de mi cuenta</Title>
       {loading ? (
-        <SubTitle2>Cargando Datos...</SubTitle2>
+        <Lildiv><SubTitle>Cargando Datos...</SubTitle></Lildiv>
       ) : Object.keys(users).length > 0 ? (
         <div key={users.id}>
           {editingUser === users.id ? (
@@ -174,27 +176,47 @@ export default function MyProfile({ user }) {
           ) : (
             <MainContainer>
               <FirstContainer>
-              <SubTitle>Nombres </SubTitle>
-              <SubTitle1>{users.name_user}</SubTitle1>
-              <SubTitle>Apellidos </SubTitle>
-              <SubTitle1>{users.last_name}</SubTitle1>    
-              <SubTitle>Tipo de Documento </SubTitle>
+              <div className="a">
+                <div id="div1">
+                <SubTitle>Nombres</SubTitle>
+                <SubTitle1>{users.name_user}</SubTitle1>
+                </div>
+                <div id="div2">
+                <SubTitle>Apellidos</SubTitle>
+                <SubTitle1>{users.last_name}</SubTitle1>  
+                </div>  
+                <div id="div3">
+                <SubTitle>Tipo de Documento </SubTitle>
               {users.document_type ?
               <SubTitle1>{users.document_type}</SubTitle1> :
               <SubTitle1>Selecciona un tipo de documento</SubTitle1>}
-              <SubTitle>Número de Documento</SubTitle>
+                </div>
+                <div id="div4">
+                <SubTitle>Número de Documento</SubTitle>
               {users.number_document ?
               <SubTitle1>{users.number_document}</SubTitle1> :
               <SubTitle1>Ingresa tu número de Documento</SubTitle1>}
-              <SubTitle>País </SubTitle>
+                </div>
+                <div id="div5">
+                <SubTitle>País </SubTitle>
               <SubTitle1>{users.country}</SubTitle1>
-              <SubTitle>Ciudad </SubTitle>
+                </div>
+                <div id="div6">
+                <SubTitle>Ciudad </SubTitle>
               <SubTitle1>{users.city}</SubTitle1>
-              <SubTitle>Correo Electrónico </SubTitle>
+                </div>
+              </div>
+              <div className="b">
+                <div>
+                <SubTitle>Correo Electrónico </SubTitle>
               <SubTitle1>{users.email}</SubTitle1>
-              <SubTitle>Teléfono </SubTitle>
+                </div>
+                <div>
+                <SubTitle>Teléfono </SubTitle>
               <SubTitle1>{users.phone}</SubTitle1>
-              <SubTitle>Contraseña </SubTitle>
+                </div>
+                <div>
+                <SubTitle>Contraseña </SubTitle>
               {editingPassword ? (
                 <div>
                   <input
@@ -212,6 +234,8 @@ export default function MyProfile({ user }) {
                   <StyledButton onClick={() => handlePasswordEdit(users.id)}>Cambiar Contraseña</StyledButton>
                 </div>
               )}
+              </div>
+              </div>
               </FirstContainer>
               <SecondContainer>
               <SubTitle>Imagen: </SubTitle>
@@ -232,6 +256,7 @@ export default function MyProfile({ user }) {
       ) :(
       <p>No tienes Datos registrados.</p>
     )}
+    <Footer />
   </div>
 );
 }

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 export const LoginContainer = styled.div`
     text-align: center;
     width: 100%;
-    height: 79%;
+    height: 90%;
     padding-top: 5%;
     position: absolute;
     background: linear-gradient(180deg, rgba(32,35,50,1) 1%, rgba(73,61,73,1) 40%, rgba(105,93,95,1) 120%);

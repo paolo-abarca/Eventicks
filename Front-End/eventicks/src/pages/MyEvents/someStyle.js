@@ -9,6 +9,7 @@ export const StyledButton = styled.button`
     text-decoration: none;
     display: inline-block;
     border-color: transparent;
+    font-family: inherit;
     margin-right: 2%;
     margin-top: 2%;
     &:active {
@@ -193,5 +194,6 @@ export const TitleContainer = styled.p`
 export const Img = styled.img`
 border-radius: 30px;
 margin: 2% 8% 1% 4% ;
-
+max-height: 30vw;
+max-width: 80vw;
 `;
